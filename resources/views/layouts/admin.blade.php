@@ -40,11 +40,11 @@
                         <a href="{{route('admin.index')}}" id="site-logo-inner">
                             <img
                                 class=""
-                                id="logo_header"
+                                id="logo_header_1"
                                 alt=""
-                                src="images/logo/logo.png"
-                                data-light="images/logo/logo.png"
-                                data-dark="images/logo/logo.png"
+                                src="{{asset('images/logo/logo.png')}}"
+                                data-light="{{asset('images/logo/logo.png')}}"
+                                data-dark="{{asset('images/logo/logo.png')}}"
                             />
                         </a>
                         <div class="button-show-hide">
@@ -115,7 +115,7 @@
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
                                             <a
-                                                href="add-brand.html"
+                                                href="{{route('admin.brand.add')}}"
                                                 class=""
                                             >
                                                 <div class="text">
@@ -124,7 +124,7 @@
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="brands.html" class="">
+                                            <a href="{{route('admin.brands')}}" class="">
                                                 <div class="text">
                                                     Brands
                                                 </div>
@@ -255,12 +255,12 @@
                                         class=""
                                         id="logo_header_mobile"
                                         alt=""
-                                        src="images/logo/logo.png"
-                                        data-light="images/logo/logo.png"
-                                        data-dark="images/logo/logo.png"
+                                        src="{{asset('images/logo/logo.png')}}"
+                                        data-light="{{asset('images/logo/logo.png')}}"
+                                        data-dark="{{asset('images/logo/logo.png')}}"
                                         data-width="154px"
                                         data-height="52px"
-                                        data-retina="images/logo/logo.png"
+                                        data-retina="{{asset('images/logo/logo.png')}}"
                                     />
                                 </a>
                                 <div class="button-show-hide">
