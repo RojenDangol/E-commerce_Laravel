@@ -82,7 +82,7 @@
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
                                             <a
-                                                href="add-product.html"
+                                                href="{{route('admin.product.add')}}"
                                                 class=""
                                             >
                                                 <div class="text">
@@ -92,7 +92,7 @@
                                         </li>
                                         <li class="sub-menu-item">
                                             <a
-                                                href="products.html"
+                                                href="{{route('admin.products')}}"
                                                 class=""
                                             >
                                                 <div class="text">
