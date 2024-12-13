@@ -413,12 +413,12 @@
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="shop.html" class="navigation__link"
+                            <a href="{{route('shop.index')}}" class="navigation__link"
                                 >Shop</a
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="cart.html" class="navigation__link"
+                            <a href="{{route('cart.index')}}" class="navigation__link"
                                 >Cart</a
                             >
                         </li>
@@ -556,12 +556,12 @@
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="shop.html" class="navigation__link"
+                            <a href="{{route('shop.index')}}" class="navigation__link"
                                 >Shop</a
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="cart.html" class="navigation__link"
+                            <a href="{{route('cart.index')}}" class="navigation__link"
                                 >Cart</a
                             >
                         </li>
@@ -738,7 +738,7 @@
                     </a>
 
                     <a
-                        href="cart.html"
+                        href="{{route('cart.index')}}"
                         class="header-tools__item header-tools__cart"
                     >
                         <svg
@@ -751,10 +751,13 @@
                         >
                             <use href="#icon_cart" />
                         </svg>
+                        @if (Cart::instance('cart')->content()->count()>0)
                         <span
                             class="cart-amount d-block position-absolute js-cart-items-count"
-                            >3</span
+                            >{{Cart::instance('cart')->content()->count()}}</span
                         >
+                        @endif
+                        
                     </a>
                 </div>
             </div>

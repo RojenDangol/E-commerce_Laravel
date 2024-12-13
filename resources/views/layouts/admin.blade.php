@@ -236,7 +236,7 @@
                                     @csrf
                                     <a href="{{route('logout')}}" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                         <div class="icon">
-                                            <i class="icon-settings"></i>
+                                            <i class="icon-log-out"></i>
                                         </div>
                                         <div class="text">Logout</div>
                                     </a>
