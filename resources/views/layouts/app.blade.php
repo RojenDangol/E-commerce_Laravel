@@ -725,7 +725,7 @@
                         </div>
                     @endguest
                 
-                    <a href="wishlist.html" class="header-tools__item">
+                    <a href="{{route('wishlist.index')}}" class="header-tools__item header-tools__cart">
                         <svg
                             width="20"
                             height="20"
@@ -735,6 +735,10 @@
                         >
                             <use href="#icon_heart" />
                         </svg>
+                        @if (Cart::instance('wishlist')->content()->count()>0)
+                        <span class="cart-amount d-block position-absolute js-cart-items-count">{{Cart::instance('wishlist')->content()->count()}}</span>
+                            
+                        @endif
                     </a>
 
                     <a

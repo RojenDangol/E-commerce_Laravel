@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WishlistController;
 
 
 Auth::routes();
@@ -16,12 +17,17 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop',[ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}',[ShopController::class, 'product_details'])->name('shop.product.details');
 
-Route::get('/cart',[CartController::class,'index'])->name('cart.index');
-Route::post('/cart/add',[CartController::class,'add_to_cart'])->name('cart.add');
-Route::put('/cart/incrase-quantity/{rowId}',[CartController::class,'increase_cart_quantity'])->name('card.qty.increase');
-Route::put('/cart/decrease-quantity/{rowId}',[CartController::class,'decrease_cart_quantity'])->name('card.qty.decrease');
-Route::delete('/cart/remove/{rowId}',[CartController::class,'remove_item'])->name('cart.item.remove');
-Route::delete('/cart/clear',[CartController::class,'empty_cart'])->name('cart.empty');
+Route::controller(CartController::class)->group(function(){
+    Route::get('/cart','index')->name('cart.index');
+    Route::post('/cart/add','add_to_cart')->name('cart.add');
+    Route::put('/cart/incrase-quantity/{rowId}','increase_cart_quantity')->name('card.qty.increase');
+    Route::put('/cart/decrease-quantity/{rowId}','decrease_cart_quantity')->name('card.qty.decrease');
+    Route::delete('/cart/remove/{rowId}','remove_item')->name('cart.item.remove');
+    Route::delete('/cart/clear','empty_cart')->name('cart.empty');
+});
+
+Route::post('/wishlist/add',[WishlistController::class, 'add_to_wishlist'])->name('wishlist.add');
+Route::get('/wishlist',[WishlistController::class, 'index'])->name('wishlist.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard',[UserController::class, 'index'])->name('user.index');
