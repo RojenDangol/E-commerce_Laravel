@@ -32,11 +32,14 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="{{route('admin.coupon-add')}}"><i
+                <a class="tf-button style-1 w208" href="{{route('admin.coupon.add')}}"><i
                         class="icon-plus"></i>Add new</a>
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
+                    @if(Session::has('status'))
+                        <p class="alert alert-success">{{Session::get('status')}}</p>
+                    @endif
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -60,12 +63,14 @@
                                 <td>{{$coupon->expiry_date}}</td>
                                 <td>
                                     <div class="list-icon-function">
-                                        <a href="#">
+                                        <a href="{{route('admin.coupon.edit',['id'=>$coupon->id])}}">
                                             <div class="item edit">
                                                 <i class="icon-edit-3"></i>
                                             </div>
                                         </a>
-                                        <form action="#" method="POST">
+                                        <form action="{{route('admin.coupon.delete',['id'=>$coupon->id])}}" method="POST" id="">
+                                            @csrf
+                                            @method('DELETE')
                                             <div class="item text-danger delete">
                                                 <i class="icon-trash-2"></i>
                                             </div>
@@ -87,3 +92,25 @@
     </div>
 </div>    
 @endsection
+
+@push('scripts')
+    <script>
+        $(function(){
+            $('.delete').on('click',function(e){
+                e.preventDefault();
+                var form =$(this).closest('form');
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this data",
+                    type: "warning",
+                    buttons: ["No","Yes"],
+                    confirmButtonCOlor: "#dc3545"
+                }).then(function(result){
+                    if(result){
+                        form.submit();
+                    }
+                });
+            })
+        });
+    </script>    
+@endpush

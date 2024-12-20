@@ -53,7 +53,7 @@
                             Dresses
                         </h2>
                         <a
-                            href="#"
+                            href="{{route('shop.index')}}"
                             class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7"
                             >Shop Now</a
                         >
