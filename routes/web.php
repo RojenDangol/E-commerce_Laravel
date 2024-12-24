@@ -25,6 +25,7 @@ Route::controller(CartController::class)->group(function(){
     Route::delete('/cart/remove/{rowId}','remove_item')->name('cart.item.remove');
     Route::delete('/cart/clear','empty_cart')->name('cart.empty');
     Route::post('/cart/apply-coupon','apply_coupon_code')->name('cart.coupon.apply');
+    Route::delete('/cart/remove-coupon','remove_coupon_code')->name('cart.coupon.remove');
 });
 
 Route::controller(WishlistController::class)->group(function(){

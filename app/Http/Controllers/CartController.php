@@ -48,7 +48,8 @@ class CartController extends Controller
     public function apply_coupon_code(Request $request){
         $coupon_code = $request->coupon_code;
         if(isset($coupon_code)){
-            // dd(Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','>=',Cart::instance('cart')->subtotal())->first());
+            // dd(Cart::instance('cart')->subtotal());
+            // dd(Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','<=',Cart::instance('cart')->subtotal())->exists());
             $coupon = Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','<=',Cart::instance('cart')->subtotal())->first();
             // $coupon= TRUE;
             if(!$coupon){
@@ -103,6 +104,12 @@ class CartController extends Controller
                 'total' => number_format(floatval($totalAfterDiscount), 2, '.', ''),
             ]);
         }
+    }
+
+    public function remove_coupon_code(){
+        Session::forget('coupon');
+        Session::forget('discounts');
+        return back()->with('success','Coupon has benn removed!');
     }
 
 }
