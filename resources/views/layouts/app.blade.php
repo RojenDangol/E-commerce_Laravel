@@ -358,8 +358,7 @@
         </div>
 
         <nav
-            class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto"
-        >
+            class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto">
             <div class="container">
                 <form
                     action="#"

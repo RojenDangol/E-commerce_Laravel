@@ -24,13 +24,16 @@ Route::controller(CartController::class)->group(function(){
     Route::put('/cart/decrease-quantity/{rowId}','decrease_cart_quantity')->name('card.qty.decrease');
     Route::delete('/cart/remove/{rowId}','remove_item')->name('cart.item.remove');
     Route::delete('/cart/clear','empty_cart')->name('cart.empty');
+    Route::post('/cart/apply-coupon','apply_coupon_code')->name('cart.coupon.apply');
 });
 
-Route::post('/wishlist/add',[WishlistController::class, 'add_to_wishlist'])->name('wishlist.add');
-Route::get('/wishlist',[WishlistController::class, 'index'])->name('wishlist.index');
-Route::delete('/wishlist/item/remove/{rowId}',[WishlistController::class, 'remove_item'])->name('wishlist.item.remove');
-Route::delete('/wishlist/clear',[WishlistController::class, 'empty_wishlist'])->name('wishlist.items.clear');
-Route::post('/wishlist/move-to-cart/{rowId}', [WishlistController::class, 'move_to_cart'])->name('wishlist.move.to.cart');
+Route::controller(WishlistController::class)->group(function(){
+    Route::post('/wishlist/add', 'add_to_wishlist')->name('wishlist.add');
+    Route::get('/wishlist', 'index')->name('wishlist.index');
+    Route::delete('/wishlist/item/remove/{rowId}', 'remove_item')->name('wishlist.item.remove');
+    Route::delete('/wishlist/clear', 'empty_wishlist')->name('wishlist.items.clear');
+    Route::post('/wishlist/move-to-cart/{rowId}',  'move_to_cart')->name('wishlist.move.to.cart');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard',[UserController::class, 'index'])->name('user.index');
