@@ -8,7 +8,7 @@
     </li>
     <li>
         <a
-            href="account-orders.html"
+            href="{{route('user.orders')}}"
             class="menu-link menu-link_us-s"
             >Orders</a
         >
@@ -29,7 +29,7 @@
     </li>
     <li>
         <a
-            href="account-wishlist.html"
+            href="{{route('wishlist.index')}}"
             class="menu-link menu-link_us-s"
             >Wishlist</a
         >
