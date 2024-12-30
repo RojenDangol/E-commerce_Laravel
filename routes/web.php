@@ -20,6 +20,8 @@ Route::get('/shop/{product_slug}',[ShopController::class, 'product_details'])->n
 Route::get('/contact-us',[HomeController::class, 'contact'])->name('home.contact');
 Route::post('/contact/store',[HomeController::class, 'contact_store'])->name('home.contact.store');
 
+Route::get('/search',[HomeController::class, 'search'])->name('home.search');
+
 Route::controller(CartController::class)->group(function(){
     Route::get('/cart','index')->name('cart.index');
     Route::post('/cart/add','add_to_cart')->name('cart.add');
