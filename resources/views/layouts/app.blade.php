@@ -429,7 +429,7 @@
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link"
+                            <a href="{{route('home.contact')}}" class="navigation__link"
                                 >Contact</a
                             >
                         </li>
@@ -572,7 +572,7 @@
                             >
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link"
+                            <a href="{{route('home.contact')}}" class="navigation__link"
                                 >Contact</a
                             >
                         </li>

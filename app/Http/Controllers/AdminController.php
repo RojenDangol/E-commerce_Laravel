@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Slide;
 use App\Models\Coupon;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderItem;
@@ -616,5 +617,16 @@ class AdminController extends Controller
 
         $slide->delete();
         return redirect()->route('admin.slides')->with('status','Slide has been deleted successfully');
+    }
+
+    public function contacts(){
+        $contacts = Contact::orderBy('created_at','DESC')->paginate(10);
+        return view('admin.contacts',compact('contacts'));
+    }
+
+    public function contact_delete($id){
+        $contact = Contact::find($id);
+        $contact->delete();
+        return redirect()->route('admin.contacts')->with('status','Contact has been deleted successfully!');
     }
 }
