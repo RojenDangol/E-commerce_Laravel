@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Slide;
@@ -17,6 +18,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
@@ -628,5 +630,55 @@ class AdminController extends Controller
         $contact = Contact::find($id);
         $contact->delete();
         return redirect()->route('admin.contacts')->with('status','Contact has been deleted successfully!');
+    }
+
+    public function search(Request $request){
+        $query = $request->input('query');
+        $results = Product::where('name','LIKE',"%{$query}%")->get()->take(8);
+        return response()->json($results);
+    }
+
+    public function users(){
+        $users = User::where('utype','USR')->paginate(10);
+        return view('admin.users',compact('users'));
+    }
+
+    public function user_delete($id){
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('admin.users')->with('status','User has been deleted successfully!');
+    }
+
+    public function settings(){
+        return view('admin.settings');
+    }
+
+    public function setting_update(Request $request){
+        $request->validate([
+            'name'=>'required|max:100',
+            'mobile'=>'required|numeric:digits:10',
+            'email'=>'required|email',
+            'old_password'=>'required',
+            'password'=>'required|string|min:8|confirmed',
+        ]);
+        $old_password = $request->old_password;
+        $current_user = User::find($request->id)->getAttributes();
+        $current_password = $current_user['password'];
+        // dd($current_password);
+        if (Hash::check($old_password, $current_password)){
+            $admin = User::find($request->id);
+            $password = $request->password;
+            $hash_password = Hash::make($password);
+            // dd($hashap);
+            $admin->name = $request->name;
+            $admin->mobile = $request->mobile;
+            $admin->email = $request->email;
+            $admin->password = $hash_password;
+            $admin->save();
+            return redirect()->route('admin.settings')->with('success','Account updated successfully!');
+        }
+        else{
+            return redirect()->route('admin.settings')->with('error','Account credientials did not match!');
+        }
     }
 }
