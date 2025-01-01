@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -40,5 +41,42 @@ class UserController extends Controller
         $order->canceled_date = Carbon::now();
         $order->save();
         return back()->with('status','Order has been canceled!');
+    }
+
+    public function address(){
+        $address = Address::where('user_id',Auth::user()->id)->first();
+        return view('user.account-address',compact('address'));
+    }
+
+    public function edit_address($id){
+        $address = Address::where('id',$id)->first();
+        return view('user.address-edit',compact('address'));
+    }
+
+    public function update_address(Request $request){
+        $request->validate([
+            'name'=>'required|max:100',
+            'phone'=>'required|numeric|digits:10',
+            'locality'=>'required',
+            'city'=>'required',
+            'state'=>'required',
+            'landmark'=>'required',
+            'address'=>'required',
+            'zip'=>'required|numeric|digits:6',
+            'isdefault'=>'required',
+        ]);
+        $address=Address::find($request->id);
+        $address->name = $request->name;
+        $address->phone = $request->phone;
+        $address->locality = $request->locality;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->landmark = $request->landmark;
+        $address->address = $request->address;
+        $address->zip = $request->zip;
+        $address->isdefault = $request->isdefault;
+        $address->save();
+
+        return redirect()->route('user.address')->with('status','Address details updated successfully!');
     }
 }

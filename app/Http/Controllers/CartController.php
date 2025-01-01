@@ -158,10 +158,6 @@ class CartController extends Controller
         
         $order = new Order();
         $order->user_id = $user_id;
-        // $order->subtotal = Session::get('checkout')['subtotal'];
-        // $order->discount = Session::get('checkout')['discount'];
-        // $order->tax = Session::get('checkout')['tax'];
-        // $order->total = Session::get('checkout')['total'];
         $order->subtotal = (float) str_replace(',', '', Session::get('checkout')['subtotal']);
         $order->discount = (float) str_replace(',', '', Session::get('checkout')['discount']);
         $order->tax = (float) str_replace(',', '', Session::get('checkout')['tax']);

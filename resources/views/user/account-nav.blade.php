@@ -15,7 +15,7 @@
     </li>
     <li>
         <a
-            href="account-address.html"
+            href="{{route('user.address')}}"
             class="menu-link menu-link_us-s"
             >Addresses</a
         >
