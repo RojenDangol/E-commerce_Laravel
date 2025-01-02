@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Coupon;
 use App\Models\Address;
+use App\Models\Product;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -128,7 +129,6 @@ class CartController extends Controller
     public function place_an_order(Request $request){
         $user_id = Auth::user()->id;
         $address = Address::where('user_id',$user_id)->where('isdefault',true)->first();
-
         if(!$address){
             $request->validate([
                 'name'=>'required|max:100',
@@ -174,6 +174,8 @@ class CartController extends Controller
         $order->zip = $address->zip;
         $order->save();
 
+       
+        $productIds = explode(',', $request->product_ids);
         foreach(Cart::instance('cart')->content() as $item){
             $orderItem = new OrderItem();
             $orderItem->product_id = $item->id;
@@ -181,6 +183,14 @@ class CartController extends Controller
             $orderItem->price = $item->price;
             $orderItem->quantity = $item->qty;
             $orderItem->save();
+
+            if(in_array($item->id,$productIds)){
+                $product = Product::find($item->id);
+                if ($product) {
+                    $product->quantity -= $item->qty; 
+                    $product->save(); 
+                }
+            }
         }
 
         if($request->mode == "card"){

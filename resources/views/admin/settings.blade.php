@@ -37,13 +37,14 @@
                 <div class="page-content my-account__edit">
                     <div class="my-account__edit-form">
                         @if(Session::has('success'))
-                        <p class="alert alert-success">{{Session::get('status')}}</p>
+                        <p class="alert alert-success">{{Session::get('success')}}</p>
                         @endif
                         @if(Session::has('error'))
                         <p class="alert alert-danger">{{Session::get('error')}}</p>
                         @endif
                         <form name="account_edit_form" action="{{route('admin.setting.update')}}" method="POST" class="form-new-product form-style-1 needs-validation" novalidate="">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="id" value="{{Auth::user()->id}}">
                             <fieldset class="name">
                                 <div class="body-title">

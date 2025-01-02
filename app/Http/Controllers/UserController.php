@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\OrderItem;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -78,5 +80,38 @@ class UserController extends Controller
         $address->save();
 
         return redirect()->route('user.address')->with('status','Address details updated successfully!');
+    }
+
+    public function account_detail(){
+        return view('user.account-detail');
+    }
+
+    public function account_update(Request $request){
+        $request->validate([
+            'name'=>'required|max:100',
+            'mobile'=>'required|numeric:digits:10',
+            'email'=>'required|email',
+            'old_password'=>'required',
+            'password'=>'required|string|min:8|confirmed',
+        ]);
+        $old_password = $request->old_password;
+        $current_user = User::find($request->id)->getAttributes();
+        $current_password = $current_user['password'];
+        // dd($current_password);
+        if (Hash::check($old_password, $current_password)){
+            $admin = User::find($request->id);
+            $password = $request->password;
+            $hash_password = Hash::make($password);
+            // dd($hashap);
+            $admin->name = $request->name;
+            $admin->mobile = $request->mobile;
+            $admin->email = $request->email;
+            $admin->password = $hash_password;
+            $admin->save();
+            return redirect()->route('user.account.detail')->with('success','Account updated successfully!');
+        }
+        else{
+            return redirect()->route('user.account.detail')->with('error','Account credientials did not match!');
+        }
     }
 }

@@ -53,6 +53,8 @@
                                     <p>{{$address->zip}}</p>
                                     <br>
                                     <p>{{$address->phone}}</p>
+                                    <br>
+                                    <p><strong>Note:</strong>If you want to make changes in the Shipping Address "<a href="{{route('user.address')}}" style="color: red">Click here</a>"</p>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +155,12 @@
                     @foreach (Cart::instance('cart')->content() as $item)
                     <tr>
                       <td>
+                        @php
+                            
+                            $product_id = $product_id ?? [];
+                            $product_id[] = $item->id; 
+                            $product_ids_string = implode(',', $product_id);
+                        @endphp
                         {{$item->name}} x {{$item->qty}}
                       </td>
                       <td class="text-right">
@@ -160,6 +168,7 @@
                       </td>
                     </tr>
                     @endforeach
+                    {{-- @dd($product_id); --}}
                   </tbody>
                 </table>
                 @if (Session::has('discounts'))
@@ -242,6 +251,8 @@
                     policy</a>.
                 </div>
               </div>
+              {{-- @dd($product_ids_string); --}}
+              <input type="hidden" name="product_ids" value="{{ $product_ids_string }}">
               <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </div>
           </div>

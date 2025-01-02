@@ -367,6 +367,8 @@
                     </div>
                     @if (Cart::instance('cart')->content()->where('id',$product->id)->count()>0)
                         <a href="{{route('cart.index')}}" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt btn-warning ">Go to Cart</a>
+                    @elseif($product->quantity == 0 )
+                        <a href="javascript:void(0)" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt btn-warning ">Out of Stock</a>
                     @else
                     <form name="addtocart-form" method="post" action="{{route('cart.add')}}">
                         @csrf

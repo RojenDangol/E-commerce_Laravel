@@ -428,13 +428,13 @@
                         </a>
                     </div>
                     <p class="footer-address">
-                        123 Beach Avenue, Surfside City, CA 00000
+                        Kathmandu, Nepal
                     </p>
                     <p class="m-0">
-                        <strong class="fw-medium">contact@surfsidemedia.in</strong>
+                        <strong class="fw-medium">info@gmail.com</strong>
                     </p>
                     <p>
-                        <strong class="fw-medium">+1 000-000-0000</strong>
+                        <strong class="fw-medium">+977 9876543210</strong>
                     </p>
                     <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                         <li>
@@ -480,21 +480,13 @@
                         <li class="sub-menu__item">
                             <a href="about-2.html" class="menu-link menu-link_us-s">About Us</a>
                         </li>
+
                         <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Careers</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Affiliates</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="blog_list1.html" class="menu-link menu-link_us-s">Blog</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="contact-2.html" class="menu-link menu-link_us-s">Contact Us</a>
+                            <a href="{{route('home.contact')}}" class="menu-link menu-link_us-s">Contact Us</a>
                         </li>
                     </ul>
                 </div>
-                <div class="footer-column footer-menu mb-4 mb-lg-0">
+                {{-- <div class="footer-column footer-menu mb-4 mb-lg-0">
                     <h6 class="sub-menu__title text-uppercase">Shop</h6>
                     <ul class="sub-menu__list list-unstyled">
                         <li class="sub-menu__item">
@@ -510,28 +502,25 @@
                             <a href="shop5.html" class="menu-link menu-link_us-s">Women</a>
                         </li>
                         <li class="sub-menu__item">
-                            <a href="shop1.html" class="menu-link menu-link_us-s">Shop All</a>
+                            <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s">Shop All</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
                     <h6 class="sub-menu__title text-uppercase">Help</h6>
                     <ul class="sub-menu__list list-unstyled">
                         <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Customer Service</a>
+                            <a href="{{route('home.contact')}}" class="menu-link menu-link_us-s">Customer Service</a>
                         </li>
                         <li class="sub-menu__item">
-                            <a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a>
+                            <a href="{{route('user.index')}}" class="menu-link menu-link_us-s">My Account</a>
                         </li>
-                        <li class="sub-menu__item">
-                            <a href="store_location.html" class="menu-link menu-link_us-s">Find a Store</a>
-                        </li>
-                        <li class="sub-menu__item">
+                        {{-- <li class="sub-menu__item">
                             <a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a>
                         </li>
                         <li class="sub-menu__item">
                             <a href="#" class="menu-link menu-link_us-s">Gift Card</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
@@ -560,7 +549,7 @@
         </div>
         <div class="footer-bottom">
             <div class="container d-md-flex align-items-center">
-                <span class="footer-copyright me-auto">©2024 Surfside Media</span>
+                <span class="footer-copyright me-auto">©2024 Rojen Dangol</span>
                 <div class="footer-settings d-md-flex align-items-center">
                     <a href="privacy-policy.html">Privacy Policy</a>
                     &nbsp;|&nbsp;
@@ -580,7 +569,7 @@
                 </a>
             </div>
             <div class="col-4">
-                <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+                <a href="{{route('shop.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
                     <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_hanger" />
                     </svg>
@@ -588,7 +577,7 @@
                 </a>
             </div>
             <div class="col-4">
-                <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+                <a href="{{route('wishlist.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
                     <div class="position-relative">
                         <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_heart" />

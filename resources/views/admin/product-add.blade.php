@@ -115,7 +115,7 @@
             </div>
             <div class="wg-box">
                 <fieldset>
-                    <div class="body-title">Upload images <span class="tf-color-1">*</span>
+                    <div class="body-title">Upload image <span class="tf-color-1">*</span>
                     </div>
                     <div class="upload-image flex-grow">
                         <div class="item" id="imgpreview" style="display:none">

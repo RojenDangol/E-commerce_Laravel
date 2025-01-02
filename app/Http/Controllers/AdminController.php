@@ -65,9 +65,11 @@ class AdminController extends Controller
         return view('admin.index',compact('orders','dashboardDatas','AmountM','OrderedAmountM','DeliveredAmountM','CanceledAmountM','TotalAmount','TotalOrderedAmount','TotalDeliveredAmount','TotalCanceledAmount'));
     }
 
-    public function brands(){
+    public function brands(Request $request){
         $brands = Brand::orderBy('id','Desc')->paginate(10);
-        return view('admin.brands',compact('brands'));
+        $query = $request->input('query');
+        $results = Brand::where('name','LIKE',"%{$query}%")->get()->take(10);
+        return view('admin.brands',compact('brands','results'));
     }
 
     public function add_brand(){
@@ -145,9 +147,11 @@ class AdminController extends Controller
 
     // Category controller part
 
-    public function categories(){
+    public function categories(Request $request){
         $categories = Category::orderBy('id','DESC')->paginate(10);
-        return view('admin.categories',compact('categories'));
+        $query = $request->input('query');
+        $results = Category::where('name','LIKE',"%{$query}%")->get()->take(10);
+        return view('admin.categories',compact('categories','results'));
     }
 
     public function category_add(){
@@ -669,7 +673,6 @@ class AdminController extends Controller
             $admin = User::find($request->id);
             $password = $request->password;
             $hash_password = Hash::make($password);
-            // dd($hashap);
             $admin->name = $request->name;
             $admin->mobile = $request->mobile;
             $admin->email = $request->email;

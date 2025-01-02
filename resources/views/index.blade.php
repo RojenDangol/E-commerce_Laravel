@@ -249,20 +249,20 @@
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
                         <div class="pc__img-wrapper">
-                            <a href="{{route('shop.product.details',['product_slug'=>$sproduct->slug])}}">
+                            <a href="{{route('shop.product.details',['product_slug'=>$fproduct->slug])}}">
                                 <img loading="lazy" src="{{asset('uploads/products') }}/{{$fproduct->image}}" width="330" height="400" alt="{{$fproduct->name}}" class="pc__img" />
                             </a>
                         </div>
                         <div class="pc__info position-relative">
                             <h6 class="pc__title">
-                                <a href={{route('shop.product.details',['product_slug'=>$sproduct->slug])}}">{{$fproduct->name}}</a>
+                                <a href="{{route('shop.product.details',['product_slug'=>$fproduct->slug])}}">{{$fproduct->name}}</a>
                             </h6>
                             <div class="product-card__price d-flex align-items-center">
                                 <span class="money price text-secondary">
-                                    @if ($sproduct->sale_price)
-                                        <s>${{$sproduct->regular_price}} </s>${{$sproduct->sale_price}}
+                                    @if ($fproduct->sale_price)
+                                        <s>${{$fproduct->regular_price}} </s>${{$fproduct->sale_price}}
                                     @else
-                                        ${{$sproduct->sale_price}}
+                                        ${{$fproduct->sale_price}}
                                     @endif</span>
                                 </span>
                             </div>
@@ -273,7 +273,7 @@
             </div>
             <!-- /.row -->
             <div class="text-center mt-2">
-                <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
+                <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="{{route('shop.index')}}">Show All</a>
             </div>
         </section>
     </div>

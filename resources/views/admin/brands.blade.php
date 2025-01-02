@@ -22,10 +22,11 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search">
+                    <form class="form-search" method="GET" action="{{route('admin.brands')}}">
+                        @csrf
                         <fieldset class="name">
-                            <input type="text" placeholder="Search here..." class="" name="name"
-                                tabindex="2" value="" aria-required="true" required="">
+                            <input type="text" placeholder="Search here..." class="" name="query"
+                                tabindex="2" value="" aria-required="true">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
@@ -51,6 +52,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (!$results)
                             @foreach ($brands as $brand)                          
                             <tr>
                                 <td>{{$brand->id}}</td>
@@ -63,7 +65,7 @@
                                     </div>
                                 </td>
                                 <td>{{$brand->slug}}</td>
-                                <td><a href="#" target="_blank">0</a></td>
+                                <td>{{$brand->products->count()}}</td>
                                 <td>
                                     <div class="list-icon-function">
                                         <a href="{{route('admin.brand.edit',['id'=>$brand->id])}}">
@@ -82,12 +84,48 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @else
+                            @foreach ($results as $brand)      
+                            {{-- @dd($results);                     --}}
+                            <tr>
+                                <td>{{$brand->id}}</td>
+                                <td class="pname">
+                                    <div class="image">
+                                        <img src="{{asset('uploads/brands')}}/{{$brand->image}}" alt="{{$brand->name}}" class="image">
+                                    </div>
+                                    <div class="name">
+                                        <a href="#" class="body-title-2">{{$brand->name}}</a>
+                                    </div>
+                                </td>
+                                <td>{{$brand->slug}}</td>
+                                <td>{{$brand->products->count()}}</td>
+                                <td>
+                                    <div class="list-icon-function">
+                                        <a href="{{route('admin.brand.edit',['id'=>$brand->id])}}">
+                                            <div class="item edit">
+                                                <i class="icon-edit-3"></i>
+                                            </div>
+                                        </a>
+                                        <form action="{{route('admin.brand.delete',['id'=>$brand->id])}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="item text-danger delete">
+                                                <i class="icon-trash-2"></i>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                @if (!$results)
                     {{ $brands->links('pagination::bootstrap-5') }}
+                @endif
                 </div>
             </div>
         </div>

@@ -21,6 +21,9 @@
                             <label for="name">Name</label>
                           </div>
                         </div>
+                        @error('name')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -29,6 +32,9 @@
                             <label for="phone">Mobile Number</label>
                           </div>
                         </div>
+                        @error('phone')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                         
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -37,6 +43,9 @@
                             <label for="account_email">Locality</label>
                           </div>
                         </div>
+                        @error('locality')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -45,6 +54,9 @@
                             <label for="account_email">City</label>
                           </div>
                         </div>
+                        @error('city')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -53,6 +65,9 @@
                             <label for="account_email">State</label>
                           </div>
                         </div>
+                        @error('state')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -61,6 +76,9 @@
                             <label for="account_email">Landmark</label>
                           </div>
                         </div>
+                        @error('landmark')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -69,6 +87,9 @@
                             <label for="account_email">House No</label>
                           </div>
                         </div>
+                        @error('address')
+                  <span class="text-danger">{{$message}}</span>
+                  @enderror
 
                         <div class="col-md-6">
                           <div class="form-floating my-3">
@@ -77,6 +98,9 @@
                             <label for="account_email">Zip</label>
                           </div>
                         </div>
+                        @error('zip')
+                  <span class="text-danger">{{$message}}</span>
+                  @enderror
 
                         <div class="col-md-6">
                             <div class="form-floating my-3">
@@ -86,6 +110,9 @@
                                 </select>
                             </div>
                         </div>
+                        @error('isdefault')
+                  <span class="text-danger">{{$message}}</span>
+                  @enderror
 
                         <input type="hidden" name="id" value="{{$address->id}}">
 

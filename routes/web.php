@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account-address',[UserController::class,'address'])->name('user.address');
     Route::get('/account-address/{id}/edit',[UserController::class,'edit_address'])->name('user.address.edit');
     Route::put('/account-address/update',[UserController::class, 'update_address'])->name('user.address.update');
+
+    Route::get('/account-details',[UserController::class, 'account_detail'])->name('user.account.detail');
+    Route::put('/account-detail/update',[UserController::class, 'account_update'])->name('user.account.update');
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function () {
@@ -101,10 +104,12 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::delete('/admin/contact/{id}/delete',[AdminController::class, 'contact_delete'])->name('admin.contact.delete');
 
     Route::get('/admin/search',[AdminController::class, 'search'])->name('admin.search');
+    // Route::get('/admin/search-brand',[AdminController::class, 'brand_search'])->name('admin.search.brand');
+    // Route::get('/admin/search-category',[AdminController::class, 'search'])->name('admin.search.category');
 
     Route::get('/admin/users',[AdminController::class, 'users'])->name('admin.users');
     Route::delete('/admin/user/{id}/delete',[AdminController::class, 'user_delete'])->name('admin.user.delete');
 
     Route::get('/admin/settings',[AdminController::class, 'settings'])->name('admin.settings');
-    Route::post('/admin/setting/update',[AdminController::class, 'setting_update'])->name('admin.setting.update');
+    Route::put('/admin/setting/update',[AdminController::class, 'setting_update'])->name('admin.setting.update');
 });

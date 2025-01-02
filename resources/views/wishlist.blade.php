@@ -39,20 +39,22 @@
                     <span class="shopping-cart__product-price">${{$item->price}}</span>
                     </td>
                     <td>
-                    {{-- <div class="qty-control position-relative">
-                        <input type="number" name="quantity" value="{{$item->qty}}" min="1" class="qty-control__number text-center">
-                        <div class="qty-control__reduce">-</div>
-                        <div class="qty-control__increase">+</div>
-                    </div><!-- .qty-control --> --}}
                     {{$item->qty}}
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-4">
-                                <form action="{{route('wishlist.move.to.cart',['rowId'=>$item->rowId])}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-warning">Move to Cart</button>
-                                </form>
+                                @php
+                                    $product = \App\Models\Product::find($item->id);
+                                @endphp
+                                @if ($product && $product->quantity == 0 )
+                                    <a href="javascript:void(0)" class="btn btn-warning mb-3">Out of Stock</a>
+                                @else
+                                    <form action="{{route('wishlist.move.to.cart',['rowId'=>$item->rowId])}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-warning">Move to Cart</button>
+                                    </form>
+                                @endif
                             </div>
                             <div class="col-4">
                                 <form action="{{route('wishlist.item.remove',['rowId'=>$item->rowId])}}" method="POST" id="remove-item-{{$item->id}}">

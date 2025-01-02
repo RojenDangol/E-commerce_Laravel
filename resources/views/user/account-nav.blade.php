@@ -2,35 +2,35 @@
     <li>
         <a
             href="{{route('user.index')}}"
-            class="menu-link menu-link_us-s"
+            class="menu-link menu-link_us-s {{ Route::is('user.index') ? 'menu-link_active' : '' }}"
             >Dashboard</a
         >
     </li>
     <li>
         <a
             href="{{route('user.orders')}}"
-            class="menu-link menu-link_us-s"
+            class="menu-link menu-link_us-s {{ Route::is('user.orders') ? 'menu-link_active' : '' }}"
             >Orders</a
         >
     </li>
     <li>
         <a
             href="{{route('user.address')}}"
-            class="menu-link menu-link_us-s"
+            class="menu-link menu-link_us-s {{ Route::is('user.address') ? 'menu-link_active' : '' }}"
             >Addresses</a
         >
     </li>
     <li>
         <a
-            href="account-details.html"
-            class="menu-link menu-link_us-s"
+            href="{{route('user.account.detail')}}"
+            class="menu-link menu-link_us-s {{ Route::is('user.account.detail') ? 'menu-link_active' : '' }}"
             >Account Details</a
         >
     </li>
     <li>
         <a
             href="{{route('wishlist.index')}}"
-            class="menu-link menu-link_us-s"
+            class="menu-link menu-link_us-s {{ Route::is('wishlist.index') ? 'menu-link_active' : '' }}"
             >Wishlist</a
         >
     </li>

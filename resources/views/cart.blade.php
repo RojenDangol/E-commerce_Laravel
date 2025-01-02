@@ -71,18 +71,18 @@
                     </td>
                     <td>
                     <div class="qty-control position-relative">
-                        <input type="number" name="quantity" value="{{$item->qty}}" min="1" class="qty-control__number text-center">
-                        <form action="{{route('card.qty.decrease',['rowId'=>$item->rowId])}}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="qty-control__reduce">-</div>
-                        </form>
+                          <input type="number" name="quantity" value="{{$item->qty}}" min="1" class="qty-control__number text-center">
+                          <form action="{{route('card.qty.decrease',['rowId'=>$item->rowId])}}" method="POST">
+                              @csrf
+                              @method('PUT')
+                              <div class="qty-control__reduce">-</div>
+                          </form>
 
-                        <form action="{{route('card.qty.increase',['rowId'=>$item->rowId])}}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="qty-control__increase">+</div>
-                        </form>
+                          <form action="{{route('card.qty.increase',['rowId'=>$item->rowId])}}" method="POST">
+                              @csrf
+                              @method('PUT')
+                              <div class="qty-control__increase">+</div>
+                          </form>
                     </div>
                     </td>
                     <td>
