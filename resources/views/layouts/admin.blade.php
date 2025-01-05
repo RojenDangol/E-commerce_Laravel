@@ -85,7 +85,7 @@
                     </div>
                     <div class="center">
                         <div class="center-item">
-                            <div class="center-heading">Main Home</div>
+                            <div class="center-heading pt-2">Main Home</div>
                             <ul class="menu-list">
                                 <li class="menu-item">
                                     <a href="{{route('admin.index')}}" class="">
@@ -215,6 +215,16 @@
                                         <div class="text">Slider</div>
                                     </a>
                                 </li>
+
+                                <li class="menu-item">
+                                    <a href="{{route('admin.about')}}" class="">
+                                        <div class="icon">
+                                            <i class="icon-image"></i>
+                                        </div>
+                                        <div class="text">About Us</div>
+                                    </a>
+                                </li>
+
                                 <li class="menu-item">
                                     <a href="{{route('admin.coupons')}}" class="">
                                         <div class="icon">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\About;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Slide;
@@ -556,7 +557,7 @@ class AdminController extends Controller
         $slide->link = $request->link;
         $slide->status = $request->status;
 
-        $image = $image = $request->file('image');
+        $image = $request->file('image');
         $file_extension = $request->file('image')->extension();
         $file_name = Carbon::now()->timestamp.'.'.$file_extension;
         $this->GenerateSlideThumbnailsImage($image,$file_name);
@@ -683,5 +684,108 @@ class AdminController extends Controller
         else{
             return redirect()->route('admin.settings')->with('error','Account credientials did not match!');
         }
+    }
+
+    public function about(){
+        $about = About::all()->first();
+        // dd($about->id);
+        return view('admin.about-page',compact('about'));
+    }
+
+    public function about_store(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'main_intro'=>'required',
+            'intro'=>'required',
+            'mission'=>'required',
+            'vision'=>'required',
+            'company'=>'required',
+            'cover_image'=>'mimes:png,jpg,jpeg|max:2048',
+            'company_image'=>'mimes:png,jpg,jpeg|max:2048',
+        ]);
+        $about = new About();
+        $about->main_intro=$request->main_intro;
+        $about->intro=$request->intro;
+        $about->mission=$request->mission;
+        $about->vision=$request->vision;
+        $about->company=$request->company;
+
+        if($request->hasFile('cover_image'))
+        {
+            $cover_image = $request->file('cover_image');
+            $file_extension = $request->file('cover_image')->extension();
+            $file_name = Carbon::now()->timestamp . '_cover.' . $file_extension;
+            $this->GenerateAboutThumbnailsImage($cover_image,$file_name);
+            $about->cover_image = $file_name;
+        }
+
+        if($request->hasFile('company_image'))
+        {
+            $company_image = $request->file('company_image');
+            $file_extension1 = $request->file('company_image')->extension();
+            $file_name1 = Carbon::now()->timestamp . '_company.' . $file_extension1;
+            $this->GenerateAboutThumbnailsImage($company_image,$file_name1);
+            $about->company_image = $file_name1;
+        }
+        // dd($about->cover_image);
+        $about->save();
+
+        return redirect()->back()->with('status', 'About details added succcessfully!');
+    }
+
+    public function about_update(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'main_intro'=>'required',
+            'intro'=>'required',
+            'mission'=>'required',
+            'vision'=>'required',
+            'company'=>'required',
+            'cover_image'=>'mimes:png,jpg,jpeg|max:2048',
+            'company_image'=>'mimes:png,jpg,jpeg|max:2048',
+        ]);
+        // dd($request->all());
+        $about = About::find($request->id);
+        $about->main_intro=$request->main_intro;
+        $about->intro=$request->intro;
+        $about->mission=$request->mission;
+        $about->vision=$request->vision;
+        $about->company=$request->company;
+
+        $current_timestamp = Carbon::now()->timestamp;
+
+        if($request->hasFile('cover_image'))
+        {
+            if(File::exists(public_path('uploads/about').'/'.$about->cover_image)){
+                File::delete(public_path('uploads/about').'/'.$about->cover_image);
+            }
+            $image = $request->file('cover_image');
+            $imageName = $current_timestamp.'_cover.'.$image->extension();
+            $this->GenerateAboutThumbnailsImage($image,$imageName);
+            $about->cover_image = $imageName;
+        }
+
+        if($request->hasFile('company_image'))
+        {
+            if(File::exists(public_path('uploads/about').'/'.$about->company_image)){
+                File::delete(public_path('uploads/about').'/'.$about->company_image);
+            }
+            $image1 = $request->file('company_image');
+            $imageName1 = $current_timestamp.'_company.'.$image1->extension();
+            $this->GenerateAboutThumbnailsImage($image1,$imageName1);
+            $about->company_image = $imageName1;
+        }
+        $about->save();
+
+        return redirect()->back()->with('status', 'About details updated succcessfully!');
+    }
+
+    public function GenerateAboutThumbnailsImage($image, $imageName){
+        $destinationPath = public_path('uploads/about');
+        $img = Image::read($image->path()); 
+        $img->cover(400,690,"top"); //height, width, position
+        $img->resize(400,690,function($constraint){
+            $constraint->aspectRatio();
+        })->save($destinationPath.'/'.$imageName);
     }
 }

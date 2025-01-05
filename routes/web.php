@@ -20,6 +20,8 @@ Route::get('/shop/{product_slug}',[ShopController::class, 'product_details'])->n
 Route::get('/contact-us',[HomeController::class, 'contact'])->name('home.contact');
 Route::post('/contact/store',[HomeController::class, 'contact_store'])->name('home.contact.store');
 
+Route::get('/about-us',[HomeController::class, 'about'])->name('home.about');
+
 Route::get('/search',[HomeController::class, 'search'])->name('home.search');
 
 Route::controller(CartController::class)->group(function(){
@@ -112,4 +114,8 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
 
     Route::get('/admin/settings',[AdminController::class, 'settings'])->name('admin.settings');
     Route::put('/admin/setting/update',[AdminController::class, 'setting_update'])->name('admin.setting.update');
+
+    Route::get('/admin/about',[AdminController::class, 'about'])->name('admin.about');
+    Route::put('/admin/about/store',[AdminController::class, 'about_store'])->name('admin.about.store');
+    Route::put('/admin/about/update',[AdminController::class, 'about_update'])->name('admin.about.update');
 });
