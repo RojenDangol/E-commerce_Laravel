@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use App\Models\Slide;
 use App\Models\Contact;
 use App\Models\Product;
@@ -42,7 +43,8 @@ class HomeController extends Controller
     }
 
     public function about(){
-        return view('about');
+        $about = About::all()->first();
+        return view('about',compact('about'));
     }
 
     public function search(Request $request){

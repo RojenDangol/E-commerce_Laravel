@@ -687,8 +687,7 @@ class AdminController extends Controller
     }
 
     public function about(){
-        $about = About::all()->first();
-        // dd($about->id);
+        $about = About::all()->first();;
         return view('admin.about-page',compact('about'));
     }
 
@@ -715,7 +714,7 @@ class AdminController extends Controller
             $cover_image = $request->file('cover_image');
             $file_extension = $request->file('cover_image')->extension();
             $file_name = Carbon::now()->timestamp . '_cover.' . $file_extension;
-            $this->GenerateAboutThumbnailsImage($cover_image,$file_name);
+            $this->GenerateAboutCoverThumbnailsImage($cover_image,$file_name);
             $about->cover_image = $file_name;
         }
 
@@ -761,7 +760,7 @@ class AdminController extends Controller
             }
             $image = $request->file('cover_image');
             $imageName = $current_timestamp.'_cover.'.$image->extension();
-            $this->GenerateAboutThumbnailsImage($image,$imageName);
+            $this->GenerateAboutCoverThumbnailsImage($image,$imageName);
             $about->cover_image = $imageName;
         }
 
@@ -780,11 +779,20 @@ class AdminController extends Controller
         return redirect()->back()->with('status', 'About details updated succcessfully!');
     }
 
+    public function GenerateAboutCoverThumbnailsImage($image, $imageName){
+        $destinationPath = public_path('uploads/about');
+        $img = Image::read($image->path()); 
+        $img->cover(1410,550,"top"); //width, height, position
+        $img->resize(1410,550,function($constraint){
+            $constraint->aspectRatio();
+        })->save($destinationPath.'/'.$imageName);
+    }
+
     public function GenerateAboutThumbnailsImage($image, $imageName){
         $destinationPath = public_path('uploads/about');
         $img = Image::read($image->path()); 
-        $img->cover(400,690,"top"); //height, width, position
-        $img->resize(400,690,function($constraint){
+        $img->cover(500,450,"top"); //width, height, position
+        $img->resize(500,450,function($constraint){
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
     }

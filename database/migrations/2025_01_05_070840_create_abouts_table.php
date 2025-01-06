@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
-            $table->string('main_intro');
-            $table->string('intro');
-            $table->string('mission');
-            $table->string('vision');
-            $table->string('company');
+            $table->text('main_intro');
+            $table->text('intro');
+            $table->text('mission');
+            $table->text('vision');
+            $table->text('company');
             $table->string('cover_image')->nullable();
             $table->string('company_image')->nullable();
             $table->timestamps();
