@@ -151,7 +151,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                      {{-- @dd(Cart::instance('cart')->content()); --}}
                     @foreach (Cart::instance('cart')->content() as $item)
                     <tr>
                       <td>
@@ -168,7 +167,6 @@
                       </td>
                     </tr>
                     @endforeach
-                    {{-- @dd($product_id); --}}
                   </tbody>
                 </table>
                 @if (Session::has('discounts'))
@@ -251,7 +249,6 @@
                     policy</a>.
                 </div>
               </div>
-              {{-- @dd($product_ids_string); --}}
               <input type="hidden" name="product_ids" value="{{ $product_ids_string }}">
               <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </div>
