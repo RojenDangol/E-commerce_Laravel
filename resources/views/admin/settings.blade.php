@@ -80,11 +80,6 @@
                                 <div class="body-title">Upload images <span class="tf-color-1">*</span>
                                 </div>
                                 <div class="upload-image flex-grow">
-                                    {{-- @if ($brand->image)                        
-                                    <div class="item" id="imgpreview">
-                                        <img src="{{asset('uploads/brands')}}/{{$brand->image}}" class="effect8" alt="">
-                                    </div>
-                                    @endif --}}
                                     <div id="upload-file" class="item up-load">
                                         <label class="uploadfile" for="myFile">
                                             <span class="icon">

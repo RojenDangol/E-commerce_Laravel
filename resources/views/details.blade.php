@@ -479,17 +479,17 @@
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_prev_md" />
           </svg>
-        </div><!-- /.products-carousel__prev -->
+        </div>
         <div class="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_next_md" />
           </svg>
-        </div><!-- /.products-carousel__next -->
+        </div>
 
         <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
-        <!-- /.products-pagination -->
-      </div><!-- /.position-relative -->
 
-    </section><!-- /.products-carousel container -->
+      </div>
+
+    </section>
 </main>    
 @endsection

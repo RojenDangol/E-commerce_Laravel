@@ -17,13 +17,8 @@
                                 the checkout page by default.
                             </p>
                         </div>
-                        {{-- <div class="col-6 text-right">
-                            <a href="#" class="btn btn-sm btn-info"
-                                >Add New</a
-                            >
-                        </div> --}}
                     </div>
-                    {{-- @dd($address->id); --}}
+                    
                     <div class="my-account__address-list row">
                         <h5>Shipping Address</h5>
 
