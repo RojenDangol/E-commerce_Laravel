@@ -478,7 +478,7 @@
                     <h6 class="sub-menu__title text-uppercase">Company</h6>
                     <ul class="sub-menu__list list-unstyled">
                         <li class="sub-menu__item">
-                            <a href="about-2.html" class="menu-link menu-link_us-s">About Us</a>
+                            <a href="{{route('home.about')}}" class="menu-link menu-link_us-s">About Us</a>
                         </li>
 
                         <li class="sub-menu__item">
@@ -515,12 +515,6 @@
                         <li class="sub-menu__item">
                             <a href="{{route('user.index')}}" class="menu-link menu-link_us-s">My Account</a>
                         </li>
-                        {{-- <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Gift Card</a>
-                        </li> --}}
                     </ul>
                 </div>
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
@@ -528,20 +522,13 @@
                         Categories
                     </h6>
                     <ul class="sub-menu__list list-unstyled">
+                        @foreach ($categories->take(4) as $category)          
                         <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Shirts</a>
+                            <a href="{{route('shop.index',['categories'=>$category->id])}}" class="menu-link menu-link_us-s">{{$category->name}}</a>
                         </li>
+                        @endforeach
                         <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Jeans</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Shoes</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Bags</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="#" class="menu-link menu-link_us-s">Shop All</a>
+                            <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s">Shop All</a>
                         </li>
                     </ul>
                 </div>
