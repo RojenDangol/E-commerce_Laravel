@@ -153,7 +153,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>${{$TotalAmount}}</h4>
+                            <h4>Rs.{{$TotalAmount}}</h4>
                         </div>
                     </div>
                     <div>
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>${{$TotalOrderedAmount}}</h4>
+                            <h4>Rs.{{$TotalOrderedAmount}}</h4>
                         </div>
                     </div>
                     <div>
@@ -179,7 +179,7 @@
                             </div>
                         </div>
                         <divclass="flex items-center gap10">
-                            <h4>${{$TotalDeliveredAmount}}</h4>
+                            <h4>Rs.{{$TotalDeliveredAmount}}</h4>
                             </divclass=>
                     </div>
                     <div>
@@ -192,7 +192,7 @@
                             </div>
                         </div>
                         <divclass="flex items-center gap10">
-                            <h4>${{$TotalCanceledAmount}}</h4>
+                            <h4>Rs.{{$TotalCanceledAmount}}</h4>
                             </divclass=>
                     </div>
                 </div>
@@ -260,13 +260,13 @@
                                         {{$order->phone}}
                                     </td>
                                     <td class="text-center">
-                                        ${{$order->subtotal}}
+                                        Rs.{{$order->subtotal}}
                                     </td>
                                     <td class="text-center">
-                                        ${{$order->tax}}
+                                        Rs.{{$order->tax}}
                                     </td>
                                     <td class="text-center">
-                                        ${{$order->total}}
+                                        Rs.{{$order->total}}
                                     </td>
                                     <td class="text-center">
                                         @if ($order->status == 'ordered')

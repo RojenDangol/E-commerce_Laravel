@@ -535,11 +535,11 @@
         </div>
         <div class="footer-bottom">
             <div class="container d-md-flex align-items-center">
-                <span class="footer-copyright me-auto">©2024 Rojen Dangol</span>
+                <span class="footer-copyright me-auto">©2024 Ethereal Ensemble</span>
                 <div class="footer-settings d-md-flex align-items-center">
-                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="#">Privacy Policy</a>
                     &nbsp;|&nbsp;
-                    <a href="terms-conditions.html">Terms &amp; Conditions</a>
+                    <a href="#">Terms &amp; Conditions</a>
                 </div>
             </div>
         </div>
