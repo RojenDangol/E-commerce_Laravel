@@ -118,4 +118,9 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::get('/admin/about',[AdminController::class, 'about'])->name('admin.about');
     Route::put('/admin/about/store',[AdminController::class, 'about_store'])->name('admin.about.store');
     Route::put('/admin/about/update',[AdminController::class, 'about_update'])->name('admin.about.update');
+
+
+
+    Route::get('/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
+Route::post('/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
 });

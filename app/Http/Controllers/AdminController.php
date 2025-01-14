@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
+use App\Models\RepeaterItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -818,4 +819,40 @@ class AdminController extends Controller
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
     }
+
+
+    public function showForm(){
+        return view('admin.repeater');
+    }
+
+
+    // demo
+    public function saveRepeater(Request $request)
+    {
+        $request->validate([
+            'items.*.title' => 'required|string|max:255',
+            'items.*.description' => 'nullable|string',
+            'items.*.image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+        ]);
+
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $imagePath = null;
+
+                if (isset($item['image']) && $item['image'] instanceof \Illuminate\Http\UploadedFile) {
+                    $imagePath = $item['image']->store('private/uploads', 'local');// 'local' points to storage/app
+                }
+
+                // Save each repeater item to the database
+                RepeaterItem::create([
+                    'title' => $item['title'],
+                    'description' => $item['description'] ?? null,
+                    'image' => $imagePath,
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Repeater data saved successfully!');
+    }
+
 }
