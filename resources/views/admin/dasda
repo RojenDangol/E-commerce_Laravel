@@ -67,9 +67,7 @@
             
             <div class="repeater-item row" data-index="0">
                 <div>
-                    <span class="repeater-number">1</span>
-                    <span class="separator">:::</span>
-                   {{-- <button style="border: hidden" disabled>:::</button> --}}
+                   <button style="border: hidden" disabled>:::</button>
                 </div>
                 <div class="col-md-4">
                     <label for="title-0" class="form-label">Title</label>
@@ -115,8 +113,7 @@
         newItem.setAttribute('data-index', currentIndex);
         newItem.innerHTML = `
                 <div>
-                     <span class="repeater-number">${currentIndex + 1}</span>
-                    <span class="separator">:::</span>
+                    <button style="border: hidden" disabled>:::</button>
                 </div>
             <div class="col-md-4">
                 <label for="title-${currentIndex}" class="form-label">Title</label>
@@ -139,8 +136,6 @@
         // Insert the new item directly below the current one
         repeater.insertBefore(newItem, currentItem.nextSibling);
         setupControls(newItem); // Add functionality to new controls
-
-        updateNumbers();
     };
 
     // Remove a repeater item
@@ -148,21 +143,9 @@
         const repeater = document.getElementById('repeater');
         if (repeater.childElementCount > 1) {
             item.remove();
-            updateNumbers();
         } else {
             alert('At least one item is required.');
         }
-        
-    };
-
-
-    // Update the numbers after an action
-    const updateNumbers = () => {
-        const repeaterItems = document.querySelectorAll('.repeater-item');
-        repeaterItems.forEach((item, index) => {
-            const numberElement = item.querySelector('.repeater-number');
-            numberElement.textContent = index + 1; // Update the number to the correct position
-        });
     };
 
     // Setup controls for add and remove buttons
@@ -188,7 +171,6 @@
         animation: 150,
         onEnd(evt) {
             // Handle the reordering of the repeater fields if necessary
-            updateNumbers();
             console.log('Reorder complete');
         }
     });
