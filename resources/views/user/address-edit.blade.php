@@ -103,8 +103,8 @@
                   @enderror
 
                         <div class="col-md-6">
-                            <div class="form-floating my-3">
-                                <select class="form-control" style="line-height: 1;" name="isdefault" placeholder="IsDefault">
+                            <div class="form-floating my-3 select">
+                                <select class="form-control " style="line-height: 1;" name="isdefault" placeholder="IsDefault">
                                     <option value="1" {{$address->isdefault == "1" ?"selected":""}}>Default</option>
                                     <option value="0" {{$address->isdefault == "0" ?"selected":""}}>Not default</option>
                                 </select>

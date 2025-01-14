@@ -193,9 +193,9 @@
                                         <div class="product-card__price d-flex">
                                             <span class="money price text-secondary">
                                             @if ($sproduct->sale_price)
-                                                <s>${{$sproduct->regular_price}} </s>${{$sproduct->sale_price}}
+                                                <s>Rs.{{$sproduct->regular_price}} </s>Rs.{{$sproduct->sale_price}}
                                             @else
-                                                ${{$sproduct->sale_price}}
+                                                Rs.{{$sproduct->sale_price}}
                                             @endif</span>
                                         </div>
                                     </div>
@@ -260,9 +260,9 @@
                             <div class="product-card__price d-flex align-items-center">
                                 <span class="money price text-secondary">
                                     @if ($fproduct->sale_price)
-                                        <s>${{$fproduct->regular_price}} </s>${{$fproduct->sale_price}}
+                                        <s>Rs.{{$fproduct->regular_price}} </s>Rs.{{$fproduct->sale_price}}
                                     @else
-                                        ${{$fproduct->sale_price}}
+                                        Rs.{{$fproduct->sale_price}}
                                     @endif</span>
                                 </span>
                             </div>

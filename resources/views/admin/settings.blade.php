@@ -42,7 +42,7 @@
                         @if(Session::has('error'))
                         <p class="alert alert-danger">{{Session::get('error')}}</p>
                         @endif
-                        <form name="account_edit_form" action="{{route('admin.setting.update')}}" method="POST" class="form-new-product form-style-1 needs-validation" novalidate="">
+                        <form name="account_edit_form" action="{{route('admin.setting.update')}}" method="POST" class="form-new-product form-style-1 needs-validation" novalidate="" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="id" value="{{Auth::user()->id}}">
@@ -76,10 +76,23 @@
                             @error('email')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
+
                             <fieldset>
                                 <div class="body-title">Upload images <span class="tf-color-1">*</span>
                                 </div>
+                                
                                 <div class="upload-image flex-grow">
+                                    @if (Auth::user()->profile_picture)                      
+                                    <div class="item" id="imgpreview">
+                                        <img src="{{asset('uploads/profile')}}/{{ Auth::user()->profile_picture}}"
+                                            class="effect8" alt="{{ Auth::user()->name}}">
+                                    </div>
+                                    @else                                 
+                                    <div class="item" id="imgpreview" style="display:none">
+                                        <img src="../../../localhost_8000/images/upload/upload-1.png"
+                                            class="effect8" alt="">
+                                    </div>
+                                    @endif
                                     <div id="upload-file" class="item up-load">
                                         <label class="uploadfile" for="myFile">
                                             <span class="icon">

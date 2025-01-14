@@ -507,14 +507,13 @@
                     </ul>
                 </div> --}}
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
-                    <h6 class="sub-menu__title text-uppercase">Help</h6>
+                    <h6 class="sub-menu__title text-uppercase">Brands</h6>
                     <ul class="sub-menu__list list-unstyled">
+                        @foreach (\App\Models\Brand::orderBy('name')->get()->take(4) as $brand)          
                         <li class="sub-menu__item">
-                            <a href="{{route('home.contact')}}" class="menu-link menu-link_us-s">Customer Service</a>
+                            <a href="{{route('home.contact')}}" class="menu-link menu-link_us-s">{{$brand->name}}</a>
                         </li>
-                        <li class="sub-menu__item">
-                            <a href="{{route('user.index')}}" class="menu-link menu-link_us-s">My Account</a>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
@@ -522,7 +521,7 @@
                         Categories
                     </h6>
                     <ul class="sub-menu__list list-unstyled">
-                        @foreach ($categories->take(4) as $category)          
+                        @foreach (\App\Models\Category::orderBy('name')->get()->take(4) as $category)          
                         <li class="sub-menu__item">
                             <a href="{{route('shop.index',['categories'=>$category->id])}}" class="menu-link menu-link_us-s">{{$category->name}}</a>
                         </li>

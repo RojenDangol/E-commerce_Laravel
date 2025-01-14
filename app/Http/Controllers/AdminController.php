@@ -663,13 +663,14 @@ class AdminController extends Controller
             'name'=>'required|max:100',
             'mobile'=>'required|numeric:digits:10',
             'email'=>'required|email',
+            'image' => 'mimes:png,jpg,jpeg,svg|max:2048',
             'old_password'=>'required',
             'password'=>'required|string|min:8|confirmed',
         ]);
+
         $old_password = $request->old_password;
         $current_user = User::find($request->id)->getAttributes();
         $current_password = $current_user['password'];
-        // dd($current_password);
         if (Hash::check($old_password, $current_password)){
             $admin = User::find($request->id);
             $password = $request->password;
@@ -678,12 +679,33 @@ class AdminController extends Controller
             $admin->mobile = $request->mobile;
             $admin->email = $request->email;
             $admin->password = $hash_password;
+
+            $current_timestamp = Carbon::now()->timestamp;
+
+            if($request->hasFile('image'))
+            {
+                $image = $request->file('image');
+                $imageName = $current_timestamp.'.'.$image->extension();
+                $this->GenerateProfileImage($image,$imageName);
+                $admin->profile_picture = $imageName;
+            }
+
             $admin->save();
             return redirect()->route('admin.settings')->with('success','Account updated successfully!');
         }
         else{
             return redirect()->route('admin.settings')->with('error','Account credientials did not match!');
         }
+    }
+
+    public function GenerateProfileImage($image, $imageName){
+        $destinationPath = public_path('uploads/profile');
+        $img = Image::read($image->path()); 
+
+        $img->cover(360,360,"top"); //height, width, position
+        $img->resize(360,360,function($constraint){
+            $constraint->aspectRatio();
+        })->save($destinationPath.'/'.$imageName);
     }
 
     public function about(){

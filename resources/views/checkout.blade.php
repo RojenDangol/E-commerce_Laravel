@@ -163,7 +163,7 @@
                         {{$item->name}} x {{$item->qty}}
                       </td>
                       <td class="text-right">
-                        ${{$item->subtotal()}}
+                        Rs.{{$item->subtotal()}}
                       </td>
                     </tr>
                     @endforeach
@@ -174,15 +174,15 @@
                     <tbody>
                         <tr>
                             <th>Subtotal</th>
-                            <td class="text-right">${{Cart::instance('cart')->subtotal()}}</td>
+                            <td class="text-right">Rs.{{Cart::instance('cart')->subtotal()}}</td>
                           </tr>
                           <tr>
                             <th>Discount {{Session::get('coupon')['code']}}</th>
-                            <td class="text-right">${{Session::get('discounts')['discount']}}</td>
+                            <td class="text-right">Rs.{{Session::get('discounts')['discount']}}</td>
                           </tr>
                           <tr>
                             <th>Subtotal After Discount</th>
-                            <td class="text-right">${{Session::get('discounts')['subtotal']}}</td>
+                            <td class="text-right">Rs.{{Session::get('discounts')['subtotal']}}</td>
                           </tr>
                           <tr>
                             <th>Shipping</th>
@@ -190,11 +190,11 @@
                           </tr>
                           <tr>
                             <th>VAT</th>
-                            <td class="text-right">${{Session::get('discounts')['tax']}}</td>
+                            <td class="text-right">Rs.{{Session::get('discounts')['tax']}}</td>
                           </tr>
                           <tr>
                             <th>Total</th>
-                            <td class="text-right">${{Session::get('discounts')['total']}}</td>
+                            <td class="text-right">Rs.{{Session::get('discounts')['total']}}</td>
                           </tr>
                     </tbody>
                   </table>    
@@ -203,7 +203,7 @@
                   <tbody>
                     <tr>
                       <th>SUBTOTAL</th>
-                      <td class="text-right">${{Cart::instance('cart')->subtotal()}}</td>
+                      <td class="text-right">Rs.{{Cart::instance('cart')->subtotal()}}</td>
                     </tr>
                     <tr>
                       <th>SHIPPING</th>
@@ -211,11 +211,11 @@
                     </tr>
                     <tr>
                       <th>VAT</th>
-                      <td class="text-right">${{Cart::instance('cart')->tax()}}</td>
+                      <td class="text-right">Rs.{{Cart::instance('cart')->tax()}}</td>
                     </tr>
                     <tr>
                       <th>TOTAL</th>
-                      <td class="text-right">${{Cart::instance('cart')->total()}}</td>
+                      <td class="text-right">Rs.{{Cart::instance('cart')->total()}}</td>
                     </tr>
                   </tbody>
                 </table>

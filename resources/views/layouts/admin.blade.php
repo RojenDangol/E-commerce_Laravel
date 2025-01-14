@@ -308,7 +308,7 @@
                                 </form>
                             </div>
                             <div class="header-grid">
-                                <div class="popup-wrap message type-header">
+                                {{-- <div class="popup-wrap message type-header">
                                     <div class="dropdown">
                                         <button
                                             class="btn btn-secondary dropdown-toggle"
@@ -449,26 +449,22 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="popup-wrap user type-header">
                                     <div class="dropdown">
-                                        {{-- <button
-                                            class="btn btn-secondary dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton3"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        > --}}
                                         <a href="{{route('admin.settings')}}">
                                             <span
                                                 class="header-user wg-user"
                                             >
                                                 <span class="image">
+                                                    @if (Auth::user()->profile_picture)                      
+                                                
                                                     <img
-                                                        src="images/avatar/user-1.png"
-                                                        alt=""
+                                                        src="{{asset('uploads/profile')}}/{{ Auth::user()->profile_picture}}"
+                                                        alt="{{ Auth::user()->name}}" style="height: 36px; width: 36px;"
                                                     />
+                                                    @endif
                                                 </span>
                                                 <span
                                                     class="flex flex-column"
@@ -478,12 +474,11 @@
                                                         >{{ Auth::user()->name }}</span
                                                     >
                                                     <span class="text-tiny"
-                                                        >Admin</span
+                                                        >{{ Auth::user()->utype == 'ADM' ? 'Admin':'' }}</span
                                                     >
                                                 </span>
                                             </span>
                                         </a>
-                                        {{-- </button> --}}
                                     </div>
                                 </div>
                             </div>
@@ -494,7 +489,7 @@
 
                         <div class="bottom-page">
                             <div class="body-text">
-                                Copyright © 2024 SurfsideMedia
+                                Copyright © 2024 Ethereal Ensemble
                             </div>
                         </div>
                     </div>
