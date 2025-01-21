@@ -69,8 +69,7 @@ class AdminController extends Controller
 
     public function brands(Request $request){
         $brands = Brand::orderBy('id','Desc')->paginate(10);
-        $query = $request->input('query');
-        $results = Brand::where('name','LIKE',"%{$query}%")->get()->take(10);
+        $results = null;
         return view('admin.brands',compact('brands','results'));
     }
 
@@ -151,8 +150,7 @@ class AdminController extends Controller
 
     public function categories(Request $request){
         $categories = Category::orderBy('id','DESC')->paginate(10);
-        $query = $request->input('query');
-        $results = Category::where('name','LIKE',"%{$query}%")->get()->take(10);
+        $results = null;
         return view('admin.categories',compact('categories','results'));
     }
 
@@ -250,6 +248,7 @@ class AdminController extends Controller
             'regular_price' => 'required',
             'sale_price' => 'required',
             'SKU' => 'required',
+            'wardrobe' => 'required',
             'stock_status' => 'required',
             'featured' => 'required',
             'quantity' => 'required',
@@ -266,6 +265,7 @@ class AdminController extends Controller
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
+        $product->wardrobe = $request->wardrobe;
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
         $product->quantity = $request->quantity;
@@ -339,6 +339,7 @@ class AdminController extends Controller
             'regular_price' => 'required',
             'sale_price' => 'required',
             'SKU' => 'required',
+            'wardrobe' => 'required',
             'stock_status' => 'required',
             'featured' => 'required',
             'quantity' => 'required',
@@ -355,6 +356,7 @@ class AdminController extends Controller
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
+        $product->wardrobe = $request->wardrobe;
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
         $product->quantity = $request->quantity;
@@ -440,7 +442,8 @@ class AdminController extends Controller
     // coupon section
     public function coupons(){
         $coupons = Coupon::orderBy('expiry_date','DESC')->paginate(12);
-        return view('admin.coupons',compact('coupons'));
+        $results = null;
+        return view('admin.coupons',compact('coupons','results'));
     }
 
     public function coupon_add(){
@@ -497,7 +500,8 @@ class AdminController extends Controller
     // orders
     public function orders(){
         $orders = Order::orderBy('created_at','DESC')->paginate(12);
-        return view('admin.orders',compact('orders'));
+        $results = null;
+        return view('admin.orders',compact('orders','results'));
     }
 
     public function order_details($order_id){
@@ -533,6 +537,7 @@ class AdminController extends Controller
         return back()->with('status','Status changed successfully!');
     }
 
+// slider section
     public function slides(){
         $slides = Slide::orderBy('id','DESC')->paginate(12);
         return view('admin.slides',compact('slides'));
@@ -627,9 +632,11 @@ class AdminController extends Controller
         return redirect()->route('admin.slides')->with('status','Slide has been deleted successfully');
     }
 
+    // contact section
     public function contacts(){
         $contacts = Contact::orderBy('created_at','DESC')->paginate(10);
-        return view('admin.contacts',compact('contacts'));
+        $results = null;
+        return view('admin.contacts',compact('contacts','results'));
     }
 
     public function contact_delete($id){
@@ -638,12 +645,44 @@ class AdminController extends Controller
         return redirect()->route('admin.contacts')->with('status','Contact has been deleted successfully!');
     }
 
+// search section
     public function search(Request $request){
         $query = $request->input('query');
         $results = Product::where('name','LIKE',"%{$query}%")->get()->take(8);
         return response()->json($results);
     }
 
+    public function search_operation(Request $request){
+        $query = $request->name;
+        $url = $request->url;
+        if($url == "orders"){
+            $results = Order::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "products"){
+            $results = Product::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "brands"){
+            $results = Brand::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "categories"){
+            $results = Category::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "slides"){
+            $results = Slide::where('title','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "coupons"){
+            $results = Coupon::where('code','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "contacts"){
+            $results = Contact::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        if($url == "users"){
+            $results = User::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
+        return view("admin.".$url,compact('results'));
+    }
+
+    // user section
     public function users(){
         $users = User::where('utype','USR')->paginate(10);
         return view('admin.users',compact('users'));
@@ -709,6 +748,7 @@ class AdminController extends Controller
         })->save($destinationPath.'/'.$imageName);
     }
 
+    // about section
     public function about(){
         $about = About::all()->first();;
         return view('admin.about-page',compact('about'));
@@ -820,15 +860,12 @@ class AdminController extends Controller
         })->save($destinationPath.'/'.$imageName);
     }
 
-
+// demo
     public function showForm(){
         return view('admin.repeater');
     }
 
-
-    // demo
-    public function saveRepeater(Request $request)
-    {
+    public function saveRepeater(Request $request){
         $request->validate([
             'items.*.title' => 'required|string|max:255',
             'items.*.description' => 'nullable|string',

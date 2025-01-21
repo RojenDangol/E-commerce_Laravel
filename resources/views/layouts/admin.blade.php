@@ -286,7 +286,7 @@
                                             type="text"
                                             placeholder="Search here..."
                                             class="show-search"
-                                            name="name"
+                                            name="order"
                                             id="search-input"
                                             tabindex="2"
                                             value=""

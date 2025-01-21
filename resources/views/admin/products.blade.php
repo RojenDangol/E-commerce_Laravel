@@ -47,6 +47,7 @@
                             <th>Price</th>
                             <th>SalePrice</th>
                             <th>SKU</th>
+                            <th>Wardrobe</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Featured</th>
@@ -71,6 +72,7 @@
                             <td>Rs.{{$product->regular_price}}</td>
                             <td>Rs.{{$product->sale_price}}</td>
                             <td>{{$product->SKU}}</td>
+                            <td>{{$product->wardrobe}}</td>
                             <td>{{$product->category->name}}</td>
                             <td>{{$product->brand->name}}</td>
                             <td>{{$product->featured == 0?"No":"Yes"}}</td>

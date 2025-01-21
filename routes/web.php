@@ -105,9 +105,8 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::get('/admin/contact',[AdminController::class, 'contacts'])->name('admin.contacts');
     Route::delete('/admin/contact/{id}/delete',[AdminController::class, 'contact_delete'])->name('admin.contact.delete');
 
-    Route::get('/admin/search',[AdminController::class, 'search'])->name('admin.search');
-    // Route::get('/admin/search-brand',[AdminController::class, 'brand_search'])->name('admin.search.brand');
-    // Route::get('/admin/search-category',[AdminController::class, 'search'])->name('admin.search.category');
+    Route::get('/admin/search/product',[AdminController::class, 'search'])->name('admin.search');
+    Route::get('/admin/search',[AdminController::class, 'search_operation'])->name('admin.search.show');
 
     Route::get('/admin/users',[AdminController::class, 'users'])->name('admin.users');
     Route::delete('/admin/user/{id}/delete',[AdminController::class, 'user_delete'])->name('admin.user.delete');
@@ -121,6 +120,6 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
 
 
 
-    Route::get('/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
-Route::post('/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
+    Route::get('/admin/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
+Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
 });

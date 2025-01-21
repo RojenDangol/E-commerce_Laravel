@@ -46,16 +46,33 @@
                     <span class="alert alert-danger text-center">{{$message}}</span>
                 @enderror
 
-                <fieldset class="name">
-                    <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
-                    <input class="mb-10" type="text" placeholder="Enter product slug"
-                        name="slug" tabindex="0" value="{{$product->slug}}" aria-required="true" required="">
-                    <div class="text-tiny">Do not exceed 100 characters when entering the
-                        product slug.</div>
-                </fieldset>
-                @error('slug')
-                    <span class="alert alert-danger text-center">{{$message}}</span>
-                @enderror
+                <div class="gap22 cols">
+                    <fieldset class="name">
+                        <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
+                        <input class="mb-10" type="text" placeholder="Enter product slug"
+                            name="slug" tabindex="0" value="{{$product->slug}}" aria-required="true" required="">
+                        <div class="text-tiny">Do not exceed 100 characters when entering the
+                            product slug.</div>
+                    </fieldset>
+                    @error('slug')
+                        <span class="alert alert-danger text-center">{{$message}}</span>
+                    @enderror
+
+                    <fieldset class="wardrobe">
+                        <div class="body-title mb-10">Wardrobe <span class="tf-color-1">*</span>
+                        </div>
+                        <div class="select">
+                            <select class="" name="wardrobe">
+                                <option value="men" {{$product->wardrobe == "men"?"selected":""}}>Men</option>
+                                <option value="women" {{$product->wardrobe == "women"?"selected":""}}>Women</option>
+                                <option value="kid" {{$product->wardrobe == "kid"?"selected":""}}>Kid</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    @error('wardrobe')
+                        <span class="alert alert-danger text-center">{{$message}}</span>
+                    @enderror
+                </div>
 
                 <div class="gap22 cols">
                     <fieldset class="category">

@@ -22,10 +22,12 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search">
+                    <form class="form-search" method="GET" action="{{route('admin.search.show')}}">
+                        @csrf
                         <fieldset class="name">
                             <input type="text" placeholder="Search here..." class="" name="name"
                                 tabindex="2" value="" aria-required="true" required="">
+                                <input type="hidden" name="url" value="contacts">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
@@ -51,6 +53,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                if($results){
+                                    $contacts = $results;
+                                    // dd($categories->all());
+                                }else{
+                                    $contacts = $contacts;
+                                }
+                            @endphp
                             @foreach ($contacts as $contact)             
                             <tr>
                                 <td>{{$contact->id}}</td>

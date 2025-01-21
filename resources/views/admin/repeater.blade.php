@@ -1,5 +1,5 @@
-@extends('layouts.app');
-@section('content');
+@extends('layouts.app')
+@section('content')
  <style>
         .repeater-item {
             margin-bottom: 20px;

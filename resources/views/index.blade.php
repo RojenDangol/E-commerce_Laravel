@@ -117,7 +117,7 @@
             <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">
                 Hot Deals
             </h2>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6 col-lg-4 col-xl-20per d-flex align-items-center flex-column justify-content-center py-4 align-items-md-start">
                     <h2>Summer Sale</h2>
                     <h2 class="fw-bold">Up to 60% Off</h2>
@@ -140,42 +140,42 @@
                         </div>
                     </div>
                     <a href="{{route('shop.index')}}" class="btn-link default-underline text-uppercase fw-medium mt-3">View All</a>
-                </div>
+                </div> --}}
                 <div class="col-md-6 col-lg-8 col-xl-80per">
                     <div class="position-relative">
                         <div class="swiper-container js-swiper-slider" data-settings='{
-          "autoplay": {
-            "delay": 5000
-          },
-          "slidesPerView": 4,
-          "slidesPerGroup": 4,
-          "effect": "none",
-          "loop": false,
-          "breakpoints": {
-            "320": {
-              "slidesPerView": 2,
-              "slidesPerGroup": 2,
-              "spaceBetween": 14
-            },
-            "768": {
-              "slidesPerView": 2,
-              "slidesPerGroup": 3,
-              "spaceBetween": 24
-            },
-            "992": {
-              "slidesPerView": 3,
-              "slidesPerGroup": 1,
-              "spaceBetween": 30,
-              "pagination": false
-            },
-            "1200": {
-              "slidesPerView": 4,
-              "slidesPerGroup": 1,
-              "spaceBetween": 30,
-              "pagination": false
-            }
-          }
-        }'>
+                            "autoplay": {
+                                "delay": 5000
+                            },
+                            "slidesPerView": 4,
+                            "slidesPerGroup": 4,
+                            "effect": "none",
+                            "loop": false,
+                            "breakpoints": {
+                                "320": {
+                                "slidesPerView": 2,
+                                "slidesPerGroup": 2,
+                                "spaceBetween": 14
+                                },
+                                "768": {
+                                "slidesPerView": 2,
+                                "slidesPerGroup": 3,
+                                "spaceBetween": 24
+                                },
+                                "992": {
+                                "slidesPerView": 3,
+                                "slidesPerGroup": 1,
+                                "spaceBetween": 30,
+                                "pagination": false
+                                },
+                                "1200": {
+                                "slidesPerView": 4,
+                                "slidesPerGroup": 1,
+                                "spaceBetween": 30,
+                                "pagination": false
+                                }
+                            }
+                        }'>
                             <div class="swiper-wrapper">
                                 @foreach ($sproducts as $sproduct)
                                 <div class="swiper-slide product-card product-card_style3">
@@ -210,7 +210,7 @@
                 </div>
             </div>
         </section>
-        <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
+        {{-- <div class="mb-3 mb-xl-5 pt-1 pb-4"></div> --}}
         {{-- <section class="category-banner container">
             <div class="row">
                 <div class="col-md-6">

@@ -22,11 +22,12 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search" method="GET" action="{{route('admin.categories')}}">
+                    <form class="form-search" method="GET" action="{{route('admin.search.show')}}">
                         @csrf
                         <fieldset class="name">
-                            <input type="text" placeholder="Search here..." class="" name="query"
-                                tabindex="2" value="" aria-required="true">
+                            <input type="text" placeholder="Search here..." class="" name="name"
+                                tabindex="2" value="" aria-required="true" required="">
+                                <input type="hidden" name="url" value="categories">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
@@ -52,9 +53,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!$results)
+                            @php
+                                if($results){
+                                    $categories = $results;
+                                    // dd($categories->all());
+                                }else{
+                                    $categories = $categories;
+                                }
+                            @endphp
                             @foreach ($categories as $category)    
-                            {{-- @dd($category->products->count())                       --}}
+                            {{-- @dd($category->all())                       --}}
                             <tr>
                                 <td>{{$category->id}}</td>
                                 <td class="pname">
@@ -87,42 +95,6 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                            @foreach ($results as $category)    
-                            {{-- @dd($category->products->count())                       --}}
-                            <tr>
-                                <td>{{$category->id}}</td>
-                                <td class="pname">
-                                    <div class="image">
-                                        <img src="{{asset('uploads/categories')}}/{{$category->image}}" alt="{{$category->name}}" class="image">
-                                    </div>
-                                    <div class="name">
-                                        <a href="#" class="body-title-2">{{$category->name}}</a>
-                                    </div>
-                                </td>
-                                <td>{{$category->slug}}</td>
-                                <td>
-                                    {{$category->products->count()}}
-                                </td>
-                                <td>
-                                    <div class="list-icon-function">
-                                        <a href="{{route('admin.category.edit',['id'=>$category->id])}}">
-                                            <div class="item edit">
-                                                <i class="icon-edit-3"></i>
-                                            </div>
-                                        </a>
-                                        <form action="{{route('admin.category.delete',['id'=>$category->id])}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <div class="item text-danger delete">
-                                                <i class="icon-trash-2"></i>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach                       
-                            @endif
                         </tbody>
                     </table>
                 </div>
