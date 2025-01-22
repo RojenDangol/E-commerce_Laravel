@@ -69,20 +69,8 @@
             <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
               <a href="{{route('home.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
               <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-              <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+              <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">Shop</a>
             </div><!-- /.breadcrumb -->
-
-            <div
-              class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-              <a href="#" class="text-uppercase fw-medium"><svg width="10" height="10" viewBox="0 0 25 25"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_prev_md" />
-                </svg><span class="menu-link menu-link_us-s">Prev</span></a>
-              <a href="#" class="text-uppercase fw-medium"><span class="menu-link menu-link_us-s">Next</span><svg
-                  width="10" height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_next_md" />
-                </svg></a>
-            </div><!-- /.shop-acs -->
           </div>
           <h1 class="product-single__name">{{$product->name}}</h1>
           <div class="product-single__rating">
@@ -103,7 +91,7 @@
                 <use href="#icon_star" />
               </svg>
             </div>
-            {{-- <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span> --}}
+            
           </div>
           <div class="product-single__price">
             <span class="current-price">
@@ -161,50 +149,19 @@
               </svg><span>Add to Wishlist</span></a>
             </form>
             @endif
-            <share-button class="share-button">
-              <button class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
-                <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_sharing" />
-                </svg>
-                <span>Share</span>
-              </button>
-              <details id="Details-share-template__main" class="m-1 xl:m-1.5" hidden="">
-                <summary class="btn-solid m-1 xl:m-1.5 pt-3.5 pb-3 px-5">+</summary>
-                <div id="Article-share-template__main"
-                  class="share-button__fallback flex items-center absolute top-full left-0 w-full px-2 py-4 bg-container shadow-theme border-t z-10">
-                  <div class="field grow mr-4">
-                    <label class="field__label sr-only" for="url">Link</label>
-                    <input type="text" class="field__input w-full" id="url"
-                      value="https://uomo-crystal.myshopify.com/blogs/news/go-to-wellness-tips-for-mental-health"
-                      placeholder="Link" onclick="this.select();" readonly="">
-                  </div>
-                  <button class="share-button__copy no-js-hidden">
-                    <svg class="icon icon-clipboard inline-block mr-1" width="11" height="13" fill="none"
-                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 11 13">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M2 1a1 1 0 011-1h7a1 1 0 011 1v9a1 1 0 01-1 1V1H2zM1 2a1 1 0 00-1 1v9a1 1 0 001 1h7a1 1 0 001-1V3a1 1 0 00-1-1H1zm0 10V3h7v9H1z"
-                        fill="currentColor"></path>
-                    </svg>
-                    <span class="sr-only">Copy link</span>
-                  </button>
-                </div>
-              </details>
-            </share-button>
-            <script src="js/details-disclosure.html" defer="defer"></script>
-            <script src="js/share.html" defer="defer"></script>
           </div>
           <div class="product-single__meta-info">
             <div class="meta-item">
-              <label>SKU:</label>
-              <span>{{$product->SKU}}</span>
+              <label>Quantity:</label>
+              <span>{{$product->quantity}}</span>
             </div>
             <div class="meta-item">
               <label>Categories:</label>
               <span>{{$product->category->name}}</span>
             </div>
             <div class="meta-item">
-              <label>Tags:</label>
-              <span>N/A</span>
+              <label>Wardrobe:</label>
+              <span>{{$product->wardrobe}}</span>
             </div>
           </div>
         </div>
@@ -222,10 +179,6 @@
               href="#tab-additional-info" role="tab" aria-controls="tab-additional-info"
               aria-selected="false">Additional Information</a>
           </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab" href="#tab-reviews"
-              role="tab" aria-controls="tab-reviews" aria-selected="false">Reviews (2)</a>
-          </li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab-description" role="tabpanel"
@@ -237,24 +190,16 @@
           <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
             <div class="product-single__addtional-info">
               <div class="item">
-                <label class="h6">Weight</label>
-                <span>1.25 kg</span>
-              </div>
-              <div class="item">
-                <label class="h6">Dimensions</label>
-                <span>90 x 60 x 90 cm</span>
+                <label class="h6">Quantity</label>
+                <span>{{$product->quantity}}</span>
               </div>
               <div class="item">
                 <label class="h6">Size</label>
                 <span>XS, S, M, L, XL</span>
               </div>
               <div class="item">
-                <label class="h6">Color</label>
-                <span>Black, Orange, White</span>
-              </div>
-              <div class="item">
-                <label class="h6">Storage</label>
-                <span>Relaxed fit shirt-style dress with a rugged</span>
+                <label class="h6">SKU</label>
+                <span>{{$product->SKU}}</span>
               </div>
             </div>
           </div>
@@ -348,10 +293,10 @@
               </div>
             </div>
             @endforeach
-          </div><!-- /.swiper-wrapper -->
-        </div><!-- /.swiper-container js-swiper-slider -->
+          </div>
+        </div>
 
-        <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
+        {{-- <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
           <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_prev_md" />
           </svg>
@@ -362,7 +307,7 @@
           </svg>
         </div>
 
-        <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
+        <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div> --}}
 
       </div>
 

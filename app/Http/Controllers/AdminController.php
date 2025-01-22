@@ -685,11 +685,16 @@ class AdminController extends Controller
     // user section
     public function users(){
         $users = User::where('utype','USR')->paginate(10);
-        return view('admin.users',compact('users'));
+        $admins = User::where('utype','ADM')->paginate(10);
+        return view('admin.users',compact('users','admins'));
     }
 
     public function user_delete($id){
         $user = User::find($id);
+        if($user->utype == 'ADM'){
+            $user->delete();
+            return redirect()->route('admin.users')->with('status_admin','Admin has been deleted successfully!');
+        }
         $user->delete();
         return redirect()->route('admin.users')->with('status','User has been deleted successfully!');
     }

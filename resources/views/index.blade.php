@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <main>
+    {{-- Banner Section --}}
     <section class="swiper-container js-swiper-slider swiper-number-pagination slideshow" data-settings='{
             "autoplay": {
             "delay": 5000
@@ -40,6 +41,8 @@
                 <div class="slideshow-pagination slideshow-number-pagination d-flex align-items-center position-absolute bottom-0 mb-5"></div>
             </div>
     </section>
+
+    {{-- Category Section --}}
     <div class="container mw-1620 bg-white border-radius-10">
         <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
         <section class="category-carousel container">
@@ -87,60 +90,39 @@
                     <div class="swiper-wrapper">
                         @foreach ($categories as $category)
                         <div class="swiper-slide">
+                            <a href="{{route('shop.index',['categories'=>$category->id])}}" class="menu-link fw-medium">
                             <img loading="lazy" class="w-100 h-auto mb-3" src="{{asset('uploads/categories') }}/{{$category->image}}" width="124" height="124" alt="{{$category->name}}" />
                             <div class="text-center">
-                                <a href="{{route('shop.index',['categories'=>$category->id])}}" class="menu-link fw-medium">{{$category->name}}</a>
+                                {{$category->name}}
                             </div>
+                            </a>
                         </div>
                         @endforeach
                     </div>
-                    <!-- /.swiper-wrapper -->
+
                 </div>
-                <!-- /.swiper-container js-swiper-slider -->
+
                 <div class="products-carousel__prev products-carousel__prev-1 position-absolute top-50 d-flex align-items-center justify-content-center">
                     <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_prev_md" />
                     </svg>
                 </div>
-                <!-- /.products-carousel__prev -->
+
                 <div class="products-carousel__next products-carousel__next-1 position-absolute top-50 d-flex align-items-center justify-content-center">
                     <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_next_md" />
                     </svg>
                 </div>
-                <!-- /.products-carousel__next -->
-            </div>
-            <!-- /.position-relative -->
+                
+            </div>           
         </section>
+
+        {{-- Hot Deals Section --}}
         <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
         <section class="hot-deals container">
             <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">
                 Hot Deals
             </h2>
-            {{-- <div class="row">
-                <div class="col-md-6 col-lg-4 col-xl-20per d-flex align-items-center flex-column justify-content-center py-4 align-items-md-start">
-                    <h2>Summer Sale</h2>
-                    <h2 class="fw-bold">Up to 60% Off</h2>
-                    <div class="position-relative d-flex align-items-center text-center pt-xxl-4 js-countdown mb-3" data-date="18-3-2024" data-time="06:50">
-                        <div class="day countdown-unit">
-                            <span class="countdown-num d-block"></span>
-                            <span class="countdown-word text-uppercase text-secondary">Days</span>
-                        </div>
-                        <div class="hour countdown-unit">
-                            <span class="countdown-num d-block"></span>
-                            <span class="countdown-word text-uppercase text-secondary">Hours</span>
-                        </div>
-                        <div class="min countdown-unit">
-                            <span class="countdown-num d-block"></span>
-                            <span class="countdown-word text-uppercase text-secondary">Mins</span>
-                        </div>
-                        <div class="sec countdown-unit">
-                            <span class="countdown-num d-block"></span>
-                            <span class="countdown-word text-uppercase text-secondary">Sec</span>
-                        </div>
-                    </div>
-                    <a href="{{route('shop.index')}}" class="btn-link default-underline text-uppercase fw-medium mt-3">View All</a>
-                </div> --}}
                 <div class="col-md-6 col-lg-8 col-xl-80per">
                     <div class="position-relative">
                         <div class="swiper-container js-swiper-slider" data-settings='{
@@ -202,43 +184,16 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <!-- /.swiper-wrapper -->
+                            
                         </div>
-                        <!-- /.swiper-container js-swiper-slider -->
+                        
                     </div>
-                    <!-- /.position-relative -->
+                    
                 </div>
             </div>
         </section>
-        {{-- <div class="mb-3 mb-xl-5 pt-1 pb-4"></div> --}}
-        {{-- <section class="category-banner container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="category-banner__item border-radius-10 mb-5">
-                        <img loading="lazy" class="h-auto" src="{{asset('assets/images/home/demo3/category_9.jpg') }}" width="690" height="665" alt="" />
-                        <div class="category-banner__item-mark">
-                            Starting at $19
-                        </div>
-                        <div class="category-banner__item-content">
-                            <h3 class="mb-0">Blazers</h3>
-                            <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="category-banner__item border-radius-10 mb-5">
-                        <img loading="lazy" class="h-auto" src="{{asset('assets/images/home/demo3/category_10.jpg') }}" width="690" height="665" alt="" />
-                        <div class="category-banner__item-mark">
-                            Starting at $19
-                        </div>
-                        <div class="category-banner__item-content">
-                            <h3 class="mb-0">Sportswear</h3>
-                            <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
+
+        {{-- Featured Product Section --}}
         <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
         <section class="products-grid container">
             <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">
@@ -271,7 +226,7 @@
                 </div>
                 @endforeach
             </div>
-            <!-- /.row -->
+
             <div class="text-center mt-2">
                 <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="{{route('shop.index')}}">Show All</a>
             </div>

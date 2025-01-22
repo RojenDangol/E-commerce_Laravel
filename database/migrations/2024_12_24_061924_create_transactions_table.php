@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('order_id')->unsigned();
-            $table->enum('mode',['cod','card','paypal']);
+            $table->enum('mode',['cod','card','khalti']);
             $table->enum('status',['pending','approved','declined','refunded'])->default('pending');
 
             $table->timestamps();

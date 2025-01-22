@@ -173,7 +173,7 @@
           <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
             <a href="{{route('home.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
             <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-            <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+            <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s text-uppercase fw-medium">Shop</a>
           </div>
 
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1" >
@@ -267,7 +267,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                    <p class="pc__category">Dresses</p>
+                    <p class="pc__category">{{$product->category->name}}</p>
                     <h6 class="pc__title"><a href="{{route('shop.product.details',['product_slug'=>$product->slug])}}">{{$product->name}}</a></h6>
                     <div class="product-card__price d-flex">
                     <span class="money price">

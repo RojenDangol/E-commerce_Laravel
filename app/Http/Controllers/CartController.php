@@ -196,8 +196,13 @@ class CartController extends Controller
         if($request->mode == "card"){
             //
         }
-        else if($request->mode == "paypal"){
-            //
+        else if($request->mode == "khalti"){
+            $transaction = new Transaction();
+            $transaction->user_id = $user_id;
+            $transaction->order_id = $order->id;
+            $transaction->mode = $request->mode;
+            $transaction->status = 'pending';
+            $transaction->save();
         }
         else if($request->mode == "cod"){
             $transaction = new Transaction();

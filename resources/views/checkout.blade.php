@@ -224,13 +224,6 @@
               <div class="checkout__payment-methods">
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="mode"
-                    id="mode1" value="card">
-                  <label class="form-check-label" for="mode1">
-                    Debit or Credit card
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="mode"
                     id="mode2" value="cod">
                   <label class="form-check-label" for="mode2">
                     Cash on delivery
@@ -238,15 +231,13 @@
                 </div>
                 <div class="form-check">
                   <input class="form-check-input form-check-input_fill" type="radio" name="mode"
-                    id="mode3" value="paypal">
+                    id="mode3" value="khalti">
                   <label class="form-check-label" for="mode3">
                     Khalti
                   </label>
                 </div>
                 <div class="policy-text">
-                  Your personal data will be used to process your order, support your experience throughout this
-                  website, and for other purposes described in our <a href="terms.html" target="_blank">privacy
-                    policy</a>.
+                  Your personal data will be used to process your order, support your experience throughout this website, and for privacy policy</a>.
                 </div>
               </div>
               <input type="hidden" name="product_ids" value="{{ $product_ids_string }}">
