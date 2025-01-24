@@ -237,7 +237,7 @@
             <div class="container">
                 <form action="#" method="GET" class="search-field position-relative mt-4 mb-3">
                     <div class="position-relative">
-                        <input class="search-field__input w-100 border rounded-1" type="text" name="search-keyword" placeholder="Search products" />
+                        <input class="search-field__input w-100 border rounded-1" type="text" name="searchItem" placeholder="Search products" />
                         <button class="btn-icon search-popup__submit pb-0 me-2" type="submit">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_search" />
@@ -356,13 +356,13 @@
                             </a>
                         </div>
                         <div class="search-popup js-hidden-content">
-                            <form action="{{route('home.search')}}" method="GET" class="search-field container">
+                            <form action="{{route('home.search.items')}}" method="GET" class="search-field container">
                                 @csrf
                                 <p class="text-uppercase text-secondary fw-medium mb-4">
                                     What are you looking for?
                                 </p>
                                 <div class="position-relative">
-                                    <input class="search-field__input search-popup__input w-100 fw-medium" type="text" name="search-keyword" id="search-input" placeholder="Search products" />
+                                    <input class="search-field__input search-popup__input w-100 fw-medium" type="text" name="searchItem" id="search-input" placeholder="Search products" />
                                     <button class="btn-icon search-popup__submit" type="submit">
                                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <use href="#icon_search" />

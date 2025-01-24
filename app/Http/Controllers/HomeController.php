@@ -51,6 +51,13 @@ class HomeController extends Controller
         $query = $request->input('query');
         $results = Product::where('name','LIKE',"%{$query}%")->get()->take(8);
         return response()->json($results);
+
+    }
+    public function search_items(Request $request){
+        $query = $request->searchItem;
+        $results = Product::where('name','LIKE',"%{$query}%")->paginate(12);
+        return view('search-shop',compact('results'));
+
     }
 
 }

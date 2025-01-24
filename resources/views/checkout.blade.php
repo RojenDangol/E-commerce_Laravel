@@ -237,7 +237,7 @@
                   </label>
                 </div>
                 <div class="policy-text">
-                  Your personal data will be used to process your order, support your experience throughout this website, and for privacy policy</a>.
+                  Your personal data will be used to process your order, support your experience throughout this website, and for privacy policy.
                 </div>
               </div>
               <input type="hidden" name="product_ids" value="{{ $product_ids_string }}">

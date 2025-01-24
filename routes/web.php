@@ -9,7 +9,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WishlistController;
-
+use App\Http\Controllers\PaymentController;
 
 Auth::routes();
 
@@ -23,6 +23,7 @@ Route::post('/contact/store',[HomeController::class, 'contact_store'])->name('ho
 Route::get('/about-us',[HomeController::class, 'about'])->name('home.about');
 
 Route::get('/search',[HomeController::class, 'search'])->name('home.search');
+Route::get('/search/items',[HomeController::class, 'search_items'])->name('home.search.items');
 
 Route::controller(CartController::class)->group(function(){
     Route::get('/cart','index')->name('cart.index');
@@ -123,3 +124,8 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::get('/admin/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
 Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
 });
+
+// routes/web.php
+
+Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('/payment/verify', [PaymentController::class, 'verifyPayment'])->name('payment.verify');

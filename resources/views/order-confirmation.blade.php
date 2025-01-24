@@ -38,7 +38,9 @@
           <h3>Your order is completed!</h3>
           <p>Thank you. Your order has been received.</p>
         </div>
-        <div class="order-info">
+        <div class="row justify-content-between">
+        
+        <div class="order-info col-lg-5 ">
           <div class="order-info__item">
             <label>Order Number</label>
             <span>{{$order->id}}</span>
@@ -52,11 +54,11 @@
             <span>Rs.{{$order->total}}</span>
           </div>
           <div class="order-info__item">
-            <label>Paymetn Method</label>
+            <label>Payment Method</label>
             <span>{{$order->transaction->mode}}</span>
           </div>
         </div>
-        <div class="checkout__totals-wrapper">
+        <div class="checkout__totals-wrapper col-lg-5">
           <div class="checkout__totals">
             <h3>Order Details</h3>
             <table class="checkout-cart-items">
@@ -105,6 +107,7 @@
             </table>
           </div>
         </div>
+      </div>
       </div>
     </section>
 </main>    
