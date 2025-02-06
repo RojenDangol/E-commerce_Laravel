@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="surfside media" />
+    <meta name="author" content="ethereal ensemble" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/animation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
@@ -196,7 +196,7 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.orders')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-image"></i>
+                                            <i class="icon-grid"></i>
                                         </div>
                                         <div class="text">Orders</div>
                                     </a>

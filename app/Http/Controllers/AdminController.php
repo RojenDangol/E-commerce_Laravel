@@ -439,7 +439,7 @@ class AdminController extends Controller
     }
 
 
-    // coupon section
+// coupon section
     public function coupons(){
         $coupons = Coupon::orderBy('expiry_date','DESC')->paginate(12);
         $results = null;
@@ -896,5 +896,5 @@ class AdminController extends Controller
 
         return back()->with('success', 'Repeater data saved successfully!');
     }
-
+    
 }

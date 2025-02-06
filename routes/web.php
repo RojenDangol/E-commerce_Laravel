@@ -122,7 +122,7 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
 
 
     Route::get('/admin/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
-Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
+    Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
 });
 
 // routes/web.php

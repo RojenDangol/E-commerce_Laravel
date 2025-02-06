@@ -42,7 +42,7 @@
                                 <p>{{$address->landmark}}</p>
                                 <p>{{$address->city}}, {{$address->state}}</p>
                                 <p>{{$address->country}}</p>
-                                <p>{{$address->zip}}</p>
+                                {{-- <p>{{$address->zip}}</p> --}}
                                 <br />
                                 <p>Mobile : {{$address->phone}}</p>
                             </div>
