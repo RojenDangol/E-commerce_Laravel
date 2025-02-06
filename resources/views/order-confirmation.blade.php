@@ -72,7 +72,8 @@
                 @foreach ($order->orderItems as $item)                              
                 <tr>
                   <td>
-                    {{$item->product->name}} x {{$item->quantity}}
+                    {{$item->product->name}} x {{$item->quantity}} <br>
+                    Size: {{$item->size}}
                   </td>
                   <td class="text-right">
                     Rs.{{$item->price}}

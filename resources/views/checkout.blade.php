@@ -158,15 +158,27 @@
                             
                             $product_id = $product_id ?? [];
                             $product_id[] = $item->id; 
+                            
                             $product_ids_string = implode(',', $product_id);
+
+                            $selectedSizes = $selectedSizes ?? [];
+                            // $sizes_ids_string = implode(',', $selectedSizes);
+                            
+                            $isSelected = in_array($item->id, array_keys($selectedSizes));
                         @endphp
-                        {{$item->name}} x {{$item->qty}}
+                        {{$item->name}} x {{$item->qty}} <br>
+                        @if ($isSelected)
+                        <span>Size Selected: {{ $selectedSizes[$item->id] }}</span>
+                    @else
+                        <span>No size selected</span>
+                    @endif
                       </td>
                       <td class="text-right">
                         Rs.{{$item->subtotal()}}
                       </td>
                     </tr>
                     @endforeach
+                    {{-- @dd($selectedSizes); --}}
                   </tbody>
                 </table>
                 @if (Session::has('discounts'))
@@ -188,10 +200,10 @@
                             <th>Shipping</th>
                             <td class="text-right">Free</td>
                           </tr>
-                          <tr>
+                          {{-- <tr>
                             <th>VAT</th>
                             <td class="text-right">Rs.{{Session::get('discounts')['tax']}}</td>
-                          </tr>
+                          </tr> --}}
                           <tr>
                             <th>Total</th>
                             <td class="text-right">Rs.{{Session::get('discounts')['total']}}</td>
@@ -209,10 +221,10 @@
                       <th>SHIPPING</th>
                       <td class="text-right">Free shipping</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                       <th>VAT</th>
                       <td class="text-right">Rs.{{Cart::instance('cart')->tax()}}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                       <th>TOTAL</th>
                       <td class="text-right">Rs.{{Cart::instance('cart')->total()}}</td>
@@ -223,8 +235,8 @@
               </div>
               <div class="checkout__payment-methods">
                 <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="mode"
-                    id="mode2" value="cod">
+                  <input class="form-check-input form-check-input_fill " type="radio" name="mode"
+                    id="mode2" value="cod" checked>
                   <label class="form-check-label" for="mode2">
                     Cash on delivery
                   </label>
@@ -240,7 +252,9 @@
                   Your personal data will be used to process your order, support your experience throughout this website, and for privacy policy.
                 </div>
               </div>
+              {{-- @dd($selectedSizes) --}}
               <input type="hidden" name="product_ids" value="{{ $product_ids_string }}">
+              <input type="hidden" name="product_sizes" value="{{ json_encode($selectedSizes) }}">
               <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </div>
           </div>

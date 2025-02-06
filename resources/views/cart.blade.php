@@ -50,7 +50,16 @@
               </tr>
             </thead>
             <tbody>
-                @foreach ($items as $item)      
+              {{-- @dd($items) --}}
+              @foreach ($items as $item)  
+                @php
+                  $product = \App\Models\Product::where('id',$item->id)->first();
+                  $product_qty = $product->quantity;
+                  if($item->qty > $product_qty){
+                    $item->qty = $product_qty;
+                  }
+                @endphp  
+
                 <tr>
                     <td>
                     <div class="shopping-cart__product-item">
@@ -58,31 +67,51 @@
                     </div>
                     </td>
                     <td>
+                    
                     <div class="shopping-cart__product-item__detail">
-                        <h4>{{$item->name}}</h4>
-                        <ul class="shopping-cart__product-item__options">
-                        <li>Color: Yellow</li>
-                        <li>Size: L</li>
-                        </ul>
+                      <h4>{{$item->name}}</h4>
+                      <ul class="shopping-cart__product-item__options">
+                        <div class="meta-item">
+                          <label>Sizes:</label>
+                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="S">
+                          <label class="form-check-label" for="size1">S</label>
+                    
+                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="M">
+                          <label class="form-check-label" for="size2">M</label>
+                    
+                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="L">
+                          <label class="form-check-label" for="size3">L</label>
+
+                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="XL">
+                          <label class="form-check-label" for="size4">XL</label>
+                        </div>
+                      </ul>
                     </div>
+        
                     </td>
                     <td>
                     <span class="shopping-cart__product-price">Rs.{{$item->price}}</span>
                     </td>
                     <td>
                     <div class="qty-control position-relative">
-                          <input type="number" name="quantity" value="{{$item->qty}}" min="1" class="qty-control__number text-center">
+                          <input type="number" name="quantity" value="{{$item->qty}}" min="1" class="qty-control__number text-center" readonly>
                           <form action="{{route('card.qty.decrease',['rowId'=>$item->rowId])}}" method="POST">
                               @csrf
                               @method('PUT')
                               <div class="qty-control__reduce">-</div>
                           </form>
 
-                          <form action="{{route('card.qty.increase',['rowId'=>$item->rowId])}}" method="POST">
-                              @csrf
-                              @method('PUT')
-                              <div class="qty-control__increase">+</div>
-                          </form>
+                          @if ($product_qty > $item->qty)
+                            <form action="{{route('card.qty.increase',['rowId'=>$item->rowId])}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="qty-control__increase">+</div>
+                            </form>                             
+                         @endif                         
                     </div>
                     </td>
                     <td>
@@ -93,24 +122,21 @@
                         <a href="javascript:void(0)" class="remove-cart">
                             @csrf
                             @method('DELETE')
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                            </svg>
+                            X
                         </a>
                     </form>
                     </td>
                 </tr>
-                @endforeach
+              @endforeach
             </tbody>
           </table>
           <div class="cart-table-footer">
             @if (!Session::has('coupon'))
               <form action="{{route('cart.coupon.apply')}}" class="position-relative bg-body" method="POST">
                 @csrf
-                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code" value="">
+                <input class="form-control" type="text" name="coupon_code" placeholder="Promo Code" value="">
                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                  value="APPLY COUPON">
+                  value="APPLY PROMO CODE">
               </form> 
             @else           
               <form action="{{route('cart.coupon.remove')}}" class="position-relative bg-body" method="POST">
@@ -118,7 +144,7 @@
                 @method('DELETE')
                 <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code" value="@if(Session::has('coupon')) {{Session::get('coupon')['code']}} Applied! @endif">
                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                  value="REMOVE COUPON">
+                  value="REMOVE PROMO CODE">
               </form> 
             @endif
 
@@ -160,10 +186,10 @@
                     <th>Shipping</th>
                     <td>Free</td>
                   </tr>
-                  <tr>
+                  {{-- <tr>
                     <th>VAT</th>
                     <td>Rs.{{Session::get('discounts')['tax']}}</td>
-                  </tr>
+                  </tr> --}}
                   <tr>
                     <th>Total</th>
                     <td>Rs.{{Session::get('discounts')['total']}}</td>
@@ -181,10 +207,10 @@
                     <th>Shipping</th>
                     <td>Free</td>
                   </tr>
-                  <tr>
+                  {{-- <tr>
                     <th>VAT</th>
                     <td>Rs.{{Cart::instance('cart')->tax()}}</td>
-                  </tr>
+                  </tr> --}}
                   <tr>
                     <th>Total</th>
                     <td>Rs.{{Cart::instance('cart')->total()}}</td>
@@ -194,9 +220,24 @@
               @endif
             </div>
             <div class="mobile_fixed-btn_wrapper">
-              <div class="button-wrapper container">
+              {{-- <div class="button-wrapper container">
                 <a href="{{route('cart.checkout')}}" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
-              </div>
+              </div> --}}
+              {{-- <form name="checkout-form" action="{{route('cart.checkout')}}" method="POST">
+                @csrf
+                <input type="hidden" name="size" value="s">
+                <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+              </form> --}}
+              
+
+              <form name="checkout-form" action="{{ route('cart.checkout') }}" method="POST">
+                @csrf
+                <div id="selected-sizes-container"></div> <!-- Container for dynamic inputs -->
+                <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+            </form>
+            
+              
+
             </div>
           </div>
         </div>
@@ -227,6 +268,36 @@
             $(".remove-cart").on("click",function(){
                 $(this).closest('form').submit();
             })
-        });
+        });       
+      
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sizeSelectors = document.querySelectorAll(".size-selector");
+        const container = document.getElementById("selected-sizes-container");
+    
+        sizeSelectors.forEach(radio => {
+          radio.addEventListener("change", function () {
+            const itemId = this.getAttribute("data-id");
+            const selectedSize = this.value;
+    
+            // Check if hidden input for this item already exists
+            let existingInput = document.querySelector(`input[name="sizes[${itemId}]"]`);
+    
+            if (existingInput) {
+              // Update existing hidden input
+              existingInput.value = selectedSize;
+            } else {
+              // Create a new hidden input field for this item
+              const sizeInput = document.createElement("input");
+              sizeInput.type = "hidden";
+              sizeInput.name = `sizes[${itemId}]`; // Array format (sizes[item_id] = size)
+              sizeInput.value = selectedSize;
+              container.appendChild(sizeInput);
+            }
+          });
+        });
+      });
+    </script>
+    
 @endpush

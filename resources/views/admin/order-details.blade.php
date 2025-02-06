@@ -42,10 +42,10 @@
                     <tr>
                         <th>Order No</th>
                         <td>{{$order->id}}</td>
+                        <th>Name</th>
+                        <td>{{$order->name}}</td>
                         <th>Mobile No</th>
                         <td>{{$order->phone}}</td>
-                        <th>Zip Code</th>
-                        <td>{{$order->zip}}</td>
                     </tr>
                     <tr>
                         <th>Order Date</th>
@@ -89,7 +89,7 @@
                             <th class="text-center">Wardrobe</th>
                             <th class="text-center">Category</th>
                             <th class="text-center">Brand</th>
-                            <th class="text-center">Options</th>
+                            <th class="text-center">Size</th>
                             <th class="text-center">Return Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -112,7 +112,7 @@
                             <td class="text-center">{{$item->product->wardrobe}}</td>
                             <td class="text-center">{{$item->product->category->name}}</td>
                             <td class="text-center">{{$item->product->brand->name}}</td>
-                            <td class="text-center">{{$item->options}}</td>
+                            <td class="text-center">{{$item->size}}</td>
                             <td class="text-center">{{$item->rstatus == 0?'No':'Yes'}}</td>
                             <td class="text-center">
                                 <div class="list-icon-function view-icon">
@@ -142,7 +142,7 @@
                     <p>Locality: {{$order->locality}}</p>
                     <p>City: {{$order->city}}, {{$order->country}}</p>
                     <p>Landmark: {{$order->landmark}}</p>
-                    <p>Zip: {{$order->zip}}</p>
+                    {{-- <p>Zip: {{$order->zip}}</p> --}}
                     <br>
                     <p>Mobile : {{$order->phone}}</p>
                 </div>

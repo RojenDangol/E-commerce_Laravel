@@ -123,7 +123,7 @@
             <h2 class="section-title text-center mb-3 pb-xl-3 mb-xl-4">
                 Hot Deals
             </h2>
-                <div class="col-md-6 col-lg-8 col-xl-80per">
+                <div class="col-md-6 col-lg-12">
                     <div class="position-relative">
                         <div class="swiper-container js-swiper-slider" data-settings='{
                             "autoplay": {
@@ -151,7 +151,7 @@
                                 "pagination": false
                                 },
                                 "1200": {
-                                "slidesPerView": 4,
+                                "slidesPerView": 5,
                                 "slidesPerGroup": 1,
                                 "spaceBetween": 30,
                                 "pagination": false

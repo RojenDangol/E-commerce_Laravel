@@ -62,7 +62,6 @@ class CartController extends Controller
                 return redirect()->back()->with('error','Invalid coupon code!');
             }
             else{
-                // dd('jelel');
                 Session::put('coupon',[
                     'code'=>$coupon->code,
                     'type'=>$coupon->type,
@@ -118,12 +117,18 @@ class CartController extends Controller
         return back()->with('success','Coupon has benn removed!');
     }
 
-    public function checkout(){
+    public function checkout(Request $request){
         if(!Auth::check()){
             return redirect()->route('login');
         }
+        $selectedSizes = $request->input('sizes', []);
+
+        // Log the selected sizes for debugging
+        \Log::info('Selected Sizes:', $selectedSizes);
+
+        // dd($selectedSizes);
         $address = Address::where('user_id',Auth::user()->id)->where('isdefault',1)->first();
-        return view('checkout',compact('address'));
+        return view('checkout',compact('address','selectedSizes'));
     }
 
     public function place_an_order(Request $request){
@@ -176,18 +181,30 @@ class CartController extends Controller
 
        
         $productIds = explode(',', $request->product_ids);
+
+        $productSizes = json_decode($request->input('product_sizes'), true);
+        // dd($productSizes);
         foreach(Cart::instance('cart')->content() as $item){
             $orderItem = new OrderItem();
             $orderItem->product_id = $item->id;
             $orderItem->order_id = $order->id;
             $orderItem->price = $item->price;
             $orderItem->quantity = $item->qty;
+
+            if (isset($productSizes[$item->id])) {
+                // dd($productSizes[$item->id]);
+                $orderItem->size = $productSizes[$item->id];  
+            }
+
             $orderItem->save();
 
             if(in_array($item->id,$productIds)){
                 $product = Product::find($item->id);
                 if ($product) {
                     $product->quantity -= $item->qty; 
+                    if($product->quantity == 0){
+                        $product->stock_status = 'outofstock';
+                    }
                     $product->save(); 
                 }
             }
