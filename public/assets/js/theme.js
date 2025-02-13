@@ -15,6 +15,92 @@ let UomoSelectors = {
   starRatingControl: '.star-rating .star-rating__star-icon',
 }
 
+// Initialize Hero Swiper
+var heroSwiper = new Swiper('.hero-swiper', {
+  loop: true,
+  autoplay: {
+    delay: 3000, // 3 seconds
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  // Other configurations specific to your hero swiper
+});
+
+// Popular- Autoplay Swiper (Continuous)
+var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 5,
+  spaceBetween: 30,
+  loop: true,
+  allowTouchMove: false, // Disable manual swiping for continuous flow
+  speed: 1000,           // Adjust speed for smoothness (higher = slower)
+  autoplay: {
+    delay: 0,            // No delay between slides for continuous movement
+    disableOnInteraction: false,
+  },
+  breakpoints: {
+    320: {               // For small devices (phones)
+      slidesPerView: 1.5,
+      spaceBetween: 10,
+    },
+    480: {               // Slightly larger phones
+      slidesPerView: 2,
+      spaceBetween: 15,
+    },
+    768: {               // Tablets
+      slidesPerView: 3,
+      spaceBetween: 20,
+    },
+    1024: {              // Laptops/desktops
+      slidesPerView: 4,
+      spaceBetween: 25,
+    },
+    1280: {              // Large screens
+      slidesPerView: 5,
+      spaceBetween: 30,
+    },
+  }
+});
+
+// Featured- Manual Swipe Swiper (User-Controlled)
+var swiperManual = new Swiper(".mySwiper-manual", {
+  slidesPerView: 4.5,
+  spaceBetween: 30,
+  loop: true,
+  allowTouchMove: true,    // Enable manual swiping
+  speed: 500,              // Faster response to swipe gestures
+  autoplay: false,         // No autoplay
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  breakpoints: {
+    320: {                 // Phones
+      slidesPerView: 1.2,
+      spaceBetween: 10,
+    },
+    480: {                 // Small phones
+      slidesPerView: 1.8,
+      spaceBetween: 15,
+    },
+    768: {                 // Tablets
+      slidesPerView: 2.5,
+      spaceBetween: 20,
+    },
+    1024: {                // Laptops
+      slidesPerView: 3.5,
+      spaceBetween: 25,
+    },
+    1280: {                // Large screens
+      slidesPerView: 4.5,
+      spaceBetween: 30,
+    },
+  }
+});
+
+
 // Utility functions
 let UomoHelpers = {
   isMobile: false,

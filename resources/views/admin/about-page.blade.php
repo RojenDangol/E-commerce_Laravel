@@ -5,7 +5,7 @@
     <!-- main-content-wrap -->
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Edit Slide</h3>
+            <h3>Edit About Page</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="{{route('admin.index')}}">
@@ -132,8 +132,10 @@
                 @enderror
 
                 <fieldset class="name">
-                    <div class="body-title">Description <span class="tf-color-1">*</span></div>
-                    <textarea class="flex-grow" placeholder="Description" name="intro" tabindex="0" value="" aria-required="true" required="">{{$about->intro}}</textarea>
+                    <div class="body-title">Phone Number <span class="tf-color-1">*</span></div>
+                    <input class="mb-10" type="text" placeholder="Phone Number"
+                        name="intro" tabindex="0" value="{{$about->intro}}" aria-required="true" required="">
+                    {{-- <textarea class="flex-grow" placeholder="Description" name="intro" tabindex="0" value="" aria-required="true" required="">{{$about->intro}}</textarea> --}}
                 </fieldset>
                 @error('intro')
                     <span class="alert alert-danger text-center">{{$message}}</span>
@@ -156,7 +158,7 @@
                 @enderror
 
                 <fieldset class="name">
-                    <div class="body-title">About Company <span class="tf-color-1">*</span></div>
+                    <div class="body-title">Objective <span class="tf-color-1">*</span></div>
                     <textarea class="flex-grow" placeholder="About Company" name="company" tabindex="0" value="" aria-required="true" required="">{{$about->company}}</textarea>
                 </fieldset>
                 @error('company')
@@ -165,7 +167,7 @@
 
 
                 <fieldset>
-                    <div class="body-title">Cover images <span class="tf-color-1">*</span>
+                    <div class="body-title">Image 1 <span class="tf-color-1">*</span>
                     </div>
                     <div class="upload-image flex-grow">
                         @if ($about->cover_image) 
@@ -187,7 +189,7 @@
                 </fieldset>
 
                 <fieldset>
-                    <div class="body-title">Company images <span class="tf-color-1">*</span>
+                    <div class="body-title">Image 2 <span class="tf-color-1">*</span>
                     </div>
                     <div class="upload-image flex-grow">
                         @if ($about->company_image) 

@@ -576,8 +576,8 @@ class AdminController extends Controller
     public function GenerateSlideThumbnailsImage($image, $imageName){
         $destinationPath = public_path('uploads/slides');
         $img = Image::read($image->path()); 
-        $img->cover(400,690,"top"); //height, width, position
-        $img->resize(400,690,function($constraint){
+        $img->cover(1440,660,"top"); //height, width, position
+        $img->resize(1440,660,function($constraint){
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
     }
@@ -791,7 +791,7 @@ class AdminController extends Controller
             $company_image = $request->file('company_image');
             $file_extension1 = $request->file('company_image')->extension();
             $file_name1 = Carbon::now()->timestamp . '_company.' . $file_extension1;
-            $this->GenerateAboutThumbnailsImage($company_image,$file_name1);
+            $this->GenerateAboutCoverThumbnailsImage($company_image,$file_name1);
             $about->company_image = $file_name1;
         }
         // dd($about->cover_image);
@@ -839,7 +839,7 @@ class AdminController extends Controller
             }
             $image1 = $request->file('company_image');
             $imageName1 = $current_timestamp.'_company.'.$image1->extension();
-            $this->GenerateAboutThumbnailsImage($image1,$imageName1);
+            $this->GenerateAboutCoverThumbnailsImage($image1,$imageName1);
             $about->company_image = $imageName1;
         }
         $about->save();
@@ -850,20 +850,20 @@ class AdminController extends Controller
     public function GenerateAboutCoverThumbnailsImage($image, $imageName){
         $destinationPath = public_path('uploads/about');
         $img = Image::read($image->path()); 
-        $img->cover(1410,550,"top"); //width, height, position
-        $img->resize(1410,550,function($constraint){
+        $img->cover(290,290,"top"); //width, height, position
+        $img->resize(290,290,function($constraint){
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
     }
 
-    public function GenerateAboutThumbnailsImage($image, $imageName){
-        $destinationPath = public_path('uploads/about');
-        $img = Image::read($image->path()); 
-        $img->cover(500,450,"top"); //width, height, position
-        $img->resize(500,450,function($constraint){
-            $constraint->aspectRatio();
-        })->save($destinationPath.'/'.$imageName);
-    }
+    // public function GenerateAboutThumbnailsImage($image, $imageName){
+    //     $destinationPath = public_path('uploads/about');
+    //     $img = Image::read($image->path()); 
+    //     $img->cover(500,450,"top"); //width, height, position
+    //     $img->resize(500,450,function($constraint){
+    //         $constraint->aspectRatio();
+    //     })->save($destinationPath.'/'.$imageName);
+    // }
 
 // demo
     public function showForm(){

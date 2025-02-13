@@ -126,10 +126,10 @@
                             <tr>
                                 <th>Order No</th>
                                 <td>{{$order->id}}</td>
+                                <th>Name</th>
+                                <td>{{$order->name}}</td>
                                 <th>Mobile No</th>
                                 <td>{{$order->phone}}</td>
-                                <th>Zip Code</th>
-                                <td>{{$order->zip}}</td>
                             </tr>
                             <tr>
                                 <th >Order Date</th>
