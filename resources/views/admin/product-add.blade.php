@@ -49,8 +49,6 @@
                         <div class="body-title mb-10">Slug <span class="tf-color-1">*</span></div>
                         <input class="mb-10" type="text" placeholder="Enter product slug"
                             name="slug" tabindex="0" value="{{old('slug')}}" aria-required="true" required="">
-                        {{-- <div class="text-tiny">Do not exceed 100 characters when entering the
-                            product slug.</div> --}}
                     </fieldset>
                     @error('slug')
                         <span class="alert alert-danger text-center">{{$message}}</span>
@@ -235,6 +233,20 @@
                     @error('stock_status')
                         <span class="alert alert-danger text-center">{{$message}}</span>
                     @enderror
+                    
+                    <fieldset class="name">
+                        <div class="body-title mb-10">Available Sizes</div>
+                        <div class="mb-10">
+                                    <label><input type="checkbox" name="sizes[]" value="S"> Small (S)</label>
+                                    <label><input type="checkbox" name="sizes[]" value="M"> Medium (M)</label>
+                                    <label><input type="checkbox" name="sizes[]" value="L"> Large (L)</label>
+                                    <label><input type="checkbox" name="sizes[]" value="XL"> Extra Large (XL)</label>
+                        </div>
+                    </fieldset>
+                    @error('sizes')
+                        <span class="alert alert-danger text-center">{{$message}}</span>
+                    @enderror
+                    
                     <fieldset class="name">
                         <div class="body-title mb-10">Featured</div>
                         <div class="select mb-10">

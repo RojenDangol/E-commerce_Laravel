@@ -54,8 +54,6 @@ class CartController extends Controller
     public function apply_coupon_code(Request $request){
         $coupon_code = $request->coupon_code;
         if(isset($coupon_code)){
-            // dd(Cart::instance('cart')->subtotal());
-            // dd(Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','<=',Cart::instance('cart')->subtotal())->exists());
             $coupon = Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','<=',Cart::instance('cart')->subtotal())->first();
             // $coupon= TRUE;
             if(!$coupon){

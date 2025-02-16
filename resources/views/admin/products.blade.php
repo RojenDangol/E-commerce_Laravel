@@ -53,6 +53,7 @@
                             <th>Featured</th>
                             <th>Stock</th>
                             <th>Quantity</th>
+                            <th>Sizes</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -78,6 +79,15 @@
                             <td>{{$product->featured == 0?"No":"Yes"}}</td>
                             <td>{{$product->stock_status}}</td>
                             <td>{{$product->quantity}}</td>
+                            @php
+                                $productMeta = App\Models\ProductMeta::where('product_id', $product->id)->where('key', 'sizes')->first();
+                                if ($productMeta) {
+                                    $sizes = explode(',', $productMeta->value);  
+                                } else {
+                                    $sizes = [];
+                                }
+                            @endphp
+                            <td>{{ implode(', ', $sizes) }}</td>
                             <td>
                                 <div class="list-icon-function">
                                     <a href="{{route('admin.product.edit',['id'=>$product->id])}}">

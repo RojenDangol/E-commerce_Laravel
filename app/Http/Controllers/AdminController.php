@@ -12,6 +12,7 @@ use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderItem;
+use App\Models\ProductMeta;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
 use App\Models\RepeaterItem;
@@ -256,6 +257,8 @@ class AdminController extends Controller
             'image' => 'required|mimes:png,jpg,jpeg,svg|max:2048',
             'category_id' => 'required',
             'brand_id' => 'required',
+            'sizes' => 'required|array',
+            'sizes.*' => 'in:S,M,L,XL',
         ]);
 
         $product = new Product();
@@ -306,6 +309,10 @@ class AdminController extends Controller
         $product->images = $gallery_images;
         $product->save();
 
+        if ($request->has('sizes')) {
+            $product->setMetaValue('sizes', $request->sizes);
+        }
+
         return redirect()->route('admin.products')->with('status','Product has been added successfully!');
     }
 
@@ -328,7 +335,13 @@ class AdminController extends Controller
         $product = Product::find($id);
         $categories = Category::select('id','name')->orderBy('name')->get();
         $brands = Brand::select('id','name')->orderBy('name')->get();
-        return view('admin.product-edit',compact('product','categories','brands'));
+        $sizesMeta = ProductMeta::where('product_id', $id)
+                            ->where('key', 'sizes')  // Filter for the 'sizes' meta key
+                            ->first();
+        
+        $sizes = $sizesMeta ? explode(',',$sizesMeta->value) : [];
+        // dd($sizes);
+        return view('admin.product-edit',compact('product','categories','brands','sizes'));
     }
 
     public function product_update(Request $request){
@@ -413,6 +426,28 @@ class AdminController extends Controller
 
         }
         $product->save();
+
+        $sizes = $request->sizes ? implode(',', $request->sizes) : ''; // Convert array of sizes to a comma-separated string
+
+        // Check if sizes metadata already exists
+
+        $productId = $request->id;
+        $productMeta = ProductMeta::where('product_id', $productId)
+                                ->where('key', 'sizes')
+                                ->first();
+
+        if ($productMeta) {
+            // If sizes metadata already exists, update the value
+            $productMeta->value = $sizes;
+            $productMeta->save();
+        } else {
+            // If sizes metadata does not exist, create a new record
+            ProductMeta::create([
+                'product_id' => $productId,
+                'key' => 'sizes',
+                'value' => $sizes,
+            ]);
+        }
 
         return redirect()->route('admin.products')->with('status','Product has been updated successfully!');
     }

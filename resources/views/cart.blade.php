@@ -72,22 +72,26 @@
                       <h4>{{$item->name}}</h4>
                       <ul class="shopping-cart__product-item__options">
                         <div class="meta-item">
+                          @php
+                            $productMeta = App\Models\ProductMeta::where('product_id', $item->id)->where('key', 'sizes')->first();
+                            if ($productMeta) {
+                                $sizes = explode(',', $productMeta->value);  
+                            } else {
+                                $sizes = [];
+                            }
+                            $count = 1;
+                          @endphp
                           <label>Sizes:</label>
+                          @forelse ($sizes as $size)
                           <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="S" checked>
-                          <label class="form-check-label" for="size1">S</label>
-                    
-                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="M">
-                          <label class="form-check-label" for="size2">M</label>
-                    
-                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="L">
-                          <label class="form-check-label" for="size3">L</label>
-
-                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="XL">
-                          <label class="form-check-label" for="size4">XL</label>
+                          name="size_{{$item->id}}" data-id="{{$item->id}}" value="{{$size}}" >            
+                          <label class="form-check-label" for="size1">{{$size}}</label>
+                          @php
+                            $count++;
+                          @endphp
+                          @empty
+                              <p>No Sizes Available.</p>
+                          @endforelse
                         </div>
                       </ul>
                     </div>
@@ -222,7 +226,7 @@
             <div class="mobile_fixed-btn_wrapper">
               <form name="checkout-form" action="{{ route('cart.checkout') }}" method="POST">
                 @csrf
-                <div id="selected-sizes-container"></div> <
+                <div id="selected-sizes-container"></div> 
                 <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </form>
             
@@ -261,7 +265,8 @@
         });       
       
     </script>
-    <script>
+    $
+    {{-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         const sizeSelectors = document.querySelectorAll(".size-selector");
         const container = document.getElementById("selected-sizes-container");
@@ -288,6 +293,57 @@
           });
         });
       });
+    </script> --}}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const sizeSelectors = document.querySelectorAll(".size-selector");
+          const container = document.getElementById("selected-sizes-container");
+          const form = document.querySelector("form[name='checkout-form']"); // Assuming the form name is 'checkout-form'
+
+          // Event listener for each radio button change
+          sizeSelectors.forEach(radio => {
+              radio.addEventListener("change", function () {
+                  const itemId = this.getAttribute("data-id");
+                  const selectedSize = this.value;
+
+                  // Check if hidden input for this item already exists
+                  let existingInput = document.querySelector(`input[name="sizes[${itemId}]"]`);
+
+                  if (existingInput) {
+                      // Update existing hidden input
+                      existingInput.value = selectedSize;
+                  } else {
+                      // Create a new hidden input field for this item
+                      const sizeInput = document.createElement("input");
+                      sizeInput.type = "hidden";
+                      sizeInput.name = `sizes[${itemId}]`; // Array format (sizes[item_id] = size)
+                      sizeInput.value = selectedSize;
+                      container.appendChild(sizeInput);
+                  }
+              });
+          });
+
+          // Form validation on submit
+          form.addEventListener("submit", function (e) {
+              const itemIds = [...document.querySelectorAll(".size-selector")].map(radio => radio.getAttribute("data-id"));
+              let isValid = true;
+
+              // Check if hidden inputs for each item are present
+              itemIds.forEach(itemId => {
+                  const hiddenInput = document.querySelector(`input[name="sizes[${itemId}]"]`);
+                  if (!hiddenInput || hiddenInput.value === "") {
+                      isValid = false;
+                  }
+              });
+
+              if (!isValid) {
+                  e.preventDefault(); // Prevent form submission
+                  alert("Please select a size for all items before submitting.");
+                  window.location.reload(); 
+              }
+          });
+      });
+      
     </script>
     
 @endpush

@@ -248,6 +248,22 @@
                     @error('stock_status')
                         <span class="alert alert-danger text-center">{{$message}}</span>
                     @enderror
+
+                    <fieldset class="name">
+                        <div class="body-title mb-10">Available Sizes</div>
+                        <div class="mb-10">
+                            {{-- @dd($sizes) --}}
+                            <label><input type="checkbox" name="sizes[]" value="S" {{ in_array('S', $sizes) ? 'checked' : '' }}> Small (S)</label>
+                            <label><input type="checkbox" name="sizes[]" value="M" {{ in_array('M', $sizes) ? 'checked' : '' }}> Medium (M)</label>
+                            <label><input type="checkbox" name="sizes[]" value="L" {{ in_array('L', $sizes) ? 'checked' : '' }}> Large (L)</label>
+                            <label><input type="checkbox" name="sizes[]" value="XL" {{ in_array('XL', $sizes) ? 'checked' : '' }}> Extra Large (XL)</label>
+                        </div>
+                    </fieldset>
+                    
+                    @error('sizes')
+                        <span class="alert alert-danger text-center">{{$message}}</span>
+                    @enderror
+
                     <fieldset class="name">
                         <div class="body-title mb-10">Featured</div>
                         <div class="select mb-10">
