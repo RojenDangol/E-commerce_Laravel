@@ -119,6 +119,12 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::put('/admin/about/store',[AdminController::class, 'about_store'])->name('admin.about.store');
     Route::put('/admin/about/update',[AdminController::class, 'about_update'])->name('admin.about.update');
 
+    Route::get('/admin/contact-info',[AdminController::class, 'contact_info'])->name('admin.contact.info');
+    Route::get('/admin/contact-info/add',[AdminController::class, 'contact_info_add'])->name('admin.contact.info.add');
+    Route::post('/admin/contact-info/store',[AdminController::class, 'contact_info_store'])->name('admin.contact.info.store');
+    Route::get('/admin/contact-info/{id}/edit',[AdminController::class, 'contact_info_edit'])->name('admin.contact.info.edit');
+    Route::put('/admin/contact-info/update',[AdminController::class, 'contact_info_update'])->name('admin.contact.info.update');
+    Route::delete('/admin/contact-info/{id}/delete',[AdminController::class, 'contact_info_delete'])->name('admin.contact.info.delete');
 
 
     Route::get('/admin/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');

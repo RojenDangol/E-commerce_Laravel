@@ -45,14 +45,17 @@
             <label>Order Number</label>
             <span>{{$order->id}}</span>
           </div>
+          <hr>
           <div class="order-info__item">
             <label>Date</label>
             <span>{{$order->created_at}}</span>
           </div>
+          <hr>
           <div class="order-info__item">
             <label>Total</label>
             <span>Rs.{{$order->total}}</span>
           </div>
+          <hr>
           <div class="order-info__item">
             <label>Payment Method</label>
             <span>{{$order->transaction->mode}}</span>

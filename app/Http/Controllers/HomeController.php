@@ -8,6 +8,7 @@ use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\ContactInformation;
 
 class HomeController extends Controller
 {
@@ -16,13 +17,16 @@ class HomeController extends Controller
         $slides = Slide::where('status',1)->get()->take(3);
         $categories = Category::orderBy('name')->get();
         $sproducts = Product::whereNotNull('sale_price')->where('sale_price','<>','')->inRandomOrder()->get()->take(8);
+        $sale_products = Product::whereNotNull('sale_price')->where('sale_price','<>','')->where('featured','1')->inRandomOrder()->get()->take(6);
         $fproducts = Product::where('featured','1')->get()->take(8);
         $about = About::all()->first();
-        return view('index',compact('slides','categories','sproducts','fproducts','about'));
+        $contact_info = ContactInformation::first();
+        return view('index',compact('slides','categories','sproducts','fproducts','about','sale_products','contact_info'));
     }
 
     public function contact(){
-        return view('contact');
+        $contact_info = ContactInformation::first();
+        return view('contact', compact('contact_info'));
     }
 
     public function contact_store(Request $request){

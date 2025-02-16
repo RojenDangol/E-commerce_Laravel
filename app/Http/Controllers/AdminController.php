@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\RepeaterItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\ContactInformation;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
@@ -632,6 +633,61 @@ class AdminController extends Controller
         return redirect()->route('admin.slides')->with('status','Slide has been deleted successfully');
     }
 
+    // Contact Information
+    public function contact_info(){
+        $contact_info = ContactInformation::first();
+        return view('admin.contact-info',compact('contact_info'));
+    }
+
+    public function contact_info_add(){
+        return view('admin.contact-info-add');
+    }
+
+    public function contact_info_store(Request $request){
+        $request->validate([
+            'address' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+        ]);
+        $contact_info = new ContactInformation();
+        $contact_info->address = $request->address;
+        $contact_info->email = $request->email;
+        $contact_info->phone = $request->phone;
+
+        $contact_info->save();
+
+        return redirect()->route('admin.contact.info')->with('status','Contact Information added successfully!');
+    }
+
+    public function contact_info_edit($id){
+        $contact_info = ContactInformation::find($id);
+        return view('admin.contact-info-edit',compact('contact_info'));
+    }
+
+    public function contact_info_update(Request $request){
+        $request->validate([
+            'address' => 'required',
+            'email' => 'required',
+            'phone' => 'required'
+        ]);
+
+        $contact_info = ContactInformation::find($request->id);
+        $contact_info->address = $request->address;
+        $contact_info->email = $request->email;
+        $contact_info->phone = $request->phone;
+
+        $contact_info->save();
+
+        return redirect()->route('admin.contact.info')->with('status','Contact Information updated successfully!');
+    }
+
+    public function contact_info_delete($id){
+        $contact_info = ContactInformation::find($id);
+
+        $contact_info->delete();
+        return redirect()->route('admin.contact.info')->with('status','Contact Information has been deleted successfully');
+    }
+
     // contact section
     public function contacts(){
         $contacts = Contact::orderBy('created_at','DESC')->paginate(10);
@@ -864,6 +920,8 @@ class AdminController extends Controller
     //         $constraint->aspectRatio();
     //     })->save($destinationPath.'/'.$imageName);
     // }
+
+    
 
 // demo
     public function showForm(){

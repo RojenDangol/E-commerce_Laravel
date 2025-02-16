@@ -67,7 +67,7 @@
                                 {{$about->main_intro}}
                             </p>
                             <div class="button-wrapper">
-                                <a href="{{route('home.about')}}" class="btn btn-primary btn-checkout">READ MORE</a>
+                                <a href="{{route('home.about')}}" class="btn btn-primary btn-checkout">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -77,6 +77,60 @@
     </section>
     <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
     <!-- about-style-four end -->
+
+    {{-- Sales section start --}}
+    <section class="category-banner container">
+        <div class="row">
+            @foreach($sale_products->slice(0, 1) as $category)
+                <div class="col-md-6">
+                    <div class="category-banner__item border-radius-10 mb-5">
+                        <img loading="lazy" class="h-auto" src="{{asset('uploads/products') }}/{{$category->image}}" width="690" height="665" alt="{{ $category->name }}" />
+                        <div class="category-banner__item-content">
+                            <h3 class="mb-0">{{ Str::words($category->name, 2) }}</h3>
+                            <a href="{{route('shop.product.details',['product_slug'=>$category->slug])}}" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            <div class="col-md-6">
+                <div class="d-flex sale-two-col">
+                    @foreach($sale_products->slice(1, 2) as $category)
+                        <div class="col-md-6">
+                            <div class="category-banner__item border-radius-10 mb-5">
+                                <img loading="lazy" class="h-auto" src="{{asset('uploads/products') }}/{{$category->image}}" width="690" height="665" alt="{{ $category->name }}" />
+                                <div class="category-banner__item-content">
+                                    <h3 class="mb-0">{{ Str::words($category->name, 2) }}</h3>
+                                    <a href="{{route('shop.product.details',['product_slug'=>$category->slug])}}" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="col-md-12">
+                    <div class="sale-text">
+                        <h2>SALE UPTO 20%</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            @foreach($sale_products->slice(3) as $category)
+                <div class="col-md-4">
+                    <div class="category-banner__item border-radius-10 mb-5">
+                        <img loading="lazy" class="h-auto" src="{{asset('uploads/products') }}/{{$category->image}}" width="690" height="665" alt="{{ $category->name }}" />
+                        <div class="category-banner__item-content">
+                            <h3 class="mb-0">{{ Str::words($category->name, 2) }}</h3>
+                            <a href="{{route('shop.product.details',['product_slug'=>$category->slug])}}" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    
+    <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
+    {{-- Sales section end --}}
 
     <section class="category-carousel container">
         <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">

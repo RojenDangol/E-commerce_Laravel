@@ -17,7 +17,7 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-floating my-3">
-                            <input type="text" class="form-control" placeholder="Full Name" name="name" value="{{$address->name}}" required="" readonly>
+                            <input type="text" class="form-control" placeholder="Full Name" name="name" value="{{$address->name}}" required="">
                             <label for="name">Name</label>
                           </div>
                         </div>

@@ -214,12 +214,13 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="
-                                            width: 80px;
-                                        ">
-                                        OrderNo
+                                    <th class="text-center" style="width:80px;">
+                                        #
                                     </th>
-                                    <th>Name</th>
+                                    <th style="width:80px;" class="text-center">
+                                        Order Id
+                                    </th>
+                                    <th class="text-center">Name</th>
                                     <th class="text-center">
                                         Phone
                                     </th>
@@ -248,8 +249,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $count = 1;
+                                @endphp
                                 @foreach ($orders as $order)
                                 <tr>
+                                    <td class="text-center">{{$count}}</td>
                                     <td class="text-center">
                                         {{$order->id}}
                                     </td>
@@ -296,6 +301,9 @@
                                         </a>
                                     </td>
                                 </tr>
+                                @php
+                                    $count++;
+                                @endphp
                                 @endforeach
                             </tbody>
                         </table>
@@ -399,7 +407,7 @@
                     tooltip: {
                         y: {
                             formatter: function (val) {
-                                return "$ " + val + "";
+                                return "Rs. " + val + "";
                             },
                         },
                     },

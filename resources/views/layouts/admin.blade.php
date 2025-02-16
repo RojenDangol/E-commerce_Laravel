@@ -248,6 +248,15 @@
                                 </li>
 
                                 <li class="menu-item">
+                                    <a href="{{route('admin.contact.info')}}" class="">
+                                        <div class="icon">
+                                            <i class="icon-user"></i>
+                                        </div>
+                                        <div class="text">Contact Information</div>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item">
                                     <a href="{{route('admin.settings')}}" class="">
                                         <div class="icon">
                                             <i class="icon-settings"></i>

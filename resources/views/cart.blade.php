@@ -74,7 +74,7 @@
                         <div class="meta-item">
                           <label>Sizes:</label>
                           <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="S">
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="S" checked>
                           <label class="form-check-label" for="size1">S</label>
                     
                           <input class="form-check-input form-check-input_fill size-selector" type="radio" 
@@ -220,19 +220,9 @@
               @endif
             </div>
             <div class="mobile_fixed-btn_wrapper">
-              {{-- <div class="button-wrapper container">
-                <a href="{{route('cart.checkout')}}" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
-              </div> --}}
-              {{-- <form name="checkout-form" action="{{route('cart.checkout')}}" method="POST">
-                @csrf
-                <input type="hidden" name="size" value="s">
-                <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
-              </form> --}}
-              
-
               <form name="checkout-form" action="{{ route('cart.checkout') }}" method="POST">
                 @csrf
-                <div id="selected-sizes-container"></div> <!-- Container for dynamic inputs -->
+                <div id="selected-sizes-container"></div> <
                 <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </form>
             

@@ -50,7 +50,7 @@
                                     <p>{{$address->city}}</p>
                                     <p>{{$address->state}}</p>
                                     <p>{{$address->country}}</p>
-                                    <p>{{$address->zip}}</p>
+                                    {{-- <p>{{$address->zip}}</p> --}}
                                     <br>
                                     <p>{{$address->phone}}</p>
                                     <br>
@@ -81,7 +81,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="col-md-4">
+              {{-- <div class="col-md-4">
                 <div class="form-floating my-3">
                   <input type="text" class="form-control" name="zip" required="" value="{{old('zip')}}">
                   <label for="zip">Pincode *</label>
@@ -89,8 +89,8 @@
                     <span class="text-danger">{{$message}}</span>  
                   @enderror
                 </div>
-              </div>
-              <div class="col-md-4">
+              </div> --}}
+              <div class="col-md-6">
                 <div class="form-floating mt-3 mb-3">
                   <input type="text" class="form-control" name="state" required="" value="{{old('state')}}">
                   <label for="state">State *</label>
@@ -99,7 +99,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-floating my-3">
                   <input type="text" class="form-control" name="city" required="" value="{{old('city')}}">
                   <label for="city">Town / City *</label>

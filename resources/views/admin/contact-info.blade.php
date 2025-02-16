@@ -14,7 +14,7 @@
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Slides</div>
+                    <div class="text-tiny">Contact Info</div>
                 </li>
             </ul>
         </div>
@@ -23,8 +23,10 @@
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
                 </div>
-                <a class="tf-button style-1 w208" href="{{route('admin.slide.add')}}"><i
-                        class="icon-plus"></i>Add new</a>
+                @if (!isset($contact_info) || $contact_info->count() == 0)
+                <a class="tf-button style-1 w208" href="{{route('admin.contact.info.add')}}"><i
+                    class="icon-plus"></i>Add new</a>  
+                @endif
             </div>
             <div class="wg-table table-all-user">
                 @if(Session::has('status'))
@@ -34,35 +36,27 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Image</th>
-                            <th>Tagline</th>
-                            <th>Title</th>
-                            <th>Subtitle</th>
-                            <th>Link</th>
+                            <th>Location</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($slides as $slide)      
+                    <tbody>                        
+                        @if (isset($contact_info) )
                         <tr>
-                            <td>{{$slide->id}}</td>
-                            <td class="pname">
-                                <div class="image">
-                                    <img src="{{asset('uploads/slides')}}/{{$slide->image}}" alt="{{$slide->title}}" class="image">
-                                </div>
-                            </td>
-                            <td>{{$slide->tagline}}</td>
-                            <td>{{$slide->title}}</td>
-                            <td>{{$slide->subtitle}}</td>
-                            <td>{{$slide->link}}</td>
+                            <td>1</td>
+                            <td>{{$contact_info->address}}</td>
+                            <td>{{$contact_info->email}}</td>
+                            <td>{{$contact_info->phone}}</td>
                             <td>
                                 <div class="list-icon-function">
-                                    <a href="{{route('admin.slide.edit',['id'=>$slide->id])}}">
+                                    <a href="{{route('admin.contact.info.edit',['id'=>$contact_info->id])}}">
                                         <div class="item edit">
-                                            <i class="icon-edit-3"></i>
+                                            <id class="icon-edit-3"></>
                                         </div>
                                     </a>
-                                    <form action="{{route('admin.slide.delete',['id'=>$slide->id])}}"
+                                    <form action="{{route('admin.contact.info.delete',['id'=>$contact_info->id])}}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -73,13 +67,13 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @else
+                        <tr>
+                            <td colspan="5" class="text-center">No data found</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
-            </div>
-            <div class="divider"></div>
-            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                {{$slides->links('pagination::bootstrap-5')}}
             </div>
         </div>
     </div>

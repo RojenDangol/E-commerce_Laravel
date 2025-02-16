@@ -223,14 +223,16 @@
             </a>
             <div class="logo">
                 <a href="{{route('home.index')}}">
-                    <img src="{{asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                    <img src="{{asset('assets/images/logo.png') }}" alt="Logo" class="logo__image d-block" />
                 </a>
             </div>
-            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+            <a href="{{route('cart.index')}}" class="header-tools__item header-tools__cart " data-aside="cartDrawer">
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
-                <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
+                @if (Cart::instance('wishlist')->content()->count()>0)
+                <span class="cart-amount d-block position-absolute js-cart-items-count">{{Cart::instance('wishlist')->content()->count()}}</span>
+                @endif
             </a>
         </div>
         <nav class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto">
@@ -427,14 +429,17 @@
                             <img src="{{asset('assets/images/logo.png') }}" alt="SurfsideMedia" class="logo__image d-block" />
                         </a>
                     </div>
-                    <p class="footer-address">
-                        Kathmandu, Nepal
+                    @php
+                        $contact_info = \App\Models\ContactInformation::first();
+                    @endphp
+                    <p>
+                        <strong class="fw-medium">{{$contact_info->address}}</strong>
                     </p>
-                    <p class="m-0">
-                        <strong class="fw-medium">info@gmail.com</strong>
+                    <p class="mb-1">
+                        <strong class="fw-medium">{{$contact_info->email}}</strong>
                     </p>
                     <p>
-                        <strong class="fw-medium">+977 9876543210</strong>
+                        <strong class="fw-medium">{{$contact_info->phone}}</strong>
                     </p>
                     <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
                         <li>
@@ -486,26 +491,7 @@
                         </li>
                     </ul>
                 </div>
-                {{-- <div class="footer-column footer-menu mb-4 mb-lg-0">
-                    <h6 class="sub-menu__title text-uppercase">Shop</h6>
-                    <ul class="sub-menu__list list-unstyled">
-                        <li class="sub-menu__item">
-                            <a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="shop4.html" class="menu-link menu-link_us-s">Men</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="shop5.html" class="menu-link menu-link_us-s">Women</a>
-                        </li>
-                        <li class="sub-menu__item">
-                            <a href="{{route('shop.index')}}" class="menu-link menu-link_us-s">Shop All</a>
-                        </li>
-                    </ul>
-                </div> --}}
+                
                 <div class="footer-column footer-menu mb-4 mb-lg-0">
                     <h6 class="sub-menu__title text-uppercase">Brands</h6>
                     <ul class="sub-menu__list list-unstyled">
@@ -568,7 +554,9 @@
                         <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_heart" />
                         </svg>
-                        <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
+                        @if (Cart::instance('wishlist')->content()->count()>0)
+                        <span class="wishlist-amount d-block position-absolute js-wishlist-count">{{Cart::instance('wishlist')->content()->count()}}</span>
+                        @endif
                     </div>
                     <span>Wishlist</span>
                 </a>

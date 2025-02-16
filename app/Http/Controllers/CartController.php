@@ -138,7 +138,7 @@ class CartController extends Controller
             $request->validate([
                 'name'=>'required|max:100',
                 'phone'=>'required|numeric|digits:10',
-                'zip'=>'required|numeric|digits:6',
+                // 'zip'=>'required|numeric|digits:6',
                 'state'=>'required',
                 'city'=>'required',
                 'address'=>'required',
@@ -148,7 +148,7 @@ class CartController extends Controller
             $address= new Address();
             $address->name = $request->name;
             $address->phone = $request->phone;
-            $address->zip = $request->zip;
+            // $address->zip = $request->zip;
             $address->state = $request->state;
             $address->city = $request->city;
             $address->address = $request->address;
@@ -176,7 +176,7 @@ class CartController extends Controller
         $order->state = $address->state;
         $order->country = $address->country;
         $order->landmark = $address->landmark;
-        $order->zip = $address->zip;
+        // $order->zip = $address->zip;
         $order->save();
 
        

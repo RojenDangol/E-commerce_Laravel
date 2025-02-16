@@ -21,7 +21,7 @@
                     
                     <div class="my-account__address-list row">
                         <h5>Shipping Address</h5>
-
+                        @if (isset($address) && $address->count() > 0)
                         <div class="my-account__address-item col-md-6">
                             <div
                                 class="my-account__address-item__title"
@@ -47,6 +47,9 @@
                                 <p>Mobile : {{$address->phone}}</p>
                             </div>
                         </div>
+                        @else
+                        <p>No Address Set Yet. Place Order To Set Address.</p>
+                        @endif
                         <hr />
                     </div>
                 </div>
