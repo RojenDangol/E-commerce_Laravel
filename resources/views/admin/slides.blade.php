@@ -43,9 +43,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $count = 1;
+                        @endphp
                         @foreach ($slides as $slide)      
                         <tr>
-                            <td>{{$slide->id}}</td>
+                            <td>{{$count}}</td>
                             <td class="pname">
                                 <div class="image">
                                     <img src="{{asset('uploads/slides')}}/{{$slide->image}}" alt="{{$slide->title}}" class="image">
@@ -73,6 +76,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php
+                            $count++;
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>

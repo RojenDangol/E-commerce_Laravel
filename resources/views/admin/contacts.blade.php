@@ -61,9 +61,12 @@
                                     $contacts = $contacts;
                                 }
                             @endphp
+                            @php
+                                $count = 1;
+                            @endphp
                             @foreach ($contacts as $contact)             
                             <tr>
-                                <td>{{$contact->id}}</td>
+                                <td>{{$count}}</td>
                                 <td>{{$contact->name}}</td>
                                 <td>{{$contact->email}}</td>
                                 <td>{{$contact->phone}}</td>
@@ -81,6 +84,9 @@
                                     </div>
                                 </td>
                             </tr>
+                            @php
+                                $count++;
+                            @endphp
                             @endforeach
 
                         </tbody>

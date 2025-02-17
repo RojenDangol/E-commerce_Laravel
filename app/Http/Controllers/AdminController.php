@@ -241,7 +241,6 @@ class AdminController extends Controller
     }
 
     public function product_store(Request $request){
-        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:products,slug',

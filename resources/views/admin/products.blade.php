@@ -43,6 +43,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            {{-- <th>Id</th> --}}
                             <th>Name</th>
                             <th>Price</th>
                             <th>SalePrice</th>
@@ -58,9 +59,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $count = 1;
+                        @endphp
                         @foreach ($products as $product)                     
                         <tr>
-                            <td>{{$product->id}}</td>
+                            <td>{{$count}}</td>
+                            {{-- <td>{{$product->id}}</td> --}}
                             <td class="pname">
                                 <div class="image">
                                     <img src="{{asset('uploads/products/thumbnails')}}/{{$product->image}}" alt="{{$product->name}}" class="image">
@@ -105,6 +110,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php
+                            $count++;
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>

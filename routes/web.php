@@ -131,6 +131,14 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');
 });
 
+Route::get('/clear-cache', function() {
+    \Artisan::call('cache:clear');
+    \Artisan::call('view:clear');
+    \Artisan::call('config:clear');
+    return back()->with('message', 'Cache cleared successfully!');
+})->middleware('auth'); // Or any other middleware like 'admin'
+
+
 // routes/web.php
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');

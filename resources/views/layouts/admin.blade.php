@@ -317,148 +317,27 @@
                                 </form>
                             </div>
                             <div class="header-grid">
-                                {{-- <div class="popup-wrap message type-header">
+                                <div class="popup-wrap message type-header">
                                     <div class="dropdown">
+                                        <form action="{{ url('/clear-cache') }}" method="GET">
+                                            <button type="submit" class="btn btn-danger">Clear Cache</button>
+                                        </form>
+                                        
+                                        {{-- <form action="{{ url('/clear-cache') }}" method="GET">
                                         <button
                                             class="btn btn-secondary dropdown-toggle"
-                                            type="button"
+                                            type="submit"
                                             id="dropdownMenuButton2"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
                                         >
                                             <span class="header-item">
-                                                <span class="text-tiny"
-                                                    >1</span
-                                                >
                                                 <i class="icon-bell"></i>
                                             </span>
                                         </button>
-                                        <ul
-                                            class="dropdown-menu dropdown-menu-end has-content"
-                                            aria-labelledby="dropdownMenuButton2">
-                                            <li>
-                                                <h6>Notifications</h6>
-                                            </li>
-                                            <li>
-                                                <div
-                                                    class="message-item item-1"
-                                                >
-                                                    <div class="image">
-                                                        <i
-                                                            class="icon-noti-1"
-                                                        ></i>
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="body-title-2"
-                                                        >
-                                                            Discount
-                                                            available
-                                                        </div>
-                                                        <div
-                                                            class="text-tiny"
-                                                        >
-                                                            Morbi sapien
-                                                            massa, ultricies
-                                                            at rhoncus at,
-                                                            ullamcorper nec
-                                                            diam
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div
-                                                    class="message-item item-2"
-                                                >
-                                                    <div class="image">
-                                                        <i
-                                                            class="icon-noti-2"
-                                                        ></i>
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="body-title-2"
-                                                        >
-                                                            Account has been
-                                                            verified
-                                                        </div>
-                                                        <div
-                                                            class="text-tiny"
-                                                        >
-                                                            Mauris libero
-                                                            ex, iaculis
-                                                            vitae rhoncus et
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div
-                                                    class="message-item item-3"
-                                                >
-                                                    <div class="image">
-                                                        <i
-                                                            class="icon-noti-3"
-                                                        ></i>
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="body-title-2"
-                                                        >
-                                                            Order shipped
-                                                            successfully
-                                                        </div>
-                                                        <div
-                                                            class="text-tiny"
-                                                        >
-                                                            Integer aliquam
-                                                            eros nec
-                                                            sollicitudin
-                                                            sollicitudin
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div
-                                                    class="message-item item-4"
-                                                >
-                                                    <div class="image">
-                                                        <i
-                                                            class="icon-noti-4"
-                                                        ></i>
-                                                    </div>
-                                                    <div>
-                                                        <div
-                                                            class="body-title-2"
-                                                        >
-                                                            Order pending:
-                                                            <span
-                                                                >ID
-                                                                305830</span
-                                                            >
-                                                        </div>
-                                                        <div
-                                                            class="text-tiny"
-                                                        >
-                                                            Ultricies at
-                                                            rhoncus at
-                                                            ullamcorper
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="#"
-                                                    class="tf-button w-full"
-                                                    >View all</a
-                                                >
-                                            </li>
-                                        </ul>
+                                        </form> --}}
                                     </div>
-                                </div> --}}
+                                </div>
 
                                 <div class="popup-wrap user type-header">
                                     <div class="dropdown">
@@ -493,7 +372,32 @@
                             </div>
                         </div>
                     </div>
+                    
+
                     <div class="main-content">
+                        @if(session('message'))
+                        <div class="alert alert-success alert-dismissible fade show left-alert" role="alert">
+                            {{ session('message') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <style>
+                            .left-alert {
+                                position: fixed;
+                                top: 100px;  /* Distance from the top */
+                                right: 0;    /* Positioned to the left of the screen */
+                                width: 250px;  /* Set your desired width */
+                                height: auto;  /* Auto-adjust height based on content */
+                                z-index: 1050; /* Ensure the alert appears above other content */
+                                padding: 10px;  /* Padding inside the alert */
+                                border-radius: 5px;  /* Optional, for rounded corners */
+                            }
+                        </style>
+                        
+                        @endif
+
                         @yield('content')                     
 
                         <div class="bottom-page">
@@ -512,6 +416,10 @@
     <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
+    <!-- Bootstrap 4 JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(function(){
             $("#search-input").on("keyup",function(){

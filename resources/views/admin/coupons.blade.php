@@ -58,14 +58,16 @@
                             @php
                                 if($results){
                                     $coupons = $results;
-                                    // dd($categories->all());
                                 }else{
                                     $coupons = $coupons;
                                 }
                             @endphp
+                            @php
+                                $count = 1;
+                            @endphp
                             @foreach ($coupons as $coupon)             
                             <tr>
-                                <td>{{$coupon->id}}</td>
+                                <td>{{$count}}</td>
                                 <td>{{$coupon->code}}</td>
                                 <td>{{$coupon->type}}</td>
                                 <td>{{$coupon->value}}</td>
@@ -88,8 +90,10 @@
                                     </div>
                                 </td>
                             </tr>
+                            @php
+                                $count++;
+                            @endphp
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
