@@ -20,7 +20,7 @@
             <em>Manage Your Items List</em>
           </span>
         </a>
-        <a href="{{route('cart.checkout')}}" class="checkout-steps__item">
+        <a href="javascript:void:(0)" class="checkout-steps__item">
           <span class="checkout-steps__item-number">02</span>
           <span class="checkout-steps__item-title">
             <span>Shipping and Checkout</span>
@@ -298,7 +298,7 @@
       document.addEventListener("DOMContentLoaded", function () {
           const sizeSelectors = document.querySelectorAll(".size-selector");
           const container = document.getElementById("selected-sizes-container");
-          const form = document.querySelector("form[name='checkout-form']"); // Assuming the form name is 'checkout-form'
+          const form = document.querySelector("form[name='checkout-form']"); 
 
           // Event listener for each radio button change
           sizeSelectors.forEach(radio => {
@@ -338,12 +338,14 @@
 
               if (!isValid) {
                   e.preventDefault(); // Prevent form submission
-                  alert("Please select a size for all items before submitting.");
-                  window.location.reload(); 
+                  swal({
+                  title: "Select Sizes!",
+                  text: "Please select the sizes for further transaction.",
+                  icon: "info",
+                  buttons: "OK",
+              });
               }
           });
       });
-      
     </script>
-    
 @endpush

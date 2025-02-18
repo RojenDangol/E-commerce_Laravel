@@ -1,5 +1,5 @@
 :root {
-    --Main: #2275fc;
+    --Main: #11529e;
     --White: #fff;
     --Black: #111;
     --Heading: #111;
@@ -1495,7 +1495,7 @@ a:focus {
     gap: 10px;
     border-radius: 4px;
     background: #ecf3ff;
-    color: #2275fc;
+    color: #11529e;
     font-size: 12px;
     font-weight: 700;
 }
@@ -1514,7 +1514,7 @@ a:focus {
     gap: 10px;
     border-radius: 4px;
     background: #ecf3ff;
-    color: #2275fc;
+    color: #11529e;
     font-size: 12px;
     font-weight: 500;
 }
@@ -1542,10 +1542,10 @@ a:focus {
 }
 .block-warning.type-main {
     background-color: #eaf4ff;
-    color: #2275fc;
+    color: #11529e;
 }
 .block-warning.type-main div {
-    color: #2275fc;
+    color: #11529e;
     word-break: break-all;
 }
 
@@ -4374,7 +4374,7 @@ select.h40 {
     font-weight: 500;
     line-height: 17px;
     border-radius: 999px;
-    background: #2275fc;
+    background: #11529e;
     color: #fff;
 }
 .popup-wrap.message > .dropdown .header-item > .text-tiny::after {
@@ -4384,7 +4384,7 @@ select.h40 {
     right: 0;
     width: 16px;
     height: 16px;
-    background-color: #2275fc;
+    background-color: #11529e;
     border-radius: 50%;
     z-index: -1;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -5484,7 +5484,7 @@ select.h40 {
     background-color: #fff;
 }
 .dark-theme .tf-button.style-1:hover {
-    background-color: #2275fc;
+    background-color: #11529e;
 }
 
 @media (max-width: 991px) {
@@ -7145,5 +7145,3 @@ select.h40 {
         width: 100%;
     }
 }
-
-/*# sourceMappingURL=style.css.map */

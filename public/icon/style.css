@@ -963,3 +963,9 @@
 .icon-star1:before {
     content: "\e925";
 }
+
+.icon-nepalese-rupee:before {
+    content: "Rs";
+    font-size: 25px;
+    font-weight: bold;
+}

@@ -241,6 +241,7 @@ class AdminController extends Controller
     }
 
     public function product_store(Request $request){
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:products,slug',
@@ -256,8 +257,11 @@ class AdminController extends Controller
             'image' => 'required|mimes:png,jpg,jpeg,svg|max:2048',
             'category_id' => 'required',
             'brand_id' => 'required',
-            'sizes' => 'required|array',
-            'sizes.*' => 'in:S,M,L,XL',
+            'size_color_quantity' => 'required|array',
+            // 'sizes' => 'required|array',
+            // 'colors' => 'required|array',
+            // 'quantities' => 'required|array',
+            // 'quantities.*' => 'numeric|min:1',
         ]);
 
         $product = new Product();
@@ -308,9 +312,47 @@ class AdminController extends Controller
         $product->images = $gallery_images;
         $product->save();
 
-        if ($request->has('sizes')) {
-            $product->setMetaValue('sizes', $request->sizes);
+        // if ($request->has('sizes')) {
+        //     $product->setMetaValue('sizes', $request->sizes);
+        // }
+
+         // Save sizes, colors, and quantities as meta data
+        // $sizes = $request->sizes;
+        // $colors = $request->colors;
+        // $quantities = $request->quantities;
+
+        // $sizeColorMap = [];
+        // foreach ($sizes as $sizeIndex => $size) {
+        //     foreach ($colors as $colorIndex => $color) {
+        //         $quantity = $quantities[$colorIndex] ?? 0;
+        //         if ($quantity > 0) {
+        //             $key = "{$size}_{$color}"; // Example: "S_red", "M_blue"
+        //             $product->setMetaValue($key, $quantity);
+        //             $sizeColorMap[] = [
+        //                 'size' => $size,
+        //                 'color' => $color,
+        //                 'quantity' => $quantity,
+        //             ];
+        //         }
+        //     }
+        // }
+
+        $sizeColorQuantities = $request->input('size_color_quantity', []);
+
+        foreach ($sizeColorQuantities as $entry) {
+            $size = $entry['size'];
+            $colors = $entry['color'] ?? [];
+            $quantities = $entry['quantity'] ?? [];
+
+            foreach ($colors as $index => $color) {
+                $quantity = $quantities[$index] ?? 0;
+                if ($quantity > 0) {
+                    $key = "{$size}_{$color}";
+                    $product->setMetaValue($key, $quantity);
+                }
+            }
         }
+
 
         return redirect()->route('admin.products')->with('status','Product has been added successfully!');
     }

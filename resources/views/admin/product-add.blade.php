@@ -234,7 +234,7 @@
                         <span class="alert alert-danger text-center">{{$message}}</span>
                     @enderror
                     
-                    <fieldset class="name">
+                    {{-- <fieldset class="name">
                         <div class="body-title mb-10">Available Sizes</div>
                         <div class="mb-10">
                                     <label><input type="checkbox" name="sizes[]" value="S"> Small (S)</label>
@@ -245,7 +245,7 @@
                     </fieldset>
                     @error('sizes')
                         <span class="alert alert-danger text-center">{{$message}}</span>
-                    @enderror
+                    @enderror --}}
                     
                     <fieldset class="name">
                         <div class="body-title mb-10">Featured</div>
@@ -260,6 +260,39 @@
                         <span class="alert alert-danger text-center">{{$message}}</span>
                     @enderror
                 </div>
+
+                {{-- <div class="cols gap22">
+                    <fieldset class="name">
+                        <div class="body-title mb-10">Available Sizes, Colors, and Quantities</div>
+                        <div id="sizesColorsQuantities">
+                            <!-- Dynamic container for sizes, colors, and quantities -->
+                        </div>
+                        <button type="button" id="addSizeRow" style="margin-top: 10px;">Add Size</button>
+                    </fieldset>
+                    @error('sizes')
+                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                    @enderror
+                </div> --}}
+                <div class="cols gap22">
+                    <fieldset class="name">
+                        <div class="body-title mb-10">Available Sizes, Colors, and Quantities</div>
+                
+                        <!-- Scrollable container for dynamic rows -->
+                        <div id="sizesColorsQuantities" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                            <!-- Dynamic rows will be added here -->
+                        </div>
+                
+                        <!-- Add size button -->
+                        <button type="button" id="addSizeRow" style="margin-top: 10px; padding: 8px 15px; background-color: #007BFF; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+                            Add Size
+                        </button>
+                    </fieldset>
+                    @error('size_color_quantity')
+                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+
                 <div class="cols gap10">
                     <button class="tf-button w-full" type="submit">Add product</button>
                 </div>
@@ -302,4 +335,123 @@
             }
         });
     </script>
+
+{{-- <script>
+    // Add dynamic row logic
+    const container = document.getElementById('sizesColorsQuantities');
+    const addSizeRowBtn = document.getElementById('addSizeRow');
+
+    addSizeRowBtn.addEventListener('click', function () {
+        const sizeRow = `
+            <div class="sizeRow" style="margin-bottom: 10px;">
+                <label>
+                    Size:
+                    <select name="sizes[]" class="sizeSelect" required>
+                        <option value="S">Small (S)</option>
+                        <option value="M">Medium (M)</option>
+                        <option value="L">Large (L)</option>
+                        <option value="XL">Extra Large (XL)</option>
+                    </select>
+                </label>
+                <button type="button" class="addColorRow" style="margin-left: 10px;">Add Color</button>
+                <div class="colorRows" style="margin-top: 10px;"></div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', sizeRow);
+    });
+
+    container.addEventListener('click', function (event) {
+        if (event.target.classList.contains('addColorRow')) {
+            const colorRow = `
+                <div class="colorRow" style="margin-bottom: 5px;">
+                    <label>
+                        Color:
+                        <select name="colors[]" required>
+                            <option value="red">Red</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="yellow">Yellow</option>
+                        </select>
+                    </label>
+                    <label>
+                        Quantity:
+                        <input type="number" name="quantities[]" min="1" style="width: 80px;" required>
+                    </label>
+                    <button type="button" class="removeColorRow" style="margin-left: 5px;">Remove</button>
+                </div>
+            `;
+            event.target.closest('.sizeRow').querySelector('.colorRows').insertAdjacentHTML('beforeend', colorRow);
+        }
+
+        if (event.target.classList.contains('removeColorRow')) {
+            event.target.closest('.colorRow').remove();
+        }
+    });
+</script> --}}
+<script>
+    const container = document.getElementById('sizesColorsQuantities');
+    const addSizeRowBtn = document.getElementById('addSizeRow');
+    let sizeIndex = 0; // Track index for nested inputs
+
+    addSizeRowBtn.addEventListener('click', function () {
+        const sizeRowId = `sizeRow_${sizeIndex}`; // Unique ID for each size row
+        const sizeRow = `
+            <div id="${sizeRowId}" class="sizeRow" style="margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label>
+                        Size:
+                        <select name="size_color_quantity[${sizeIndex}][size]" class="sizeSelect" required style="padding: 5px; margin-right: 10px;">
+                            <option value="S">Small (S)</option>
+                            <option value="M">Medium (M)</option>
+                            <option value="L">Large (L)</option>
+                            <option value="XL">Extra Large (XL)</option>
+                        </select>
+                    </label>
+                    <button type="button" class="addColorRow" style="padding: 5px 10px; background-color: #28A745; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Add Color</button>
+                    <button type="button" class="removeSizeRow" style="padding: 5px 10px; background-color: #DC3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Remove Size</button>
+                </div>
+                <div class="colorRows" style="margin-top: 10px;"></div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', sizeRow);
+        sizeIndex++; // Increment index for next row
+    });
+
+    container.addEventListener('click', function (event) {
+        if (event.target.classList.contains('addColorRow')) {
+            const parentSizeRow = event.target.closest('.sizeRow');
+            const sizeRowIndex = Array.from(container.children).indexOf(parentSizeRow);
+            const colorRow = `
+                <div class="colorRow" style="margin-bottom: 5px; display: flex; align-items: center; gap: 10px;">
+                    <label>
+                        Color:
+                        <select name="size_color_quantity[${sizeRowIndex}][color][]" required style="padding: 5px;">
+                            <option value="red">Red</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="yellow">Yellow</option>
+                        </select>
+                    </label>
+                    <label>
+                        Quantity:
+                        <input type="number" name="size_color_quantity[${sizeRowIndex}][quantity][]" min="1" style="padding: 5px; width: 80px;" required>
+                    </label>
+                    <button type="button" class="removeColorRow" style="padding: 5px 10px; background-color: #DC3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Remove</button>
+                </div>
+            `;
+            parentSizeRow.querySelector('.colorRows').insertAdjacentHTML('beforeend', colorRow);
+        }
+
+        // Remove color row
+        if (event.target.classList.contains('removeColorRow')) {
+            event.target.closest('.colorRow').remove();
+        }
+
+        // Remove size row
+        if (event.target.classList.contains('removeSizeRow')) {
+            event.target.closest('.sizeRow').remove();
+        }
+    });
+</script>
+
 @endpush

@@ -90,10 +90,6 @@
                                         <div class="text">Dashboard</div>
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="center-item">
-                            <ul class="menu-list">
                                 <li class="menu-item has-children">
                                     <a
                                         href="javascript:void(0);"
