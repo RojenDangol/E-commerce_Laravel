@@ -126,6 +126,10 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::put('/admin/contact-info/update',[AdminController::class, 'contact_info_update'])->name('admin.contact.info.update');
     Route::delete('/admin/contact-info/{id}/delete',[AdminController::class, 'contact_info_delete'])->name('admin.contact.info.delete');
 
+    Route::get('/admin/colors',[AdminController::class, 'colors'])->name('admin.colors');
+    Route::get('/admin/color/add',[AdminController::class, 'color_add'])->name('admin.color.add');
+    Route::post('/admin/color/store',[AdminController::class, 'color_store'])->name('admin.color.store');
+    Route::delete('/admin/color/{id}/delete',[AdminController::class, 'color_delete'])->name('admin.color.delete');
 
     Route::get('/admin/repeater-form', [AdminController::class, 'showForm'])->name('repeater.form');
     Route::post('/admin/save-repeater', [AdminController::class, 'saveRepeater'])->name('repeater.save');

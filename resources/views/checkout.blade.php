@@ -155,7 +155,7 @@
                     <tr>
                       <td>
                         {{$item->name}} x {{$item->qty}} <br>
-                        <span>Size: {{ $item->options->size }}</span> / <span>Color: {{ $item->options->color }}</span>
+                        <span>Size: {{ $item->options->size }}</span> / <span >Color:</span><button class="p-2 m-2" style="background-color: {{$item->options->color}}" disabled></button>
                         @php
                             
                             $product_id = $product_id ?? [];

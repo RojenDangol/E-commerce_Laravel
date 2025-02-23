@@ -199,6 +199,113 @@
                 <div id="line-chart-8"></div>
             </div>
         </div>
+        <!-- customer0Product Section -->
+        <div class="row">
+            <!-- Top Customer Section -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-30 d-flex ">
+                <div class="wg-box justify-content-center" >
+                    <h5>Top Customer</h5>
+                      <div class="row top-customer g-4">
+                        <div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div><div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div><div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div><div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div><div class="col-lg-4">
+                            <div class="customer-card">
+                                <img src="images/customer.jpg" alt="Customer">
+                                <div class="customer-info">
+                                    <p>Ronald Richards</p>
+                                    <small>Purchase: 35x</small>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Products Section -->
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
+                <div class="wg-box">
+                    <h5>Popular Products</h5>
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="images/products/product_0.jpg" alt="Product">
+                                <div class="product-info">
+                                    <p class="large-text">Down Jacket</p>
+                                    <p class="small-text">Sold: 25x</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="images/products/product_0.jpg" alt="Product">
+                                <div class="product-info">
+                                    <p class="large-text">Down Jacket</p>
+                                    <p class="small-text">Sold: 25x</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="images/products/product_0.jpg" alt="Product">
+                                <div class="product-info">
+                                    <p class="large-text">Down Jacket</p>
+                                    <p class="small-text">Sold: 25x</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card">
+                                <img src="images/products/product_0.jpg" alt="Product">
+                                <div class="product-info">
+                                    <p class="large-text">Down Jacket</p>
+                                    <p class="small-text">Sold: 25x</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>
         <div class="tf-section mb-30">
             <div class="wg-box">
                 <div class="flex items-center justify-between">

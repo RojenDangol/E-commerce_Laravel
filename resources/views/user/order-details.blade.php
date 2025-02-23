@@ -168,10 +168,10 @@
                                     <th>Name</th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Quantity</th>
-                                    <th class="text-center">SKU</th>
+                                    <th class="text-center">Color</th>
+                                    <th class="text-center">Size</th>
                                     <th class="text-center">Category</th>
                                     <th class="text-center">Brand</th>
-                                    <th class="text-center">Size</th>
                                     <th class="text-center">Return Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -190,10 +190,10 @@
                                     </td>
                                     <td class="text-center">Rs.{{$item->price}}</td>
                                     <td class="text-center">{{$item->quantity}}</td>
-                                    <td class="text-center">{{$item->product->SKU}}</td>
+                                    <td class="text-center"><button class="p-1" style="background-color: {{$item['color'] }}" disabled></button></td>
+                                    <td class="text-center">{{$item->size}}</td>
                                     <td class="text-center">{{$item->product->category->name}}</td>
                                     <td class="text-center">{{$item->product->brand->name}}</td>
-                                    <td class="text-center">{{$item->size}}</td>
                                     <td class="text-center">{{$item->rstatus == 0?'No':'Yes'}}</td>
                                     <td class="text-center">
                                         <div class="list-icon-function view-icon">

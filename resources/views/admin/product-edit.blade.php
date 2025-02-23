@@ -483,10 +483,9 @@
                     <label>
                         Color:
                         <select name="size_color_quantity[${sizeIndex}][color][]" required style="padding: 5px;">
-                            <option value="red" ${colorData.color === "red" ? "selected" : ""}>Red</option>
-                            <option value="blue" ${colorData.color === "blue" ? "selected" : ""}>Blue</option>
-                            <option value="green" ${colorData.color === "green" ? "selected" : ""}>Green</option>
-                            <option value="yellow" ${colorData.color === "yellow" ? "selected" : ""}>Yellow</option>
+                            @foreach ($colors as $color)
+                                <option value="{{$color->code}}" ${colorData.color === "{{$color->code}}" ? "selected" : ""}>{{$color->name}}</option>
+                            @endforeach
                         </select>
                     </label>
                     <label>
@@ -553,10 +552,9 @@
                     <label>
                         Color:
                         <select name="size_color_quantity[${sizeRowIndex}][color][]" required style="padding: 5px;">
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="yellow">Yellow</option>
+                            @foreach ($colors as $color)
+                                <option value="{{$color->code}}">{{$color->name}}</option>
+                            @endforeach
                         </select>
                     </label>
                     <label>

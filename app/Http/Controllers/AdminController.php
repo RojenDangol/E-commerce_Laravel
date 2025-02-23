@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\About;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Models\Order;
 use App\Models\Slide;
 use App\Models\Coupon;
@@ -237,7 +238,8 @@ class AdminController extends Controller
     public function product_add(){
         $categories = Category::select('id','name')->orderBy('name')->get();
         $brands = Brand::select('id','name')->orderBy('name')->get();
-        return view('admin.product-add',compact('categories','brands'));
+        $colors = Color::select('name','code')->orderBy('name')->get();
+        return view('admin.product-add',compact('categories','brands','colors'));
     }
 
     public function product_store(Request $request){
@@ -364,8 +366,9 @@ class AdminController extends Controller
 
         $productMeta = ProductMeta::where('product_id', $id)->pluck('value', 'key')->toArray();
         $sizes = $productMeta;
+        $colors = Color::select('name','code')->orderBy('name')->get();
         // dd($sizes);
-        return view('admin.product-edit',compact('product','categories','brands','sizes'));
+        return view('admin.product-edit',compact('product','categories','brands','sizes','colors'));
     }
 
     public function product_update(Request $request){
@@ -476,28 +479,28 @@ class AdminController extends Controller
 
         $productId = $product->id;
     
-    // Remove old sizes/colors/quantities meta for this product
-    ProductMeta::where('product_id', $productId)->delete();
+        // Remove old sizes/colors/quantities meta for this product
+        ProductMeta::where('product_id', $productId)->delete();
 
-    // Process new size, color, and quantity data
-    foreach ($request->size_color_quantity as $sizeIndex => $sizeData) {
-        if (isset($sizeData['size'])) {
-            $size = $sizeData['size'];
+        // Process new size, color, and quantity data
+        foreach ($request->size_color_quantity as $sizeIndex => $sizeData) {
+            if (isset($sizeData['size'])) {
+                $size = $sizeData['size'];
 
-            if (isset($sizeData['color']) && isset($sizeData['quantity'])) {
-                foreach ($sizeData['color'] as $colorIndex => $color) {
-                    $quantity = $sizeData['quantity'][$colorIndex];
+                if (isset($sizeData['color']) && isset($sizeData['quantity'])) {
+                    foreach ($sizeData['color'] as $colorIndex => $color) {
+                        $quantity = $sizeData['quantity'][$colorIndex];
 
-                    // Save each size, color, and quantity combination in ProductMeta
-                    ProductMeta::create([
-                        'product_id' => $productId,
-                        'key' => "{$size}_{$color}",
-                        'value' => $quantity,
-                    ]);
+                        // Save each size, color, and quantity combination in ProductMeta
+                        ProductMeta::create([
+                            'product_id' => $productId,
+                            'key' => "{$size}_{$color}",
+                            'value' => $quantity,
+                        ]);
+                    }
                 }
             }
         }
-    }
 
         return redirect()->route('admin.products')->with('status','Product has been updated successfully!');
     }
@@ -820,6 +823,9 @@ class AdminController extends Controller
         if($url == "users"){
             $results = User::where('name','LIKE',"%{$query}%")->paginate(6);
         }
+        if($url == "colors"){
+            $results = Color::where('name','LIKE',"%{$query}%")->paginate(6);
+        }
         return view("admin.".$url,compact('results'));
     }
 
@@ -997,16 +1003,41 @@ class AdminController extends Controller
         })->save($destinationPath.'/'.$imageName);
     }
 
-    // public function GenerateAboutThumbnailsImage($image, $imageName){
-    //     $destinationPath = public_path('uploads/about');
-    //     $img = Image::read($image->path()); 
-    //     $img->cover(500,450,"top"); //width, height, position
-    //     $img->resize(500,450,function($constraint){
-    //         $constraint->aspectRatio();
-    //     })->save($destinationPath.'/'.$imageName);
-    // }
+    public function colors(Request $request){
+        $colors = Color::orderBy('id')->paginate(10);
+        $results = null;
+        return view('admin.colors',compact('colors','results'));
+    }
 
-    
+    public function color_add(){
+        return view('admin.color-add');
+    }
+
+    public function color_store(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'items.*.title' => 'required|string|max:255',
+            'items.*.code' => 'nullable|string',
+        ]);
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+
+                // Save each repeater item to the database
+                Color::create([
+                    'name' => $item['title'],
+                    'code' => $item['code'] ?? null,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.colors')->with('status','Color has been added successfully!');
+    }
+
+    public function color_delete($id){
+        $color = Color::find($id);
+        $color->delete();
+        return redirect()->route('admin.colors')->with('status','Color has been deleted successfully!');
+    }
 
 // demo
     public function showForm(){

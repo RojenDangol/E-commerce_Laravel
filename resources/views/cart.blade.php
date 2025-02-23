@@ -94,7 +94,7 @@
                           <label>Size:</label>
                           {{$item->options->size}}
                           <br>
-                          <label>Color:</label>{{$item->options->color}}
+                          <label>Color:</label><button class="p-2 m-2" style="background-color: {{$item->options->color}}" disabled></button>
                         </div>
                       </ul>
                     </div>

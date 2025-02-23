@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+{{-- @dd($colors) --}}
 <div class="main-content-inner">
     <!-- main-content-wrap -->
     <div class="main-content-wrap">
@@ -324,58 +325,6 @@
         });
     </script>
 
-{{-- <script>
-    // Add dynamic row logic
-    const container = document.getElementById('sizesColorsQuantities');
-    const addSizeRowBtn = document.getElementById('addSizeRow');
-
-    addSizeRowBtn.addEventListener('click', function () {
-        const sizeRow = `
-            <div class="sizeRow" style="margin-bottom: 10px;">
-                <label>
-                    Size:
-                    <select name="sizes[]" class="sizeSelect" required>
-                        <option value="S">Small (S)</option>
-                        <option value="M">Medium (M)</option>
-                        <option value="L">Large (L)</option>
-                        <option value="XL">Extra Large (XL)</option>
-                    </select>
-                </label>
-                <button type="button" class="addColorRow" style="margin-left: 10px;">Add Color</button>
-                <div class="colorRows" style="margin-top: 10px;"></div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', sizeRow);
-    });
-
-    container.addEventListener('click', function (event) {
-        if (event.target.classList.contains('addColorRow')) {
-            const colorRow = `
-                <div class="colorRow" style="margin-bottom: 5px;">
-                    <label>
-                        Color:
-                        <select name="colors[]" required>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="yellow">Yellow</option>
-                        </select>
-                    </label>
-                    <label>
-                        Quantity:
-                        <input type="number" name="quantities[]" min="1" style="width: 80px;" required>
-                    </label>
-                    <button type="button" class="removeColorRow" style="margin-left: 5px;">Remove</button>
-                </div>
-            `;
-            event.target.closest('.sizeRow').querySelector('.colorRows').insertAdjacentHTML('beforeend', colorRow);
-        }
-
-        if (event.target.classList.contains('removeColorRow')) {
-            event.target.closest('.colorRow').remove();
-        }
-    });
-</script> --}}
 <script>
     const container = document.getElementById('sizesColorsQuantities');
     const addSizeRowBtn = document.getElementById('addSizeRow');
@@ -414,10 +363,9 @@
                     <label>
                         Color:
                         <select name="size_color_quantity[${sizeRowIndex}][color][]" required style="padding: 5px;">
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="yellow">Yellow</option>
+                            @foreach ($colors as $color)
+                                <option value="{{$color->code}}">{{$color->name}}</option>
+                            @endforeach
                         </select>
                     </label>
                     <label>

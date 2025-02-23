@@ -22,7 +22,8 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         .product-item{
             display: flex;
@@ -161,6 +162,37 @@
                                         class="menu-item-button"
                                     >
                                         <div class="icon">
+                                            {{-- <i class="icon-layers"></i> --}}
+                                            <i class="fa-solid fa-palette"></i>
+                                        </div>
+                                        <div class="text">Colors</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a
+                                                href="{{route('admin.color.add')}}"
+                                                class=""
+                                            >
+                                                <div class="text">
+                                                    New Color
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{route('admin.colors')}}" class="">
+                                                <div class="text">
+                                                    Colors
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item has-children">
+                                    <a
+                                        href="javascript:void(0);"
+                                        class="menu-item-button"
+                                    >
+                                        <div class="icon">
                                             <i class="icon-layers"></i>
                                         </div>
                                         <div class="text">Category</div>
@@ -192,7 +224,8 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.orders')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-grid"></i>
+                                            {{-- <i class="icon-grid"></i> --}}
+                                            <i class="fa-solid fa-truck"></i>
                                         </div>
                                         <div class="text">Orders</div>
                                     </a>
@@ -201,7 +234,8 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.slides')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-image"></i>
+                                            {{-- <i class="icon-image"></i> --}}
+                                            <i class="fa-solid fa-sliders"></i>
                                         </div>
                                         <div class="text">Slider</div>
                                     </a>
@@ -219,7 +253,7 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.coupons')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-grid"></i>
+                                            <i class="fa-solid fa-ticket"></i>
                                         </div>
                                         <div class="text">Coupons</div>
                                     </a>
@@ -246,7 +280,8 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.contact.info')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-user"></i>
+                                            {{-- <i class="icon-user"></i> --}}
+                                            <i class="fa-regular fa-address-card"></i>
                                         </div>
                                         <div class="text">Contact Information</div>
                                     </a>

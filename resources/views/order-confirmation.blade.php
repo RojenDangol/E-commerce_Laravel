@@ -76,7 +76,7 @@
                 <tr>
                   <td>
                     {{$item->product->name}} x {{$item->quantity}} <br>
-                    Size: {{$item->size}} / Color: {{$item->color}}
+                    Size: {{$item->size}} / Color: <button class="p-2 m-2" style="background-color: {{$item->color}}" disabled></button>
                   </td>
                   <td class="text-right">
                     Rs.{{$item->price}}

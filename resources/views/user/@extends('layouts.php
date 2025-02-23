@@ -107,14 +107,15 @@
             <p>{{$product->short_description}}</p>
           </div>
 
-          @if($product->quantity == 0 )
+          @if (Cart::instance('cart')->content()->where('id',$product->id)->count()>0)
+          <a href="{{route('cart.index')}}" class="btn btn-warning mb-3">Go to Cart</a>
+          @elseif($product->quantity == 0 )
                         <a href="javascript:void(0)" class="btn btn-warning mb-3">Out of Stock</a>
           @else
-          <form name="addtocart-form" method="post" action="{{route('cart.add')}}" class="addtocart">
+          <form name="addtocart-form" method="post" action="{{route('cart.add')}}">
             @csrf
             @php
               $sizes = App\Models\ProductMeta::where('product_id', $product->id)->pluck('value', 'key')->toArray();
-              // dd($sizes);
               $filteredSizes = [];
 
               foreach ($sizes as $key => $value) {
@@ -125,20 +126,35 @@
                           'color' => $color,
                           'quantity' => $value
                       ];
-                  } 
-                  // else {
-                  //     $filteredSizes[] = [ 'size' => '', 'color' => '', 'quantity' => '' ];
-                  // }
+                  } else {
+                      $filteredSizes[] = [ 'size' => '', 'color' => '', 'quantity' => '' ];
+                  }
               }
-              // dd($filteredSizes);
+              // $uniqueColor = [];
+              // $uniqueSizes = [];
               $uniqueColors = array_unique(array_column($filteredSizes, 'color'));
               $uniqueSizes = array_unique(array_column($filteredSizes, 'size'));
           @endphp
+            {{-- <div class="product-colors mb-3">
+              <label class="d-block fw-bold mb-2">COLORS</label>
+              <div class="d-flex align-items-center">
+                @foreach($filteredSizes as $item)
+                  @if($item['color'] !== '' && !in_array($item['color'], $uniqueColor))
+                  <label class="color-option" style="margin-right: 10px;">
+                    <input type="radio" name="color" value="{{ $item['color'] }}" required>
+                    <span class="color-swatch" style="background-color: {{ $item['color'] }};"></span>
+                  </label>
+                  @php
+                      $uniqueColor[] = $item['color'];
+                  @endphp
+                  @endif
+                @endforeach
+              </div>
+            </div> --}}
             <div class="product-colors mb-3">
               <label class="d-block fw-bold mb-2">COLORS</label>
               <div class="d-flex align-items-center">
                   @foreach($uniqueColors as $color)
-                  {{-- @dd($color) --}}
                       <label class="color-option" style="margin-right: 10px;">
                           <input type="radio" name="color" value="{{ $color }}" class="color-selector" required>
                           <span class="color-swatch" style="background-color: {{ $color }};"></span>
@@ -150,21 +166,31 @@
               <label class="d-block fw-bold mb-2">SIZES</label>
               <div class="d-flex align-items-center gap-2" id="size-container">
                   @foreach($filteredSizes as $item)
-                  
-                    @if ($item['quantity'] > 0)
-                        <label class="size-option size-{{ str_replace('#', '', $item['color']) }}" style="display: none;">
-                            <input type="radio" name="size" value="{{ $item['size'] }}" required>
-                            <span class="size-box">{{ $item['size'] }}</span>
-                        </label>
-                        
-                    @endif
-                      {{-- <label class="size-option size-{{ $item['color'] }}" style="display: none;">
+                      <label class="size-option size-{{ $item['color'] }}" style="display: none;">
                           <input type="radio" name="size" value="{{ $item['size'] }}" required>
                           <span class="size-box">{{ $item['size'] }}</span>
-                      </label> --}}
+                      </label>
                   @endforeach
               </div>
             </div>
+
+            {{-- <div class="product-sizes mb-3">
+              <label class="d-block fw-bold mb-2">SIZES</label>
+              <div class="d-flex align-items-center gap-2">
+                  @foreach($filteredSizes as $item)
+                    @if($item['size'] !== '' && !in_array($item['size'], $uniqueSizes))
+                
+                    <label class="size-option">
+                      <input type="radio" name="size" value="{{ $item['size'] }}" required>
+                      <span class="size-box">{{ $item['size'] }}</span>
+                    </label>
+                    @php
+                        $uniqueSizes[] = $item['size'];
+                    @endphp
+                    @endif
+                  @endforeach
+                </div>
+            </div> --}}
 
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">
@@ -249,7 +275,7 @@
               </div>
               <div class="item">
                 <label class="h6">Size</label>
-                {{-- <span>{{$sizes}}</span> --}}
+                <span>XS, S, M, L, XL</span>
               </div>
               <div class="item">
                 <label class="h6">SKU</label>
@@ -318,7 +344,7 @@
                     <input type="hidden" name="id" value="{{$rproduct->id}}" />
                     <input type="hidden" name="name" value="{{$rproduct->name}}" />
                     <input type="hidden" name="price" value="{{$rproduct->sale_price == ''?$rproduct->regular_price: $rproduct->sale_price}}" />
-                    
+                    {{-- <input type="hidden" name="size" value="{{$rproduct->sale_price == ''?$rproduct->regular_price: $rproduct->sale_price}}" /> --}}
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit"
                     class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
@@ -354,8 +380,6 @@
 
     </section>
 </main>    
-
-
 @endsection
 
 @push('scripts')
@@ -366,7 +390,7 @@
 
       colorSelectors.forEach(colorInput => {
           colorInput.addEventListener("change", function () {
-              let selectedColor = this.value.replace("#", "");
+              let selectedColor = this.value;
 
               // Hide all size options first
               sizeLabels.forEach(label => {
@@ -381,29 +405,6 @@
               // Uncheck all size options when color changes
               document.querySelectorAll("input[name='size']").forEach(sizeInput => {
                   sizeInput.checked = false;
-              });
-          });
-      });
-  });
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll('.addtocart').forEach(form => {
-          form.addEventListener('submit', function (event) {
-              event.preventDefault(); // Prevent the default form submission
-              
-              var formData = new FormData(this);
-              Swal.fire({
-                  title: "Success!",
-                  text: "Product added to cart.",
-                  icon: "success",
-                  confirmButtonColor: "#fbc20c", // Change button color
-                  confirmButtonText: "OK",
-                  allowOutsideClick: false,
-              }).then((willContinue) => {
-                  if (willContinue) {
-                      this.submit(); // Submit the form after confirmation
-                  }
               });
           });
       });

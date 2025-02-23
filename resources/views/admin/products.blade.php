@@ -131,8 +131,10 @@
                                 $uniqueColor = [];
                             @endphp
                             @foreach($filteredSizes as $item)
+                            {{-- @dd($item) --}}
                                 @if($item['color'] !== '' && !in_array($item['color'], $uniqueColor))
-                                    {{ $item['color'] }},
+                                <button class="p-2 m-2" style="background-color: {{$item['color'] }}" disabled></button>,
+                                    {{-- {{ $item['color'] }}, --}}
                                     @php
                                         $uniqueColor[] = $item['color'];
                                     @endphp
