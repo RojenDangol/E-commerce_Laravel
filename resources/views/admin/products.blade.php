@@ -42,20 +42,20 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            {{-- <th>Id</th> --}}
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>SalePrice</th>
-                            <th>SKU</th>
-                            <th>Wardrobe</th>
-                            <th>Category</th>
-                            <th>Brand</th>
-                            <th>Featured</th>
-                            <th>Stock</th>
-                            <th>Quantity</th>
-                            <th>Sizes</th>
-                            <th>Action</th>
+                            <th style="width: 50px">#</th>
+                            <th style="width: 250px">Name</th>
+                            <th style="width: 120px">Price</th>
+                            <th style="width: 120px">SalePrice</th>
+                            <th  style="width: 120px">Wardrobe</th>
+                            <th  style="width: 120px">Category</th>
+                            <th  style="width: 120px">Brand</th>
+                            <th style="width: 120px">Qty</th>
+                            <th  style="width: 120px">Sizes</th>
+                            <th style="width: 130px">Color</th>
+                            <th  style="width: 120px">Featured</th>
+                            <th  style="width: 120px">Stock</th>
+                            <th  style="width: 120px">SKU</th>
+                            <th style="width: 120px">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +65,6 @@
                         @foreach ($products as $product)                     
                         <tr>
                             <td>{{$count}}</td>
-                            {{-- <td>{{$product->id}}</td> --}}
                             <td class="pname">
                                 <div class="image">
                                     <img src="{{asset('uploads/products/thumbnails')}}/{{$product->image}}" alt="{{$product->name}}" class="image">
@@ -77,22 +76,72 @@
                             </td>
                             <td>Rs.{{$product->regular_price}}</td>
                             <td>Rs.{{$product->sale_price}}</td>
-                            <td>{{$product->SKU}}</td>
                             <td>{{$product->wardrobe}}</td>
                             <td>{{$product->category->name}}</td>
                             <td>{{$product->brand->name}}</td>
+                            @php
+                                // $productMeta = App\Models\ProductMeta::where('product_id', $product->id)->where('key', 'sizes')->first();
+                                // if ($productMeta) {
+                                //     $sizes = explode(',', $productMeta->value);  
+                                // } else {
+                                //     $sizes = [];
+                                // }
+                                $sizes = App\Models\ProductMeta::where('product_id', $product->id)->pluck('value', 'key')->toArray();
+                                $filteredSizes = [];
+
+                                foreach ($sizes as $key => $value) {
+                                    if (str_contains($key, '_')) { 
+                                        list($size, $color) = explode('_', $key); 
+                                        $filteredSizes[] = [
+                                            'size' => $size,
+                                            'color' => $color,
+                                            'quantity' => $value
+                                        ];
+                                    } else {
+                                        $filteredSizes[] = [ 'size' => '', 'color' => '', 'quantity' => '' ];
+                                    }
+                                }
+                                $totalQuantity = 0;
+                            @endphp
+                            <td>
+                            @foreach($filteredSizes as $item)
+                                @if($item['quantity'] !== '')
+                                @php
+                                    $totalQuantity += (int) $item['quantity'];
+                                @endphp
+                                @endif
+                            @endforeach
+                            {{ $totalQuantity }}
+                            </td>
+                            <td>
+                            @php
+                                $uniqueSizes = [];
+                            @endphp
+                            @foreach($filteredSizes as $item)
+                            @if($item['size'] !== '' && !in_array($item['size'], $uniqueSizes))
+                                {{ $item['size'] }},
+                                @php
+                                    $uniqueSizes[] = $item['size'];
+                                @endphp
+                            @endif
+                            @endforeach
+                            </td>
+                            <td>
+                            @php
+                                $uniqueColor = [];
+                            @endphp
+                            @foreach($filteredSizes as $item)
+                                @if($item['color'] !== '' && !in_array($item['color'], $uniqueColor))
+                                    {{ $item['color'] }},
+                                    @php
+                                        $uniqueColor[] = $item['color'];
+                                    @endphp
+                                @endif
+                            @endforeach
+                            </td>
                             <td>{{$product->featured == 0?"No":"Yes"}}</td>
                             <td>{{$product->stock_status}}</td>
-                            <td>{{$product->quantity}}</td>
-                            @php
-                                $productMeta = App\Models\ProductMeta::where('product_id', $product->id)->where('key', 'sizes')->first();
-                                if ($productMeta) {
-                                    $sizes = explode(',', $productMeta->value);  
-                                } else {
-                                    $sizes = [];
-                                }
-                            @endphp
-                            <td>{{ implode(', ', $sizes) }}</td>
+                            <td>{{$product->SKU}}</td>
                             <td>
                                 <div class="list-icon-function">
                                     <a href="{{route('admin.product.edit',['id'=>$product->id])}}">

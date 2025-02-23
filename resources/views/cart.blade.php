@@ -72,7 +72,7 @@
                       <h4>{{$item->name}}</h4>
                       <ul class="shopping-cart__product-item__options">
                         <div class="meta-item">
-                          @php
+                          {{-- @php
                             $productMeta = App\Models\ProductMeta::where('product_id', $item->id)->where('key', 'sizes')->first();
                             if ($productMeta) {
                                 $sizes = explode(',', $productMeta->value);  
@@ -80,18 +80,21 @@
                                 $sizes = [];
                             }
                             $count = 1;
-                          @endphp
-                          <label>Sizes:</label>
-                          @forelse ($sizes as $size)
+                          @endphp --}}
+                          {{-- @forelse ($sizes as $size)
                           <input class="form-check-input form-check-input_fill size-selector" type="radio" 
                           name="size_{{$item->id}}" data-id="{{$item->id}}" value="{{$size}}" >            
                           <label class="form-check-label" for="size1">{{$size}}</label>
                           @php
                             $count++;
-                          @endphp
-                          @empty
+                          @endphp --}}
+                          {{-- @empty
                               <p>No Sizes Available.</p>
-                          @endforelse
+                          @endforelse --}}
+                          <label>Size:</label>
+                          {{$item->options->size}}
+                          <br>
+                          <label>Color:</label>{{$item->options->color}}
                         </div>
                       </ul>
                     </div>
@@ -265,7 +268,7 @@
         });       
       
     </script>
-    $
+    
     {{-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         const sizeSelectors = document.querySelectorAll(".size-selector");
@@ -294,7 +297,7 @@
         });
       });
     </script> --}}
-    <script>
+    {{-- <script>
       document.addEventListener("DOMContentLoaded", function () {
           const sizeSelectors = document.querySelectorAll(".size-selector");
           const container = document.getElementById("selected-sizes-container");
@@ -347,5 +350,5 @@
               }
           });
       });
-    </script>
+    </script> --}}
 @endpush

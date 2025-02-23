@@ -316,26 +316,6 @@ class AdminController extends Controller
         //     $product->setMetaValue('sizes', $request->sizes);
         // }
 
-         // Save sizes, colors, and quantities as meta data
-        // $sizes = $request->sizes;
-        // $colors = $request->colors;
-        // $quantities = $request->quantities;
-
-        // $sizeColorMap = [];
-        // foreach ($sizes as $sizeIndex => $size) {
-        //     foreach ($colors as $colorIndex => $color) {
-        //         $quantity = $quantities[$colorIndex] ?? 0;
-        //         if ($quantity > 0) {
-        //             $key = "{$size}_{$color}"; // Example: "S_red", "M_blue"
-        //             $product->setMetaValue($key, $quantity);
-        //             $sizeColorMap[] = [
-        //                 'size' => $size,
-        //                 'color' => $color,
-        //                 'quantity' => $quantity,
-        //             ];
-        //         }
-        //     }
-        // }
 
         $sizeColorQuantities = $request->input('size_color_quantity', []);
 
@@ -376,11 +356,14 @@ class AdminController extends Controller
         $product = Product::find($id);
         $categories = Category::select('id','name')->orderBy('name')->get();
         $brands = Brand::select('id','name')->orderBy('name')->get();
-        $sizesMeta = ProductMeta::where('product_id', $id)
-                            ->where('key', 'sizes')  // Filter for the 'sizes' meta key
-                            ->first();
+        // $sizesMeta = ProductMeta::where('product_id', $id)
+        //                     ->where('key', 'sizes')  // Filter for the 'sizes' meta key
+        //                     ->first();
         
-        $sizes = $sizesMeta ? explode(',',$sizesMeta->value) : [];
+        // $sizes = $sizesMeta ? explode(',',$sizesMeta->value) : [];
+
+        $productMeta = ProductMeta::where('product_id', $id)->pluck('value', 'key')->toArray();
+        $sizes = $productMeta;
         // dd($sizes);
         return view('admin.product-edit',compact('product','categories','brands','sizes'));
     }
@@ -401,6 +384,7 @@ class AdminController extends Controller
             'image' => 'mimes:png,jpg,jpeg,svg|max:2048',
             'category_id' => 'required',
             'brand_id' => 'required',
+            'size_color_quantity' => 'required|array',
         ]);
 
         $product = Product::find($request->id);
@@ -468,27 +452,52 @@ class AdminController extends Controller
         }
         $product->save();
 
-        $sizes = $request->sizes ? implode(',', $request->sizes) : ''; // Convert array of sizes to a comma-separated string
+        // $sizes = $request->sizes ? implode(',', $request->sizes) : ''; // Convert array of sizes to a comma-separated string
 
         // Check if sizes metadata already exists
 
-        $productId = $request->id;
-        $productMeta = ProductMeta::where('product_id', $productId)
-                                ->where('key', 'sizes')
-                                ->first();
+        // $productId = $request->id;
+        // $productMeta = ProductMeta::where('product_id', $productId)
+        //                         ->where('key', 'sizes')
+        //                         ->first();
 
-        if ($productMeta) {
-            // If sizes metadata already exists, update the value
-            $productMeta->value = $sizes;
-            $productMeta->save();
-        } else {
-            // If sizes metadata does not exist, create a new record
-            ProductMeta::create([
-                'product_id' => $productId,
-                'key' => 'sizes',
-                'value' => $sizes,
-            ]);
+        // if ($productMeta) {
+        //     // If sizes metadata already exists, update the value
+        //     $productMeta->value = $sizes;
+        //     $productMeta->save();
+        // } else {
+        //     // If sizes metadata does not exist, create a new record
+        //     ProductMeta::create([
+        //         'product_id' => $productId,
+        //         'key' => 'sizes',
+        //         'value' => $sizes,
+        //     ]);
+        // }
+
+        $productId = $product->id;
+    
+    // Remove old sizes/colors/quantities meta for this product
+    ProductMeta::where('product_id', $productId)->delete();
+
+    // Process new size, color, and quantity data
+    foreach ($request->size_color_quantity as $sizeIndex => $sizeData) {
+        if (isset($sizeData['size'])) {
+            $size = $sizeData['size'];
+
+            if (isset($sizeData['color']) && isset($sizeData['quantity'])) {
+                foreach ($sizeData['color'] as $colorIndex => $color) {
+                    $quantity = $sizeData['quantity'][$colorIndex];
+
+                    // Save each size, color, and quantity combination in ProductMeta
+                    ProductMeta::create([
+                        'product_id' => $productId,
+                        'key' => "{$size}_{$color}",
+                        'value' => $quantity,
+                    ]);
+                }
+            }
         }
+    }
 
         return redirect()->route('admin.products')->with('status','Product has been updated successfully!');
     }

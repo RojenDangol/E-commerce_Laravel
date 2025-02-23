@@ -230,8 +230,8 @@
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
-                @if (Cart::instance('wishlist')->content()->count()>0)
-                <span class="cart-amount d-block position-absolute js-cart-items-count">{{Cart::instance('wishlist')->content()->count()}}</span>
+                @if (Cart::instance('cart')->content()->count()>0)
+                <span class="cart-amount d-block position-absolute js-cart-items-count">{{Cart::instance('cart')->content()->count()}}</span>
                 @endif
             </a>
         </div>
@@ -571,6 +571,8 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{asset('assets/js/plugins/swiper.min.js') }}"></script>
     <script src="{{asset('assets/js/plugins/countdown.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(function(){
             $("#search-input").on("keyup",function(){

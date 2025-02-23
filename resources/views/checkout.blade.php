@@ -154,6 +154,8 @@
                     @foreach (Cart::instance('cart')->content() as $item)
                     <tr>
                       <td>
+                        {{$item->name}} x {{$item->qty}} <br>
+                        <span>Size: {{ $item->options->size }}</span> / <span>Color: {{ $item->options->color }}</span>
                         @php
                             
                             $product_id = $product_id ?? [];
@@ -166,12 +168,12 @@
                             
                             $isSelected = in_array($item->id, array_keys($selectedSizes));
                         @endphp
-                        {{$item->name}} x {{$item->qty}} <br>
+                        {{-- 
                         @if ($isSelected)
-                        <span>Size Selected: {{ $selectedSizes[$item->id] }}</span>
-                    @else
-                        <span>No size selected</span>
-                    @endif
+                        <span>Size Selected: {{ $selectedSizes[$item->id] }}</span>    
+                        @else
+                            <span>No size selected</span>
+                        @endif --}}
                       </td>
                       <td class="text-right">
                         Rs.{{$item->subtotal()}}

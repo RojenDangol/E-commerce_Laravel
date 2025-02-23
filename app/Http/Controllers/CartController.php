@@ -7,6 +7,7 @@ use App\Models\Coupon;
 use App\Models\Address;
 use App\Models\Product;
 use App\Models\OrderItem;
+use App\Models\ProductMeta;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -23,7 +24,11 @@ class CartController extends Controller
     }
 
     public function add_to_cart(Request $request){
-        Cart::instance('cart')->add($request->id, $request->name, $request->quantity, $request->price)->associate('App\Models\Product');
+        // dd($request->all());
+        Cart::instance('cart')->add($request->id, $request->name, $request->quantity, $request->price,[
+            'size' => $request->size,
+            'color' => $request->color
+        ])->associate('App\Models\Product');
         return redirect()->back();
     }
 
@@ -179,32 +184,47 @@ class CartController extends Controller
 
        
         $productIds = explode(',', $request->product_ids);
-
-        $productSizes = json_decode($request->input('product_sizes'), true);
-        // dd($productSizes);
+        // dd($productIds);
+        // $productSizes = json_decode($request->input('product_sizes'), true);
         foreach(Cart::instance('cart')->content() as $item){
             $orderItem = new OrderItem();
             $orderItem->product_id = $item->id;
             $orderItem->order_id = $order->id;
             $orderItem->price = $item->price;
             $orderItem->quantity = $item->qty;
-
-            if (isset($productSizes[$item->id])) {
-                // dd($productSizes[$item->id]);
-                $orderItem->size = $productSizes[$item->id];  
-            }
+            $orderItem->color = $item->options->color;
+            $orderItem->size = $item->options->size;
+            // if (isset($productSizes[$item->id])) {
+            //     $orderItem->size = $productSizes[$item->id];  
+            // }
 
             $orderItem->save();
 
+            // if(in_array($item->id,$productIds)){
+            //     $product = Product::find($item->id);
+            //     if ($product) {
+            //         $product->quantity -= $item->qty; 
+            //         if($product->quantity == 0){
+            //             $product->stock_status = 'outofstock';
+            //         }
+            //         $product->save(); 
+            //     }
+            // }
             if(in_array($item->id,$productIds)){
+                $productMeta = ProductMeta::where('product_id', $item->id)->pluck('value')->toArray();
+                $total = array_sum($productMeta);
                 $product = Product::find($item->id);
-                if ($product) {
-                    $product->quantity -= $item->qty; 
-                    if($product->quantity == 0){
-                        $product->stock_status = 'outofstock';
-                    }
-                    $product->save(); 
+                $product_meta = ProductMeta::where('product_id', $item->id)
+                    ->where('key', $item->options->size . '_' . $item->options->color)
+                    ->first();
+                    
+                $product_meta->value -= $item->qty;
+                $product->quantity -= $item->qty;
+                if($total == 0){
+                    $product->stock_status = 'outofstock';
                 }
+                $product_meta->save();
+                $product->save();
             }
         }
 

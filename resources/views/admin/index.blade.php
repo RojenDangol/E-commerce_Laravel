@@ -172,7 +172,7 @@
                     <div>
                         <div class="mb-2">
                             <div class="block-legend">
-                                <div class="dot t2"></div>
+                                <div class="dot t3"></div>
                                 <div class="text-tiny">
                                     Delivered
                                 </div>
@@ -185,7 +185,7 @@
                     <div>
                         <div class="mb-2">
                             <div class="block-legend">
-                                <div class="dot t2"></div>
+                                <div class="dot t4"></div>
                                 <div class="text-tiny">
                                     Canceled
                                 </div>

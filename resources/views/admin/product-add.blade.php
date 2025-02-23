@@ -261,18 +261,6 @@
                     @enderror
                 </div>
 
-                {{-- <div class="cols gap22">
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Available Sizes, Colors, and Quantities</div>
-                        <div id="sizesColorsQuantities">
-                            <!-- Dynamic container for sizes, colors, and quantities -->
-                        </div>
-                        <button type="button" id="addSizeRow" style="margin-top: 10px;">Add Size</button>
-                    </fieldset>
-                    @error('sizes')
-                    <span class="alert alert-danger text-center">{{ $message }}</span>
-                    @enderror
-                </div> --}}
                 <div class="cols gap22">
                     <fieldset class="name">
                         <div class="body-title mb-10">Available Sizes, Colors, and Quantities</div>
