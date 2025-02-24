@@ -15,6 +15,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "laravolt/avatar": "^6.0",
         "surfsidemedia/shoppingcart": "^1.0"
     },
     "require-dev": {

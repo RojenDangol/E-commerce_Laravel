@@ -193,7 +193,7 @@
                                         class="menu-item-button"
                                     >
                                         <div class="icon">
-                                            <i class="icon-layers"></i>
+                                            <i class="fa-solid fa-shapes"></i>
                                         </div>
                                         <div class="text">Category</div>
                                     </a>
@@ -234,8 +234,7 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.slides')}}" class="">
                                         <div class="icon">
-                                            {{-- <i class="icon-image"></i> --}}
-                                            <i class="fa-solid fa-sliders"></i>
+                                            <i class="icon-image"></i>
                                         </div>
                                         <div class="text">Slider</div>
                                     </a>
@@ -353,20 +352,6 @@
                                         <form action="{{ url('/clear-cache') }}" method="GET">
                                             <button type="submit" class="btn btn-danger">Clear Cache</button>
                                         </form>
-                                        
-                                        {{-- <form action="{{ url('/clear-cache') }}" method="GET">
-                                        <button
-                                            class="btn btn-secondary dropdown-toggle"
-                                            type="submit"
-                                            id="dropdownMenuButton2"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <span class="header-item">
-                                                <i class="icon-bell"></i>
-                                            </span>
-                                        </button>
-                                        </form> --}}
                                     </div>
                                 </div>
 
@@ -378,12 +363,17 @@
                                             >
                                                 <span class="image">
                                                     @if (Auth::user()->profile_picture)                      
-                                                
-                                                    <img
-                                                        src="{{asset('uploads/profile')}}/{{ Auth::user()->profile_picture}}"
-                                                        alt="{{ Auth::user()->name}}" style="height: 36px; width: 36px;"
-                                                    />
+                                                        @php
+                                                            $image = asset('uploads/profile').'/'.Auth::user()->profile_picture;
+                                                        @endphp
+                                                    @else
+                                                    @php
+                                                        $image = \Laravolt\Avatar\Facade::create(Auth::user()->name)->toBase64();
+                                                    @endphp
                                                     @endif
+                                                    <img
+                                                        src="{{$image}}" alt="{{ Auth::user()->name}}" style="height: 36px; width: 36px;"
+                                                    />
                                                 </span>
                                                 <span
                                                     class="flex flex-column"

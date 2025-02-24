@@ -67,7 +67,23 @@ class AdminController extends Controller
         $TotalDeliveredAmount = collect($monthlyDatas)->sum('TotalDeliveredAmount');
         $TotalCanceledAmount = collect($monthlyDatas)->sum('TotalCanceledAmount');
 
-        return view('admin.index',compact('orders','dashboardDatas','AmountM','OrderedAmountM','DeliveredAmountM','CanceledAmountM','TotalAmount','TotalOrderedAmount','TotalDeliveredAmount','TotalCanceledAmount'));
+        $oneMonthAgo = Carbon::now()->subMonth();
+        $popularProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
+        ->where('created_at', '>=', $oneMonthAgo)  // Filter orders from the last month
+        ->groupBy('product_id')                   // Group by product
+        ->orderBy('total_quantity', 'desc')       // Order by highest quantity
+        ->take(4)                                 // Get the top 4 products
+        ->get();
+        
+        
+        $topCustomers = Order::select('user_id', DB::raw('COUNT(user_id) as total_purchase'))
+        ->groupBy('user_id')                     // Group by customer (user_id)
+        ->orderBy('total_purchase', 'desc')         // Sort by highest spending
+        ->take(6)                                // Get top 8 customers
+        ->with('user')                           // Load user details
+        ->get();
+        // dd($topCustomers);
+        return view('admin.index',compact('orders','dashboardDatas','AmountM','OrderedAmountM','DeliveredAmountM','CanceledAmountM','TotalAmount','TotalOrderedAmount','TotalDeliveredAmount','TotalCanceledAmount','popularProducts','topCustomers'));
     }
 
     public function brands(Request $request){
@@ -358,16 +374,11 @@ class AdminController extends Controller
         $product = Product::find($id);
         $categories = Category::select('id','name')->orderBy('name')->get();
         $brands = Brand::select('id','name')->orderBy('name')->get();
-        // $sizesMeta = ProductMeta::where('product_id', $id)
-        //                     ->where('key', 'sizes')  // Filter for the 'sizes' meta key
-        //                     ->first();
-        
-        // $sizes = $sizesMeta ? explode(',',$sizesMeta->value) : [];
 
         $productMeta = ProductMeta::where('product_id', $id)->pluck('value', 'key')->toArray();
         $sizes = $productMeta;
         $colors = Color::select('name','code')->orderBy('name')->get();
-        // dd($sizes);
+       
         return view('admin.product-edit',compact('product','categories','brands','sizes','colors'));
     }
 

@@ -202,61 +202,28 @@
         <!-- customer0Product Section -->
         <div class="row">
             <!-- Top Customer Section -->
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-30 d-flex ">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-30 d-flex">
                 <div class="wg-box justify-content-center" >
                     <h5>Top Customer</h5>
                       <div class="row top-customer g-4">
+                        @foreach ($topCustomers as $topCustomer)
                         <div class="col-lg-4">
                             <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
+                                @php
+                                    $user_name = App\Models\User::find($topCustomer->user_id);
+                                @endphp
+                                @php
+                                    $image = \Laravolt\Avatar\Facade::create($user_name->name)->toBase64();
+                                @endphp
+                                <img src="{{ $image }}" alt="Customer">
                                 <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
+                                    
+                                    <p>{{$user_name->name}}</p>
+                                    <small>Purchase: {{$topCustomer->total_purchase}}x</small>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
-                                <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
-                                </div>
-                            </div>
-                        </div><div class="col-lg-4">
-                            <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
-                                <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
-                                </div>
-                            </div>
-                        </div><div class="col-lg-4">
-                            <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
-                                <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
-                                </div>
-                            </div>
-                        </div><div class="col-lg-4">
-                            <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
-                                <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
-                                </div>
-                            </div>
-                        </div><div class="col-lg-4">
-                            <div class="customer-card">
-                                <img src="images/customer.jpg" alt="Customer">
-                                <div class="customer-info">
-                                    <p>Ronald Richards</p>
-                                    <small>Purchase: 35x</small>
-                                </div>
-                            </div>
-                        </div>
-                       
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -264,44 +231,24 @@
             <!-- Popular Products Section -->
             <div class="col-lg-6 col-md-6 col-sm-12 mb-30">
                 <div class="wg-box">
-                    <h5>Popular Products</h5>
+                    <h5>Popular Products This Month</h5>
                     <div class="row g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
+                        {{-- @dd($popularProducts); --}}
+                        @foreach ($popularProducts as $popularProduct)
+                        @php
+                            $product = App\Models\Product::find($popularProduct->product_id);
+                            // dd($product);
+                        @endphp
+                        <div class="d-flex col-lg-3 col-md-4 col-sm-6">
                             <div class="product-card">
-                                <img src="images/products/product_0.jpg" alt="Product">
+                                <img src="{{asset('uploads/products/thumbnails')}}/{{$product->image}}" alt="{{$product->name}}">
                                 <div class="product-info">
-                                    <p class="large-text">Down Jacket</p>
-                                    <p class="small-text">Sold: 25x</p>
+                                    <p class="large-text">{{$product->name}}</p>
+                                    <p class="small-text">Sold: {{$popularProduct->total_quantity}}x</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="product-card">
-                                <img src="images/products/product_0.jpg" alt="Product">
-                                <div class="product-info">
-                                    <p class="large-text">Down Jacket</p>
-                                    <p class="small-text">Sold: 25x</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="product-card">
-                                <img src="images/products/product_0.jpg" alt="Product">
-                                <div class="product-info">
-                                    <p class="large-text">Down Jacket</p>
-                                    <p class="small-text">Sold: 25x</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="product-card">
-                                <img src="images/products/product_0.jpg" alt="Product">
-                                <div class="product-info">
-                                    <p class="large-text">Down Jacket</p>
-                                    <p class="small-text">Sold: 25x</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
             </div>
             </div>

@@ -134,36 +134,62 @@
               $uniqueColors = array_unique(array_column($filteredSizes, 'color'));
               $uniqueSizes = array_unique(array_column($filteredSizes, 'size'));
           @endphp
+            
+            {{-- <div class="product-sizes mb-3">
+              <label class="d-block fw-bold mb-2">SIZES</label>
+              <div class="d-flex align-items-center gap-2" id="size-container">
+                  @foreach($filteredSizes as $item)
+                    @if ($item['quantity'] > 0)
+                        <label class="size-option size-{{ str_replace('#', '', $item['color']) }}" style="display: none;">
+                            <input type="radio" name="size" value="{{ $item['size'] }}" required>
+                            <span class="size-box">{{ $item['size'] }}</span>
+                        </label>
+                    @endif
+                  @endforeach
+              </div>
+            </div>
             <div class="product-colors mb-3">
               <label class="d-block fw-bold mb-2">COLORS</label>
               <div class="d-flex align-items-center">
                   @foreach($uniqueColors as $color)
-                  {{-- @dd($color) --}}
                       <label class="color-option" style="margin-right: 10px;">
                           <input type="radio" name="color" value="{{ $color }}" class="color-selector" required>
                           <span class="color-swatch" style="background-color: {{ $color }};"></span>
                       </label>
                   @endforeach
               </div>
-            </div>
+            </div> --}}
             <div class="product-sizes mb-3">
-              <label class="d-block fw-bold mb-2">SIZES</label>
-              <div class="d-flex align-items-center gap-2" id="size-container">
-                  @foreach($filteredSizes as $item)
-                  
-                    @if ($item['quantity'] > 0)
-                        <label class="size-option size-{{ str_replace('#', '', $item['color']) }}" style="display: none;">
-                            <input type="radio" name="size" value="{{ $item['size'] }}" required>
-                            <span class="size-box">{{ $item['size'] }}</span>
+                <label class="d-block fw-bold mb-2">SIZES</label>
+                <div class="d-flex align-items-center gap-2">
+                    @foreach($uniqueSizes  as $size)
+                    @php
+                        // Find if there's at least one item with this size that has quantity > 0
+                        $availableItem = collect($filteredSizes)->firstWhere('size', $size);
+                    @endphp
+            
+                    @if ($availableItem && $availableItem['quantity'] > 0)
+                        <label class="size-option">
+                            <input type="radio" name="size" value="{{ $size }}" class="size-selector" required>
+                            <span class="size-box">{{ $size }}</span>
                         </label>
-                        
                     @endif
-                      {{-- <label class="size-option size-{{ $item['color'] }}" style="display: none;">
-                          <input type="radio" name="size" value="{{ $item['size'] }}" required>
-                          <span class="size-box">{{ $item['size'] }}</span>
-                      </label> --}}
-                  @endforeach
-              </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            <div class="product-colors mb-3">
+                <label class="d-block fw-bold mb-2">COLORS</label>
+                <div class="d-flex align-items-center gap-2" id="color-container">
+                    @foreach($filteredSizes as $item)
+                        @if ($item['quantity'] > 0)
+                            <label class="color-option color-{{ str_replace('#', '', $item['size']) }}" style="display: none;">
+                                <input type="radio" name="color" value="{{ $item['color'] }}" required>
+                                <span class="color-swatch" style="background-color: {{ $item['color'] }};"></span>
+                            </label>
+                        @endif
+                    @endforeach
+                </div>
             </div>
 
             <div class="product-single__addtocart">
@@ -359,7 +385,7 @@
 @endsection
 
 @push('scripts')
-<script>
+{{-- <script>
   document.addEventListener("DOMContentLoaded", function () {
       const colorSelectors = document.querySelectorAll(".color-selector");
       const sizeLabels = document.querySelectorAll(".size-option");
@@ -385,7 +411,35 @@
           });
       });
   });
+</script> --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sizeSelectors = document.querySelectorAll(".size-selector");
+  const colorLabels = document.querySelectorAll(".color-option");
+
+  sizeSelectors.forEach(sizeInput => {
+      sizeInput.addEventListener("change", function () {
+          let selectedSize = this.value.replace("#", "");
+
+          // Hide all color options first
+          colorLabels.forEach(label => {
+              label.style.display = "none";
+          });
+
+          // Show only colors for the selected size
+          document.querySelectorAll(".color-" + selectedSize).forEach(label => {
+              label.style.display = "inline-block";
+          });
+
+          // Uncheck all color options when size changes
+          document.querySelectorAll("input[name='color']").forEach(colorInput => {
+              colorInput.checked = false;
+          });
+      });
+  });
+});
 </script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll('.addtocart').forEach(form => {
