@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use App\Models\RepeaterItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\ContactInfoMeta;
 use App\Models\ContactInformation;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -734,8 +735,9 @@ class AdminController extends Controller
 
     // Contact Information
     public function contact_info(){
-        $contact_info = ContactInformation::first();
-        return view('admin.contact-info',compact('contact_info'));
+        $contact_info = ContactInformation::first();;
+        $info_metas = ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
+        return view('admin.contact-info',compact('contact_info','info_metas'));
     }
 
     public function contact_info_add(){
@@ -743,31 +745,49 @@ class AdminController extends Controller
     }
 
     public function contact_info_store(Request $request){
+        // dd($request->all());
         $request->validate([
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
+            'items.*.title' => 'required|string|max:255',
+            'items.*.link' => 'nullable|string',
         ]);
         $contact_info = new ContactInformation();
         $contact_info->address = $request->address;
         $contact_info->email = $request->email;
         $contact_info->phone = $request->phone;
-
         $contact_info->save();
+
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $key = $item['title'];
+                $value = $item['link'];
+                $contact_info->setMetaValue($key, $value);
+            }
+        }
+
+        // $contact_info->save();
 
         return redirect()->route('admin.contact.info')->with('status','Contact Information added successfully!');
     }
 
     public function contact_info_edit($id){
         $contact_info = ContactInformation::find($id);
-        return view('admin.contact-info-edit',compact('contact_info'));
+        $info_metas = $contact_info ? $contact_info->getMetaValue($id) : [];
+        // dd($info_metas);
+        return view('admin.contact-info-edit',compact('contact_info','info_metas'));
     }
 
     public function contact_info_update(Request $request){
         $request->validate([
+            // 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'items.*.title' => 'required|string|max:255',
+            'items.*.link' => 'nullable|string',
         ]);
 
         $contact_info = ContactInformation::find($request->id);
@@ -776,6 +796,14 @@ class AdminController extends Controller
         $contact_info->phone = $request->phone;
 
         $contact_info->save();
+
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $key = $item['title'];
+                $value = $item['link'];
+                $contact_info->setMetaValue($key, $value);
+            }
+        }
 
         return redirect()->route('admin.contact.info')->with('status','Contact Information updated successfully!');
     }

@@ -61,6 +61,42 @@
                     <span class="alert alert-danger text-center">{{$message}}</span>
                 @enderror
 
+                <fieldset class="name">
+                    <div class="body-title">Social Media <span class="tf-color-1">*</span></div>
+                    <div id="repeater" class="sortable-container">
+                        @php
+                                $index = 0;
+                            @endphp
+                            @foreach ($info_metas as $key => $value)
+                        <div class="repeater-item row" data-index="{{$index}}">
+                            <div>
+                                <span class="repeater-number">{{$index+1}}</span>
+                                <span class="separator">:::</span>
+                            </div>
+                            <div class="col-md-4 select ">
+                                <select name="items[{{$index}}][title]" id="title-{{$index}}" required>
+                                    <option value="facebook" {{$key == 'facebook' ? 'selected' : ''}}>Facebook</option>
+                                    <option value="instagram" {{$key == 'instagram' ? 'selected' : ''}}>Instagram</option>
+                                    <option value="x" {{$key == 'x' ? 'selected' : ''}}>X</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="code-{{$index}}" name="items[{{$index}}][link]" class="form-control color-code" placeholder="Enter Link" value="{{$value}}" required>
+                            </div>
+
+                            <!-- Controls -->
+                            <div class="repeater-controls col-md-4">
+                                <button type="button" class="btn-add btn-success">+</button>
+                                <button type="button" class="btn-remove btn-danger">-</button>
+                            </div>
+                        </div>
+                        @php
+                            $index++;
+                        @endphp
+                        @endforeach
+                    </div>
+                </fieldset>
+
                 <div class="bot">
                     <div></div>
                     <button class="tf-button w208" type="submit">Save</button>
@@ -85,5 +121,88 @@
             }
         });
     });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    let index = {{$index}};
+
+    // Function to add a new repeater item
+    const addRepeaterItem = (currentIndex, currentItem) => {
+        const repeater = document.getElementById('repeater');
+        const newItem = document.createElement('div');
+        newItem.classList.add('repeater-item', 'row');
+        newItem.setAttribute('data-index', currentIndex);
+        newItem.innerHTML = `
+            <div>
+                <span class="repeater-number">${currentIndex + 1}</span>
+                <span class="separator">:::</span>
+            </div>
+            <div class="col-md-4 select">
+                <select name="items[${currentIndex}][title]" id="title-${currentIndex}">
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="x">X</option>
+                </select>
+            </div>     
+            <div class="col-md-4">
+                <input type="text" id="code-${currentIndex}" name="items[${currentIndex}][link]" class="form-control color-code" placeholder="Enter Link" required>
+            </div> 
+            <div class="repeater-controls col-md-4">
+                <button type="button" class="btn-add btn-success">+</button>
+                <button type="button" class="btn-remove btn-danger">-</button>
+            </div>
+        `;
+
+        repeater.appendChild(newItem); // Append to the repeater div
+        updateNumbers();
+    };
+
+    // Function to remove a repeater item
+    const removeRepeaterItem = (item) => {
+        if (document.querySelectorAll('.repeater-item').length > 1) {
+            item.remove();
+            updateNumbers();
+        } else {
+            swal({
+                title: "Note!",
+                text: "At least one item is required.",
+                icon: "warning",
+                buttons: "OK",
+                confirmButtonColor: "#dc3545"
+            });
+        }
+    };
+
+    // Function to update the numbering of the repeater items
+    const updateNumbers = () => {
+        document.querySelectorAll('.repeater-item').forEach((item, index) => {
+            item.querySelector('.repeater-number').textContent = index + 1;
+            item.setAttribute('data-index', index);
+        });
+    };
+
+    // Event delegation for dynamically added elements
+    document.getElementById('repeater').addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('btn-add')) {
+            let currentItem = target.closest('.repeater-item');
+            addRepeaterItem(++index, currentItem);
+        } else if (target.classList.contains('btn-remove')) {
+            let currentItem = target.closest('.repeater-item');
+            removeRepeaterItem(currentItem);
+        }
+    });
+
+    // Make the repeater items sortable
+    new Sortable(document.getElementById('repeater'), {
+        handle: '.repeater-item',
+        animation: 150,
+        onEnd(evt) {
+            updateNumbers();
+        }
+    });
+});
+
 </script>
 @endpush

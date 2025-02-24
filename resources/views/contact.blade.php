@@ -15,6 +15,7 @@
         <div class="col-lg-4 col-md-4 col-sm-12">
           <div class="info-box">
             <h3>Contact Information</h3>
+            @if (!empty($contact_info->address))
             <div class="single_contact_info">
               <img src="assets/images/icons/icon-27.png" alt="Location" />
               <p>
@@ -22,7 +23,9 @@
                 {{$contact_info->address}}
               </p>
             </div>
+            @endif
 
+            @if (!empty($contact_info->address))
             <div class="single_contact_info">
               <img src="assets/images/icons/icon-28.png" alt="Email" />
 
@@ -31,6 +34,9 @@
                 {{$contact_info->email}}
               </p>
             </div>
+            @endif
+
+            @if (!empty($contact_info->address))
             <div class="single_contact_info">
               <img src="assets/images/icons/icon-29.png" alt="Phone" />
 
@@ -39,6 +45,7 @@
                 {{$contact_info->phone}}
               </p>
             </div>
+            @endif
           </div>
         </div>
 

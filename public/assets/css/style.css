@@ -16814,7 +16814,7 @@ textarea.form-control.is-invalid {
 }
 
 .footer__social-link {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
     color: inherit;
 }
 .footer__social-link .svg-icon {

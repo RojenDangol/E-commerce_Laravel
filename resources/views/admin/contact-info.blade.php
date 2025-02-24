@@ -36,9 +36,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Logo</th>
                             <th>Location</th>
                             <th>Email</th>
                             <th>Phone Number</th>
+                            <th>Social Media</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,9 +48,15 @@
                         @if (isset($contact_info) )
                         <tr>
                             <td>1</td>
+                            <td></td>
                             <td>{{$contact_info->address}}</td>
                             <td>{{$contact_info->email}}</td>
                             <td>{{$contact_info->phone}}</td>
+                            <td>
+                                @foreach ($info_metas as $info_meta)
+                                    {{$info_meta->key}},
+                                @endforeach
+                            </td>
                             <td>
                                 <div class="list-icon-function">
                                     <a href="{{route('admin.contact.info.edit',['id'=>$contact_info->id])}}">
