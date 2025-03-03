@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/custom.css') }}" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @stack("styles")
 </head>
 
@@ -213,6 +215,12 @@
             margin-bottom: 10px;
         }
     </style>
+    @php
+    $contact_info = \App\Models\ContactInformation::first();
+        if($contact_info){
+            $info_metas = \App\Models\ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
+        }
+    @endphp
     <div class="header-mobile header_sticky">
         <div class="container d-flex align-items-center h-100">
             <a class="mobile-nav-activator d-block position-relative" href="#">
@@ -222,8 +230,17 @@
                 <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
             </a>
             <div class="logo">
+                @if (!empty($contact_info->logo))
+                    @php
+                        $logo = asset('uploads/logo').'/'.$contact_info->logo
+                    @endphp
+                @else
+                    @php
+                        $logo = asset('assets/images/logo.png')
+                    @endphp
+                @endif
                 <a href="{{route('home.index')}}">
-                    <img src="{{asset('assets/images/logo.png') }}" alt="Logo" class="logo__image d-block" />
+                    <img src="{{ $logo }}" alt="Logo" class="logo__image d-block" />
                 </a>
             </div>
             <a href="{{route('cart.index')}}" class="header-tools__item header-tools__cart " data-aside="cartDrawer">
@@ -325,7 +342,16 @@
             <div class="header-desk header-desk_type_1">
                 <div class="logo">
                     <a href="{{route('home.index')}}">
-                        <img src="{{asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                        @if (!empty($contact_info->logo))
+                            @php
+                                $logo = asset('uploads/logo').'/'.$contact_info->logo
+                            @endphp
+                        @else
+                            @php
+                                $logo = asset('assets/images/logo.png')
+                            @endphp
+                        @endif
+                        <img src="{{ $logo; }}" alt="Uomo" class="logo__image d-block" />
                     </a>
                 </div>
                 <nav class="navigation">
@@ -424,15 +450,27 @@
         <div class="footer-middle container">
             <div class="row row-cols-lg-5 row-cols-2">
                 <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
+                    {{-- @php
+                        $contact_info = \App\Models\ContactInformation::first();
+                        if($contact_info){
+                            $info_metas = \App\Models\ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
+                        }
+                    @endphp --}}
                     <div class="logo">
+                        @if (!empty($contact_info->logo))
+                            @php
+                                $logo = asset('uploads/logo').'/'.$contact_info->logo
+                            @endphp
+                        @else
+                            @php
+                                $logo = asset('assets/images/logo.png')
+                            @endphp
+                        @endif
                         <a href="{{route('home.index')}}">
-                            <img src="{{asset('assets/images/logo.png') }}" alt="logo" class="logo__image d-block" />
+                            <img src="{{ $logo }}" alt="logo" class="logo__image d-block" />
                         </a>
                     </div>
-                    @php
-                        $contact_info = \App\Models\ContactInformation::first();
-                        $info_metas = \App\Models\ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
-                    @endphp
+                    
                     @if (!empty($contact_info->address))
                     <p>
                         <strong class="fw-medium">{{$contact_info->address}}</strong>
@@ -450,15 +488,13 @@
                     @endif
                     
                     <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
+                    @if (!empty($info_metas ))   
                         @foreach ($info_metas as $info_meta)
-                        <li>
-                            <a href="{{$info_meta->value}}" class="footer__social-link d-block">
-                                <svg class="svg-icon svg-icon_{{$info_meta->key}} " width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_{{$info_meta->key}}" />
-                                </svg>
-                            </a>
-                        </li>
+                        <ul class="social-links clearfix ">
+                            <li><a class="{{$info_meta->key}}" href="{{$info_meta->value}}" target="_blank"><i class="fa-brands fa-{{$info_meta->key}}"></i></a></li>
+                        </ul>
                         @endforeach
+                    @endif
                     </ul>
                 </div>
                 <div class="footer-column footer-menu mb-4 mb-lg-0">

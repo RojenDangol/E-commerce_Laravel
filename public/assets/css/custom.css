@@ -1,3 +1,19 @@
+:root {
+    --facebook-color: #0866ff;
+    --twitter-color: #3aacf3;
+    --linkedin-color: #3291c2;
+    --youtube-color: #ff0000;
+    --tiktok-color: #000000;
+    --instagram-color: radial-gradient(
+        circle at 30% 107%,
+        #fdf497 0%,
+        #fdf497 5%,
+        #fd5949 45%,
+        #d6249f 60%,
+        #285aeb 90%
+    );
+}
+
 .footer-middle {
     padding-top: 2.25rem;
     padding-bottom: 2.25rem;
@@ -665,4 +681,44 @@
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: bold;
+}
+
+.social-links {
+    display: flex;
+    margin-top: 10px;
+}
+
+.social-links li {
+    list-style: none;
+}
+
+.social-links li a {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    color: #fff;
+    transition: all 0.4s ease-in-out;
+}
+
+.social-links li .facebook {
+    background: var(--facebook-color);
+}
+
+.social-links li .instagram {
+    background: var(--instagram-color);
+}
+
+.social-links li .linkedin {
+    background: var(--linkedin-color);
+}
+
+.social-links li .tiktok {
+    background: var(--tiktok-color);
+}
+
+.social-links li .x-twitter {
+    background: #000;
 }

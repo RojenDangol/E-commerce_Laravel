@@ -153,7 +153,9 @@
                 <select name="items[${currentIndex}][title]" id="title-${currentIndex}">
                     <option value="facebook">Facebook</option>
                     <option value="instagram">Instagram</option>
-                    <option value="x">X</option>
+                    <option value="x-twitter">X</option>
+                    <option value="tiktok">Tiktok</option>
+                    <option value="linkedin">LinkedIn</option>
                 </select>
             </div>     
             <div class="col-md-4">

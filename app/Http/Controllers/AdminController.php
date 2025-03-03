@@ -736,7 +736,13 @@ class AdminController extends Controller
     // Contact Information
     public function contact_info(){
         $contact_info = ContactInformation::first();;
-        $info_metas = ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
+        if($contact_info){
+            $info_metas = ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
+        }
+        else{
+            $info_metas = null;
+        }
+        // $info_metas = ContactInfoMeta::where('contact_info_id',$contact_info->id)->get();
         return view('admin.contact-info',compact('contact_info','info_metas'));
     }
 
@@ -758,7 +764,14 @@ class AdminController extends Controller
         $contact_info->address = $request->address;
         $contact_info->email = $request->email;
         $contact_info->phone = $request->phone;
+
+        $image = $request->file('image');
+        $file_extension = $request->file('image')->extension();
+        $file_name = Carbon::now()->timestamp.'.'.$file_extension;
+        $this->GenerateLogoThumbnailsImage($image,$file_name);
+        $contact_info->logo = $file_name;
         $contact_info->save();
+
 
         if ($request->has('items')) {
             foreach ($request->items as $item) {
@@ -767,22 +780,25 @@ class AdminController extends Controller
                 $contact_info->setMetaValue($key, $value);
             }
         }
-
-        // $contact_info->save();
-
         return redirect()->route('admin.contact.info')->with('status','Contact Information added successfully!');
+    }
+
+    public function GenerateLogoThumbnailsImage($image, $imageName){
+        $destinationPath = public_path('uploads/logo');
+        $img = Image::read($image->path());
+        $img->save($destinationPath.'/'.$imageName);
     }
 
     public function contact_info_edit($id){
         $contact_info = ContactInformation::find($id);
         $info_metas = $contact_info ? $contact_info->getMetaValue($id) : [];
-        // dd($info_metas);
         return view('admin.contact-info-edit',compact('contact_info','info_metas'));
     }
 
     public function contact_info_update(Request $request){
+        // dd($request->all());
         $request->validate([
-            // 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -794,8 +810,25 @@ class AdminController extends Controller
         $contact_info->address = $request->address;
         $contact_info->email = $request->email;
         $contact_info->phone = $request->phone;
+        $current_timestamp = Carbon::now()->timestamp;
 
+        if($request->hasFile('image'))
+        {
+            if(File::exists(public_path('uploads/logo').'/'.$contact_info->logo)){
+                File::delete(public_path('uploads/logo').'/'.$contact_info->logo);
+            }
+            $image = $request->file('image');
+            $imageName = $current_timestamp.'.'.$image->extension();
+            $this->GenerateLogoThumbnailsImage($image,$imageName);
+            $contact_info->logo = $imageName;
+        }
         $contact_info->save();
+
+        $existingMetaKeys = $contact_info->metas()->pluck('key')->toArray();
+        $newMetaKeys = collect($request->items)->pluck('title')->toArray();
+        $deletedKeys = array_diff($existingMetaKeys, $newMetaKeys);
+
+        $contact_info->metas()->whereIn('key', $deletedKeys)->delete(); 
 
         if ($request->has('items')) {
             foreach ($request->items as $item) {
@@ -1042,6 +1075,7 @@ class AdminController extends Controller
         })->save($destinationPath.'/'.$imageName);
     }
 
+    // colors section
     public function colors(Request $request){
         $colors = Color::orderBy('id')->paginate(10);
         $results = null;

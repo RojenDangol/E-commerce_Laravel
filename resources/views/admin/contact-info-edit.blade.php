@@ -34,6 +34,33 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" value="{{$contact_info->id}}">
+
+                <fieldset>
+                    <div class="body-title">Site Logo <span class="tf-color-1">*</span>
+                    </div>
+                    <div class="upload-image flex-grow">
+                        @if ($contact_info->logo)                      
+                        <div class="item" id="imgpreview">
+                            <img src="{{asset('uploads/logo')}}/{{$contact_info->logo}}"
+                                class="effect8" alt="{{$contact_info->address}}">
+                        </div>
+                        @endif
+                        <div id="upload-file" class="item up-load">
+                            <label class="uploadfile" for="myFile">
+                                <span class="icon">
+                                    <i class="icon-upload-cloud"></i>
+                                </span>
+                                <span class="body-text">Drop your images here or select <span
+                                        class="tf-color">click to browse</span></span>
+                                <input type="file" id="myFile" name="image" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                @error('image')
+                    <span class="alert alert-danger text-center">{{$message}}</span>
+                @enderror
+
                 <fieldset class="name">
                     <div class="body-title">Location <span class="tf-color-1">*</span></div>
                     <input class="flex-grow" type="text" placeholder="Location" name="address"
@@ -77,7 +104,9 @@
                                 <select name="items[{{$index}}][title]" id="title-{{$index}}" required>
                                     <option value="facebook" {{$key == 'facebook' ? 'selected' : ''}}>Facebook</option>
                                     <option value="instagram" {{$key == 'instagram' ? 'selected' : ''}}>Instagram</option>
-                                    <option value="x" {{$key == 'x' ? 'selected' : ''}}>X</option>
+                                    <option value="x-twitter" {{$key == 'x-twitter' ? 'selected' : ''}}>X</option>
+                                    <option value="tiktok" {{$key == 'tiktok' ? 'selected' : ''}}>Tiktok</option>
+                                    <option value="linkedin" {{$key == 'linkedin' ? 'selected' : ''}}>LinkedIn</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -142,7 +171,9 @@
                 <select name="items[${currentIndex}][title]" id="title-${currentIndex}">
                     <option value="facebook">Facebook</option>
                     <option value="instagram">Instagram</option>
-                    <option value="x">X</option>
+                    <option value="x-twitter">X</option>
+                    <option value="tiktok">Tiktok</option>
+                    <option value="linkedin">LinkedIn</option>
                 </select>
             </div>     
             <div class="col-md-4">

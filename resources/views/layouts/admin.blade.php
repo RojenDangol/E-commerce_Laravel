@@ -65,14 +65,26 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
+                        @php
+                        $contact_info = \App\Models\ContactInformation::first();
+                        @endphp
                         <a href="{{route('home.index')}}" id="site-logo-inner">
+                            @if (!empty($contact_info->logo))
+                                @php
+                                    $logo = asset('uploads/logo').'/'.$contact_info->logo
+                                @endphp
+                            @else
+                                @php
+                                    $logo = asset('assets/images/logo.png')
+                                @endphp
+                            @endif
                             <img
                                 class=""
                                 id="logo_header_1"
                                 alt=""
-                                src="{{asset('images/logo/logo.png')}}"
-                                data-light="{{asset('images/logo/logo.png')}}"
-                                data-dark="{{asset('images/logo/logo.png')}}"
+                                src="{{$logo}}"
+                                data-light="{{$logo}}"
+                                data-dark="{{$logo}}"
                             />
                         </a>
                         <div class="button-show-hide">
