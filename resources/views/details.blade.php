@@ -413,31 +413,31 @@
   });
 </script> --}}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const sizeSelectors = document.querySelectorAll(".size-selector");
-  const colorLabels = document.querySelectorAll(".color-option");
+  document.addEventListener("DOMContentLoaded", function () {
+    const sizeSelectors = document.querySelectorAll(".size-selector");
+    const colorLabels = document.querySelectorAll(".color-option");
 
-  sizeSelectors.forEach(sizeInput => {
-      sizeInput.addEventListener("change", function () {
-          let selectedSize = this.value.replace("#", "");
+    sizeSelectors.forEach(sizeInput => {
+        sizeInput.addEventListener("change", function () {
+            let selectedSize = this.value.replace("#", "");
 
-          // Hide all color options first
-          colorLabels.forEach(label => {
-              label.style.display = "none";
-          });
+            // Hide all color options first
+            colorLabels.forEach(label => {
+                label.style.display = "none";
+            });
 
-          // Show only colors for the selected size
-          document.querySelectorAll(".color-" + selectedSize).forEach(label => {
-              label.style.display = "inline-block";
-          });
+            // Show only colors for the selected size
+            document.querySelectorAll(".color-" + selectedSize).forEach(label => {
+                label.style.display = "inline-block";
+            });
 
-          // Uncheck all color options when size changes
-          document.querySelectorAll("input[name='color']").forEach(colorInput => {
-              colorInput.checked = false;
-          });
-      });
+            // Uncheck all color options when size changes
+            document.querySelectorAll("input[name='color']").forEach(colorInput => {
+                colorInput.checked = false;
+            });
+        });
+    });
   });
-});
 </script>
 
 <script>

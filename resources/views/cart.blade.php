@@ -54,7 +54,8 @@
               @foreach ($items as $item)  
                 @php
                   $product = \App\Models\Product::where('id',$item->id)->first();
-                  $product_qty = $product->quantity;
+                  $productMeta = \App\Models\ProductMeta::where('product_id', $item->id)->where('key', $item->options->size.'_'.$item->options->color)->first();
+                  $product_qty = $productMeta->value;
                   if($item->qty > $product_qty){
                     $item->qty = $product_qty;
                   }
@@ -82,14 +83,14 @@
                             $count = 1;
                           @endphp --}}
                           {{-- @forelse ($sizes as $size)
-                          <input class="form-check-input form-check-input_fill size-selector" type="radio" 
-                          name="size_{{$item->id}}" data-id="{{$item->id}}" value="{{$size}}" >            
-                          <label class="form-check-label" for="size1">{{$size}}</label>
-                          @php
-                            $count++;
-                          @endphp --}}
-                          {{-- @empty
-                              <p>No Sizes Available.</p>
+                            <input class="form-check-input form-check-input_fill size-selector" type="radio" 
+                            name="size_{{$item->id}}" data-id="{{$item->id}}" value="{{$size}}" >            
+                            <label class="form-check-label" for="size1">{{$size}}</label>
+                            @php
+                              $count++;
+                            @endphp --}}
+                            {{-- @empty
+                                <p>No Sizes Available.</p>
                           @endforelse --}}
                           <label>Size:</label>
                           {{$item->options->size}}

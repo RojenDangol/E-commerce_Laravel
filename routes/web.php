@@ -147,3 +147,7 @@ Route::get('/clear-cache', function() {
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('/payment/verify', [PaymentController::class, 'verifyPayment'])->name('payment.verify');
+Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
+Route::get('/test-khalti-key', function () {
+    return dd(config('app.khalti_public_key'));
+});

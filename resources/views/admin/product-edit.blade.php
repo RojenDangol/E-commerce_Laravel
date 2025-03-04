@@ -415,7 +415,7 @@
                     .map(
                         (colorData, colorIndex) => `
                         <div class="colorRow" style="margin-bottom: 5px; display: flex; align-items: center; gap: 10px;">
-                            <label>
+                            <label style="font-size:14px; display: flex; align-items: center; gap: 5px;">
                                 Color:
                                 <select name="size_color_quantity[${sizeIndex}][color][]" required style="padding: 5px;">
                                     @foreach ($colors as $color)
@@ -423,7 +423,7 @@
                                     @endforeach
                                 </select>
                             </label>
-                            <label>
+                            <label style="font-size:14px; display: flex; align-items: center; gap: 5px;">
                                 Quantity:
                                 <input type="number" name="size_color_quantity[${sizeIndex}][quantity][]" value="${colorData.quantity}" min="1" style="padding: 5px; width: 80px;" required>
                             </label>

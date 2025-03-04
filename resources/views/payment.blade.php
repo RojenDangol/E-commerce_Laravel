@@ -3,62 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khalti Test Payment</title>
+    <title>Khalti Payment</title>
+    
+    {{-- Load Khalti Payment Script --}}
     <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    {{-- jQuery for AJAX --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <h2>Test Khalti Payment</h2>
+
+    <h2>Pay with Khalti</h2>
     <button id="payment-button">Pay with Khalti</button>
 
     <script>
+        var khaltiPublicKey = "{{ $khaltiPublicKey }}";  // Get public key from Laravel
 
-        var khaltiPublicKey = "{{ config('app.khalti_public_key') }}";
-        console.log(khaltiPublicKey);
+        console.log("Khalti Public Key:", khaltiPublicKey); // Debugging
+        
+        if (!khaltiPublicKey || khaltiPublicKey.includes("KHALTI_PUBLIC_KEY")) {
+            console.error("Invalid or missing Khalti Public Key");
+        }
+
+        // Configure Khalti Checkout
         var config = {
             "publicKey": khaltiPublicKey,
-            "productIdentity": "test_product_123",
-            "productName": "Test Product",
-            "productUrl": "https://example.com/product",
-            "paymentPreference": ["KHALTI","EBANKING","MOBILE_BANKING","CONNECT_IPS","SCT"],
+            "productIdentity": "1234567890",
+            "productName": "Dragon",
+            "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+            "paymentPreference": [
+                "KHALTI",
+                "EBANKING",
+                "MOBILE_BANKING",
+                "CONNECT_IPS",
+                "SCT",
+            ],
             "eventHandler": {
                 onSuccess (payload) {
-                    console.log("Payment successful!", payload);
+                    console.log("Khalti Payment Successful:", payload); // Debugging
 
+                    // AJAX request to verify payment
                     $.ajax({
-                        url: "/verify-payment",
-                        type: "POST",
+                        type: 'POST',
+                        url: "{{ route('payment.verify') }}",
                         data: {
                             token: payload.token,
                             amount: payload.amount,
-                            _token: "{{ csrf_token() }}"
+                            "_token": "{{ csrf_token() }}" // Ensure CSRF token is sent
                         },
                         success: function (response) {
-                            if (response.state === "Completed") {
-                                alert("Payment verified successfully!");
-                            } else {
-                                alert("Payment verification failed!");
-                            }
+                            console.log("Verification Response:", response);
+
+                            // Store payment details in the database
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ route('payment.store') }}",
+                                data: {
+                                    response: response,
+                                    "_token": "{{ csrf_token() }}"
+                                },
+                                success: function (response) {
+                                    console.log("Payment Stored Successfully:", response);
+                                    alert("Payment Successful!");
+                                },
+                                error: function (err) {
+                                    console.error("Error Storing Payment:", err);
+                                }
+                            });
                         },
-                        error: function () {
-                            alert("Error verifying payment.");
+                        error: function (err) {
+                            console.error("Error Verifying Payment:", err);
                         }
                     });
                 },
                 onError (error) {
-                    console.log("Payment error:", error);
+                    console.error("Khalti Payment Error:", error);
                 },
                 onClose () {
-                    console.log('Payment widget closed');
+                    console.log("Khalti Payment Widget Closed");
                 }
             }
         };
 
         var checkout = new KhaltiCheckout(config);
-        var btn = document.getElementById("payment-button");
-        btn.onclick = function () {
-            checkout.show({amount: 1000}); // Amount in paisa (10 NPR)
+
+        document.getElementById("payment-button").onclick = function () {
+            checkout.show({ amount: 1000 }); // Minimum 1000 paisa = Rs. 10
         }
     </script>
+
 </body>
 </html>
