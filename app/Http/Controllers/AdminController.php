@@ -752,8 +752,9 @@ class AdminController extends Controller
 
     public function contact_info_store(Request $request){
         // dd($request->all());
+        
         $request->validate([
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -766,9 +767,17 @@ class AdminController extends Controller
         $contact_info->phone = $request->phone;
 
         $image = $request->file('image');
+        $mimeType = $image->getMimeType();
         $file_extension = $request->file('image')->extension();
         $file_name = Carbon::now()->timestamp.'.'.$file_extension;
-        $this->GenerateLogoThumbnailsImage($image,$file_name);
+        // $this->GenerateLogoThumbnailsImage($image,$file_name);
+        if ($mimeType === 'image/svg+xml') {
+            // Move SVG file directly without resizing
+            $image->move(public_path('uploads/logo'), $imageName);
+        } else {
+            // Process PNG, JPG, JPEG
+            $this->GenerateLogoThumbnailsImage($image, $imageName);
+        }
         $contact_info->logo = $file_name;
         $contact_info->save();
 
@@ -798,7 +807,7 @@ class AdminController extends Controller
     public function contact_info_update(Request $request){
         // dd($request->all());
         $request->validate([
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -818,8 +827,16 @@ class AdminController extends Controller
                 File::delete(public_path('uploads/logo').'/'.$contact_info->logo);
             }
             $image = $request->file('image');
+            $mimeType = $image->getMimeType();
             $imageName = $current_timestamp.'.'.$image->extension();
-            $this->GenerateLogoThumbnailsImage($image,$imageName);
+            // $this->GenerateLogoThumbnailsImage($image,$imageName);
+            if ($mimeType === 'image/svg+xml') {
+                // Move SVG file directly without resizing
+                $image->move(public_path('uploads/logo'), $imageName);
+            } else {
+                // Process PNG, JPG, JPEG
+                $this->GenerateLogoThumbnailsImage($image, $imageName);
+            }
             $contact_info->logo = $imageName;
         }
         $contact_info->save();

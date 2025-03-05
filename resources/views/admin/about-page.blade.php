@@ -16,9 +16,6 @@
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <i class="icon-chevron-right"></i>
-                </li>
-                <li>
                     <div class="text-tiny">About Us</div>
                 </li>
             </ul>

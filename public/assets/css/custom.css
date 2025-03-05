@@ -100,7 +100,7 @@
 
 .hero-content h2 {
     font-size: 2.4rem;
-    color: #f7c59f;
+    color: #ffb84d;
     margin-bottom: 24px;
 }
 
@@ -120,8 +120,9 @@
 }
 
 .hero-content a:hover {
-    background-color: #f7c59f;
+    background-color: #ffb84d;
     color: #000;
+    border: 1px solid #ffb84d;
 }
 
 /** about-style-four **/

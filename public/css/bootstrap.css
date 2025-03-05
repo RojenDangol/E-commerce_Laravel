@@ -1641,8 +1641,8 @@ progress {
 }
 .table > tbody {
     vertical-align: inherit;
-}.table-bordered
-.table > thead {
+}
+.table-bordered .table > thead {
     vertical-align: bottom;
 }
 .table > :not(:last-child) > :last-child > * {
@@ -4403,7 +4403,9 @@ fieldset:disabled .btn {
 }
 .badge {
     display: inline-block;
-    padding: 0.35em 0.65em;
+    padding: 10px;
+    width: 70px;
+    /* padding: 0.35em 0.65em; */
     font-size: 0.75em;
     font-weight: 700;
     line-height: 1;
@@ -6828,15 +6830,19 @@ fieldset:disabled .btn {
     background-color: #6c757d !important;
 }
 .bg-success {
+    /* padding: 10px; */
     background-color: #198754 !important;
 }
 .bg-info {
+    /* padding: 10px; */
     background-color: #0dcaf0 !important;
 }
 .bg-warning {
-    background-color: #ffc107 !important;
+    /* padding: 10px; */
+    background-color: #ffb84d !important;
 }
 .bg-danger {
+    /* padding: 10px; */
     background-color: #dc3545 !important;
 }
 .bg-light {

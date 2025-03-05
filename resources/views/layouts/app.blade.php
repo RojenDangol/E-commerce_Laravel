@@ -477,7 +477,7 @@
                     </p>
                     @endif
                     @if (!empty($contact_info->email))
-                    <p class="mb-2">
+                    <p>
                         <strong class="fw-medium">{{$contact_info->email}}</strong>
                     </p>
                     @endif

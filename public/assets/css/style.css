@@ -285,7 +285,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    color: #1b1b1b;
+    color: #004d40;
 }
 
 a:not([href]):not([class]),
@@ -8918,7 +8918,7 @@ h5,
 .h5,
 h6,
 .h6 {
-    color: #222222;
+    color: #004d40;
     font-family: "Rajdhani", "Jost", sans-serif;
     font-weight: 500;
 }
@@ -11529,14 +11529,14 @@ fieldset:disabled .btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #222222;
-    border-color: #222222;
+    background-color: #004d40;
+    border-color: #004d40;
     box-shadow: none;
 }
 .btn-primary:hover {
-    color: #fff;
-    background-color: #393939;
-    border-color: #393939;
+    color: #222;
+    background-color: #ffb84d;
+    border-color: #ffb84d;
 }
 .btn-check:focus + .btn-primary,
 .btn-primary:focus {
@@ -16274,6 +16274,7 @@ textarea.form-control.is-invalid {
     display: flex;
     padding: 0.25rem 0.5rem;
     text-decoration: none;
+    gap: 10px;
     color: #222222;
 }
 .header-tools__item .flaticon::before {
@@ -16790,7 +16791,7 @@ textarea.form-control.is-invalid {
     padding-bottom: 1.625rem;
 }
 .footer-middle .logo {
-    margin-bottom: 2.75rem;
+    /* margin-bottom: 2.75rem; */
 }
 @media (min-width: 768px) {
     .footer-middle {

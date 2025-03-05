@@ -34,10 +34,7 @@
                 data-bs-target="#accordion-filter-1" aria-expanded="true" aria-controls="accordion-filter-1">
                 Product Categories
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
+                  <path d="M5.36.16a.5.5 0 0 0-.72 0L.15 5.06a.5.5 0 0 0 .71.78L5 1.33l4.14 4.51a.5.5 0 0 0 .71-.78L5.36.16z"/>
                 </svg>
               </button>
             </h5>
@@ -70,10 +67,7 @@
                 data-bs-target="#accordion-filter-brand" aria-expanded="true" aria-controls="accordion-filter-brand">
                 Brands
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
+                  <path d="M5.36.16a.5.5 0 0 0-.72 0L.15 5.06a.5.5 0 0 0 .71.78L5 1.33l4.14 4.51a.5.5 0 0 0 .71-.78L5.36.16z"/>
                 </svg>
               </button>
             </h5>
@@ -82,7 +76,7 @@
               <div class="search-field multi-select accordion-body px-0 pb-0">
                 <ul class="list list-inline mb-0 brand-list">
                   @foreach($brands as $brand)
-                    <li class="list-item py-2">
+                    <li class="list-item">
                       <span class="menu-link py-1">
                         <input type="checkbox" name="brands" value="{{$brand->id}}" class="chk-brand"
                         @if (in_array($brand->id,explode(',',$f_brands))) checked="checked" @endif>
@@ -107,10 +101,7 @@
                 data-bs-target="#accordion-filter-price" aria-expanded="true" aria-controls="accordion-filter-price">
                 Price
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
+                  <path d="M5.36.16a.5.5 0 0 0-.72 0L.15 5.06a.5.5 0 0 0 .71.78L5 1.33l4.14 4.51a.5.5 0 0 0 .71-.78L5.36.16z"/>
                 </svg>
               </button>
             </h5>
@@ -166,24 +157,11 @@
               <option value="kid" {{$wardrobe == 'kid'?'selected':''}}>Kids</option>
             </select>
 
-            {{-- <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div> --}}
-
-            {{-- <div class="col-size align-items-center order-1 d-none d-lg-flex">
-              <span class="text-uppercase fw-medium me-2">View</span>
-              <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="2">2</button>
-              <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="3">3</button>
-              <button class="btn-link fw-medium js-cols-size" data-target="products-grid" data-cols="4">4</button>
-            </div> --}}
-
-            {{-- <div class="shop-filter d-flex align-items-center order-0 order-md-3 d-lg-none">
+            <div class="shop-filter d-flex align-items-center order-0 order-md-3 d-lg-none m-2">
               <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" data-aside="shopFilter">
-                <svg class="d-inline-block align-middle me-2" width="14" height="10" viewBox="0 0 14 10" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_filter" />
-                </svg>
                 <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
               </button>
-            </div> --}}
+            </div>
           </div>
         </div>
 

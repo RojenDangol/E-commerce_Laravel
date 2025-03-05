@@ -221,3 +221,38 @@ body {
     text-align: center;
     padding-bottom: 10px;
 }
+
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    transition: all 0.3s ease;
+    padding-right: 5px;
+}
+
+.product-item .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 5px;
+    border-radius: 10px;
+    background: #eff4f8;
+}
+
+#box-content-search li {
+    list-style: none;
+}
+
+#box-content-search .product-item {
+    margin-bottom: 10px;
+}
+
+.ion-icon {
+    width: 24px;
+    height: 24px;
+}

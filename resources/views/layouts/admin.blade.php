@@ -24,38 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <style>
-        .product-item{
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
-            transition: all 0.3s ease;
-            padding-right: 5px;
-        }
-
-        .product-item .image{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            gap: 10px;
-            flex-shrink: 0;
-            padding: 5px;
-            border-radius: 10px;
-            background: #EFF4F8;
-        }
-
-        #box-content-search li{
-            list-style: none;
-        }
-
-        #box-content-search .product-item{
-            margin-bottom: 10px;
-        }
-    </style>
-
+    
     @stack("styles")
 </head>
 <body class="body">
@@ -175,7 +144,8 @@
                                     >
                                         <div class="icon">
                                             {{-- <i class="icon-layers"></i> --}}
-                                            <i class="fa-solid fa-palette"></i>
+                                            {{-- <i class="fa-solid fa-palette"></i> --}}
+                                            <ion-icon name="color-palette-outline" class="ion-icon"></ion-icon>
                                         </div>
                                         <div class="text">Colors</div>
                                     </a>
@@ -236,8 +206,8 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.orders')}}" class="">
                                         <div class="icon">
-                                            {{-- <i class="icon-grid"></i> --}}
-                                            <i class="fa-solid fa-truck"></i>
+                                            {{-- <i class="fa-regular fa-clipboard"></i> --}}
+                                            <ion-icon name="document-text-outline" class="ion-icon"></ion-icon>
                                         </div>
                                         <div class="text">Orders</div>
                                     </a>
@@ -255,7 +225,7 @@
                                 <li class="menu-item">
                                     <a href="{{route('admin.about')}}" class="">
                                         <div class="icon">
-                                            <i class="icon-image"></i>
+                                            <ion-icon name="information-circle-outline" class="ion-icon"></ion-icon>
                                         </div>
                                         <div class="text">About Us</div>
                                     </a>
@@ -452,6 +422,9 @@
     <!-- Bootstrap 4 JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <script>
         $(function(){
