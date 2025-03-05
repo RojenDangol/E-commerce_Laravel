@@ -37,6 +37,7 @@
                         <tr>
                             <th>#</th>
                             <th>Logo</th>
+                            <th>Fav Icon</th>
                             <th>Location</th>
                             <th>Email</th>
                             <th>Phone Number</th>
@@ -51,6 +52,7 @@
                             <td>
                                 <img src="{{asset('uploads/logo')}}/{{$contact_info->logo}}" alt="{{$contact_info->address}}" >
                             </td>
+                            <td><img src="{{asset('uploads/logo')}}/{{$contact_info->favicon}}" alt="{{$contact_info->address}}" ></td>
                             <td>{{$contact_info->address}}</td>
                             <td>{{$contact_info->email}}</td>
                             <td>{{$contact_info->phone}}</td>

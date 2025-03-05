@@ -61,6 +61,32 @@
                     <span class="alert alert-danger text-center">{{$message}}</span>
                 @enderror
 
+                <fieldset>
+                    <div class="body-title">Site Fav Icon <span class="tf-color-1">*</span>
+                    </div>
+                    <div class="upload-image flex-grow">
+                        @if ($contact_info->logo)                      
+                        <div class="item" id="imgpreview1">
+                            <img src="{{asset('uploads/logo')}}/{{$contact_info->favicon}}"
+                                class="effect8" alt="{{$contact_info->address}}">
+                        </div>
+                        @endif
+                        <div id="upload-file" class="item up-load">
+                            <label class="uploadfile" for="myFile1">
+                                <span class="icon">
+                                    <i class="icon-upload-cloud"></i>
+                                </span>
+                                <span class="body-text">Drop your images here or select <span
+                                        class="tf-color">click to browse</span></span>
+                                <input type="file" id="myFile1" name="image1" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                @error('image1')
+                    <span class="alert alert-danger text-center">{{$message}}</span>
+                @enderror
+
                 <fieldset class="name">
                     <div class="body-title">Location <span class="tf-color-1">*</span></div>
                     <input class="flex-grow" type="text" placeholder="Location" name="address"
@@ -147,6 +173,15 @@
             if(file){
                 $("#imgpreview img").attr('src', URL.createObjectURL(file));
                 $("#imgpreview").show();
+            }
+        });
+
+        $("#myFile1").on("change",function(e){
+            const photoInp = $("#myFile1");
+            const [file] = this.files;
+            if(file){
+                $("#imgpreview1 img").attr('src', URL.createObjectURL(file));
+                $("#imgpreview1").show();
             }
         });
     });

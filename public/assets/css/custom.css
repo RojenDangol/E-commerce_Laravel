@@ -723,3 +723,42 @@
 .social-links li .x-twitter {
     background: #000;
 }
+
+#header {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.logo__image {
+    max-width: 220px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    transition: all 0.3s ease;
+    padding-right: 5px;
+}
+
+.product-item .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 5px;
+    border-radius: 10px;
+    background: #eff4f8;
+}
+
+#box-content-search li {
+    list-style: none;
+}
+
+#box-content-search .product-item {
+    margin-bottom: 10px;
+}

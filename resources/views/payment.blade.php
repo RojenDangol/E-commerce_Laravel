@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khalti Payment</title>
-    
+
     {{-- Load Khalti Payment Script --}}
     <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
     
@@ -14,12 +14,13 @@
 <body>
 
     <h2>Pay with Khalti</h2>
+    <p>Public Key: {{ config('app.khalti_public_key') }}</p> <!-- Debugging -->
     <button id="payment-button">Pay with Khalti</button>
 
     <script>
-        var khaltiPublicKey = "{{ $khaltiPublicKey }}";  // Get public key from Laravel
+        var khaltiPublicKey = @json(config('app.khalti_public_key'));  // Fix for Blade Syntax
 
-        console.log("Khalti Public Key:", khaltiPublicKey); // Debugging
+        console.log("Khalti Public Key in JS:", khaltiPublicKey); // Debugging
         
         if (!khaltiPublicKey || khaltiPublicKey.includes("KHALTI_PUBLIC_KEY")) {
             console.error("Invalid or missing Khalti Public Key");

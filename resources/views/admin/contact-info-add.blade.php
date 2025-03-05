@@ -54,6 +54,29 @@
                     <span class="alert alert-danger text-center">{{$message}}</span>
                 @enderror
 
+                <fieldset>
+                    <div class="body-title">Site Fav Icon <span class="tf-color-1">*</span>
+                    </div>
+                    <div class="upload-image flex-grow">
+                        <div class="item" id="imgpreview1" style="display:none">
+                            <img src="upload-1.html" class="effect8" alt="">
+                        </div>
+                        <div id="upload-file" class="item up-load">
+                            <label class="uploadfile" for="myFile1">
+                                <span class="icon">
+                                    <i class="icon-upload-cloud"></i>
+                                </span>
+                                <span class="body-text">Drop your images here or select <span
+                                        class="tf-color">click to browse</span></span>
+                                <input type="file" id="myFile1" name="image1" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                @error('image1')
+                    <span class="alert alert-danger text-center">{{$message}}</span>
+                @enderror
+
                 <fieldset class="name">
                     <div class="body-title">Location <span class="tf-color-1">*</span></div>
                     <input class="flex-grow" type="text" placeholder="Location" name="address"
@@ -94,7 +117,9 @@
                                 <select name="items[0][title]" id="title-0" required>
                                     <option value="facebook">Facebook</option>
                                     <option value="instagram">Instagram</option>
-                                    <option value="x">X</option>
+                                    <option value="x-twitter">X</option>
+                                    <option value="tiktok">Tiktok</option>
+                                    <option value="linkedin">LinkedIn</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -133,6 +158,15 @@
             }
         });
     });
+
+    $("#myFile1").on("change",function(e){
+            const photoInp = $("#myFile1");
+            const [file] = this.files;
+            if(file){
+                $("#imgpreview1 img").attr('src', URL.createObjectURL(file));
+                $("#imgpreview1").show();
+            }
+        });
 </script>
 
 <script>

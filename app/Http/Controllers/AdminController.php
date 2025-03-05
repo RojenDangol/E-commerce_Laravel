@@ -755,6 +755,7 @@ class AdminController extends Controller
         
         $request->validate([
             'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
+            'image1' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -773,12 +774,24 @@ class AdminController extends Controller
         // $this->GenerateLogoThumbnailsImage($image,$file_name);
         if ($mimeType === 'image/svg+xml') {
             // Move SVG file directly without resizing
-            $image->move(public_path('uploads/logo'), $imageName);
+            $image->move(public_path('uploads/logo'), $file_name);
         } else {
             // Process PNG, JPG, JPEG
-            $this->GenerateLogoThumbnailsImage($image, $imageName);
+            $this->GenerateLogoThumbnailsImage($image, $file_name);
         }
         $contact_info->logo = $file_name;
+
+        $image1 = $request->file('image1');
+        $mimeType1 = $image1->getMimeType();
+        $file_extension1 = $request->file('image1')->extension();
+        $file_name1 = Carbon::now()->timestamp.'.'.$file_extension1;
+        if ($mimeType1 === 'image/svg+xml') {
+            $image1->move(public_path('uploads/logo'), $file_name1);
+        } else {
+            $this->GenerateLogoThumbnailsImage($image1, $file_name1);
+        }
+        $contact_info->favicon = $file_name1;
+
         $contact_info->save();
 
 
@@ -808,6 +821,7 @@ class AdminController extends Controller
         // dd($request->all());
         $request->validate([
             'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
+            'image1' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -829,9 +843,7 @@ class AdminController extends Controller
             $image = $request->file('image');
             $mimeType = $image->getMimeType();
             $imageName = $current_timestamp.'.'.$image->extension();
-            // $this->GenerateLogoThumbnailsImage($image,$imageName);
             if ($mimeType === 'image/svg+xml') {
-                // Move SVG file directly without resizing
                 $image->move(public_path('uploads/logo'), $imageName);
             } else {
                 // Process PNG, JPG, JPEG
@@ -839,6 +851,23 @@ class AdminController extends Controller
             }
             $contact_info->logo = $imageName;
         }
+
+        if($request->hasFile('image1'))
+        {
+            if(File::exists(public_path('uploads/logo').'/'.$contact_info->favicon)){
+                File::delete(public_path('uploads/logo').'/'.$contact_info->favicon);
+            }
+            $image = $request->file('image1');
+            $mimeType = $image->getMimeType();
+            $imageName = $current_timestamp.'.'.$image->extension();
+            if ($mimeType === 'image/svg+xml') {
+                $image->move(public_path('uploads/logo'), $imageName);
+            } else {
+                $this->GenerateLogoThumbnailsImage($image, $imageName);
+            }
+            $contact_info->favicon = $imageName;
+        }
+
         $contact_info->save();
 
         $existingMetaKeys = $contact_info->metas()->pluck('key')->toArray();

@@ -18,12 +18,23 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('font/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('icon/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    @php
+        $contact_info = \App\Models\ContactInformation::first();
+    @endphp
+    @if (!empty($contact_info->favicon))
+    @php
+        $logo = asset('uploads/logo').'/'.$contact_info->favicon
+    @endphp
+@else
+    @php
+        $logo = asset('images/favicon.ico');
+    @endphp
+@endif
+    <link rel="shortcut icon" href="{{ $logo; }}">
     
     @stack("styles")
 </head>
@@ -34,9 +45,7 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        @php
-                        $contact_info = \App\Models\ContactInformation::first();
-                        @endphp
+                        
                         <a href="{{route('home.index')}}" id="site-logo-inner">
                             @if (!empty($contact_info->logo))
                                 @php
