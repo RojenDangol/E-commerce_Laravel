@@ -59,7 +59,7 @@ class CartController extends Controller
     public function apply_coupon_code(Request $request){
         $coupon_code = $request->coupon_code;
         if(isset($coupon_code)){
-            $coupon = Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','<=',Cart::instance('cart')->subtotal())->first();
+            $coupon = Coupon::where('code',$coupon_code)->where('expiry_date','>=',Carbon::today())->where('cart_value','>=',Cart::instance('cart')->subtotal())->first();
             // $coupon= TRUE;
             if(!$coupon){
                 return redirect()->back()->with('error','Invalid coupon code!');
@@ -166,7 +166,9 @@ class CartController extends Controller
         
         $order = new Order();
         $order->user_id = $user_id;
-        $order->subtotal = (float) str_replace(',', '', Session::get('checkout')['subtotal']);
+        // $order->subtotal = (float) str_replace(',', '', Session::get('checkout')['subtotal']);
+        // dd(Cart::instance('cart')->subtotal());
+        $order->subtotal = (float) str_replace(',', '',Cart::instance('cart')->subtotal());
         $order->discount = (float) str_replace(',', '', Session::get('checkout')['discount']);
         $order->tax = (float) str_replace(',', '', Session::get('checkout')['tax']);
         $order->total = (float) str_replace(',', '', Session::get('checkout')['total']);

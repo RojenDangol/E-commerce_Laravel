@@ -99,10 +99,10 @@
                   <th>SHIPPING</th>
                   <td class="text-right">Free shipping</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                   <th>VAT</th>
                   <td class="text-right">Rs.{{$order->tax}}</td>
-                </tr>
+                </tr> --}}
                 <tr>
                   <th>TOTAL</th>
                   <td class="text-right">Rs.{{$order->total}}</td>

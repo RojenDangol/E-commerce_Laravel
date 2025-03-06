@@ -282,7 +282,7 @@
                                         Subtotal
                                     </th>
                                     <th class="text-center">
-                                        Tax
+                                        Discount
                                     </th>
                                     <th class="text-center">
                                         Total
@@ -322,7 +322,7 @@
                                         Rs.{{$order->subtotal}}
                                     </td>
                                     <td class="text-center">
-                                        Rs.{{$order->tax}}
+                                        Rs.{{$order->discount}}
                                     </td>
                                     <td class="text-center">
                                         Rs.{{$order->total}}
