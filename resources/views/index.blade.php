@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="sale-text">
-                        <h2>SALE UPTO 20%</h2>
+                        <h2>Flash Sale!!!</h2>
                     </div>
                 </div>
             </div>

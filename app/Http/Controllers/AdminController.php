@@ -820,8 +820,8 @@ class AdminController extends Controller
     public function contact_info_update(Request $request){
         // dd($request->all());
         $request->validate([
-            'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
-            'image1' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
+            // 'image' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
+            // 'image1' => 'required|mimetypes:image/svg+xml,image/png,image/jpeg|max:2048',
             'address' => 'required',
             'email' => 'required',
             'phone' => 'required',

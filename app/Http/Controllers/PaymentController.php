@@ -2,37 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\KhaltiService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Config;
 
 class PaymentController extends Controller
 {
+    private $khaltiService;
+
+    public function __construct(KhaltiService $khaltiService)
+    {
+        $this->khaltiService = $khaltiService;
+    }
+
+    /**
+     * Show the payment page.
+     */
     public function index()
     {
         return view('payment', [
-            'khaltiPublicKey' => Config::get('app.khalti_public_key')
+            'khaltiPublicKey' => config('app.khalti_public_key')
         ]);
     }
 
+    /**
+     * Verify Khalti payment.
+     */
     public function verifyPayment(Request $request)
     {
-        $token = $request->token;
-        $amount = $request->amount;
-
-        $response = Http::withHeaders([
-            'Authorization' => 'Key' . config('app.khalti_secret_key')  // Fix: Removed "Key "
-        ])->post('https://khalti.com/api/v2/payment/verify/', [
-            'token' => $token,
-            'amount' => $amount
+        $request->validate([
+            'token' => 'required|string',
+            'amount' => 'required|integer|min:1000',
         ]);
 
-        return response()->json($response->json());
+        $result = $this->khaltiService->verifyPayment($request->token, $request->amount);
+
+        if ($result['success']) {
+            return response()->json(['success' => true, 'data' => $result['data']]);
+        }
+
+        return response()->json(['success' => false, 'error' => $result['error']], 400);
     }
 
+    /**
+     * Store payment details.
+     */
     public function storePayment(Request $request)
     {
-        \Log::info('Khalti Payment Response: ', $request->all());
+        $this->khaltiService->logPaymentResponse($request->all());
 
         return response()->json(['message' => 'Payment recorded successfully!']);
     }
