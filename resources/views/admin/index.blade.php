@@ -233,11 +233,9 @@
                 <div class="wg-box">
                     <h5>Popular Products This Month</h5>
                     <div class="row g-4">
-                        {{-- @dd($popularProducts); --}}
                         @foreach ($popularProducts as $popularProduct)
                         @php
                             $product = App\Models\Product::find($popularProduct->product_id);
-                            // dd($product);
                         @endphp
                         <div class="d-flex col-lg-3 col-md-4 col-sm-6">
                             <div class="product-card">

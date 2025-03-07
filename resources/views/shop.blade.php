@@ -197,7 +197,7 @@
                     @elseif($product->quantity == 0 )
                         <a href="javascript:void(0)" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt btn-warning ">Out of Stock</a>
                     @else
-                    <form name="addtocart-form" method="post" action="{{route('cart.add')}}">
+                    {{-- <form name="addtocart-form" method="post" action="{{route('cart.add')}}">
                         @csrf
                         <input type="hidden" name="id" value="{{$product->id}}" />
                         <input type="hidden" name="name" value="{{$product->name}}" />
@@ -205,7 +205,42 @@
                         <input type="hidden" name="quantity" value="1">
                         <button type="submit"
                         class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-                    </form>
+                    </form> --}}
+
+                    @php
+                      $sizes = App\Models\ProductMeta::where('product_id', $product->id)->pluck('value', 'key')->toArray();
+                      
+                      $filteredSizes = [];
+                      $sizeList = [];
+                      $sizeColorMap = [];
+
+                      // Process the sizes and colors
+                      foreach ($sizes as $key => $value) {
+                          if (str_contains($key, '_')) { 
+                              list($size, $color) = explode('_', $key); 
+                              
+                              // Build unique size list
+                              if (!in_array($size, $sizeList)) {
+                                  $sizeList[] = $size;
+                              }
+
+                              // Build size-color map
+                              if (!isset($sizeColorMap[$size])) {
+                                  $sizeColorMap[$size] = [];
+                              }
+                              if (!in_array($color, $sizeColorMap[$size])) {
+                                  $sizeColorMap[$size][] = $color;
+                              }
+                          }
+                      }
+                  @endphp
+
+                    <button
+                    class="view-btn pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt" data-aside="cartDrawer"
+                    onclick="showProductDetails('{{$product->name}}', '{{$product->sale_price == ''?$product->regular_price: $product->sale_price}}', '{{$product->category->name}}', {{json_encode($sizeList)}}, {{json_encode($sizeColorMap, JSON_PRETTY_PRINT)}}, '{{asset('uploads/products')}}/{{$product->image}}','{{$product->id}}')"
+                >
+                    View Item
+                </button>
                     @endif
                 </div>
 
@@ -266,6 +301,57 @@
       </div>
     </section>
 </main>
+
+<!-- Popup Modal for Product Details -->
+<div id="popup-modal" class="popup-modal">
+  <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <div class="popup-left">
+          <img id="popup-image" src="" alt="Product Image" />
+      </div>
+      <div class="popup-right">
+          <h3 id="popup-title"></h3>
+          <h3 id="popup-productId" style="display: none;"></h3>
+          <h4>PRICE: <span id="popup-price"></span></h4>
+          {{-- <p id="popup-price"></p> --}}
+          <h4>Category: <span id="popup-category"></span></h4>
+
+          <h4>SIZES</h4>
+          <div id="popup-sizes" class="popup-options"></div>
+
+          <h4>COLORS</h4>
+          <div id="popup-colors" class="popup-options"></div>
+
+          <!-- Quantity Selector -->
+          <h4>QUANTITY</h4>
+          <div>
+              <button onclick="decreaseQuantity()">-</button>
+              <input
+                  type="number"
+                  id="quantity-input"
+                  value="1"
+                  min="1"
+                  style="width: 50px; text-align: center"
+              />
+              <button onclick="increaseQuantity()">+</button>
+          </div>
+          <button class="add-to-cart-btn btn btn-primary btn-addtocart mt-2" onclick="addToCart()">
+              ADD TO CART
+          </button>
+      </div>
+  </div>
+</div>
+<!-- Hidden Form to Submit to Cart -->
+<form id="cart-form" action="{{route('cart.add')}}" method="POST" style="display: none;">
+  @csrf
+  <input type="hidden" name="id" id="productId">
+  <input type="hidden" name="name" id="productTitle">
+  <input type="hidden" name="price" id="productPrice">
+  {{-- <input type="hidden" name="productCategory" id="productCategory"> --}}
+  <input type="hidden" name="size" id="productSize">
+  <input type="hidden" name="color" id="productColor">
+  <input type="hidden" name="quantity" id="quantity">
+</form>
 
 <form action="{{route('shop.index')}}" id="frmfilter" method="GET">
   @csrf
@@ -337,4 +423,159 @@
         });
       });
     </script>
+
+<script>
+    let selectedSize = null;
+    let selectedColor = null;
+    let colorMap = {};
+
+    function showProductDetails(
+        title,
+        price,
+        category,
+        sizes,
+        colorsBySize,
+        imageSrc,
+        productId
+      ) {
+        document.getElementById("popup-title").textContent = title;
+        document.getElementById("popup-productId").textContent = productId;
+        document.getElementById("popup-price").textContent = price;
+        document.getElementById("popup-category").textContent =
+            category;
+        document.getElementById("popup-image").src = imageSrc;
+
+        colorMap = colorsBySize; // Store color map
+        const sizeContainer = document.getElementById("popup-sizes");
+        sizeContainer.innerHTML = "";
+        sizes.forEach((size) => {
+            const btn = document.createElement("button");
+            btn.textContent = size;
+            btn.onclick = () => selectSize(size);
+            sizeContainer.appendChild(btn);
+        });
+
+        updateColors([]); // Initially clear colors
+
+        selectedSize = null;
+        selectedColor = null;
+        showPopup();
+    }
+
+    function selectSize(size) {
+        selectedSize = size;
+        document
+            .querySelectorAll("#popup-sizes button")
+            .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        const availableColors = colorMap[size] || [];
+        updateColors(availableColors);
+    }
+
+      function updateColors(colors) {
+        const colorContainer = document.getElementById("popup-colors");
+        colorContainer.innerHTML = "";
+        colors.forEach((color) => {
+            const btn = document.createElement("button");
+            btn.style.backgroundColor = color;
+            btn.style.width = "30px";
+            btn.style.height = "30px";
+            btn.style.borderRadius = "50%";  // Make it a circle (remove this line if you want squares)
+            btn.style.border = "2px solid #000"; // White border for visibility
+            btn.style.margin = "2px";
+            btn.style.cursor = "pointer";
+
+            // Adding a distinctive style when a color is selected
+            btn.onclick = () => {
+                // Remove "selected" class from all buttons
+                const selectedButton = colorContainer.querySelector(".selected");
+                if (selectedButton) {
+                    selectedButton.classList.remove("selected");
+                    selectedButton.style.border = "2px solid #fff"; // Reset the border
+                    selectedButton.style.transform = "scale(1)"; // Reset the size
+                }
+                
+                // Add "selected" class to the clicked button
+                btn.classList.add("selected");
+                btn.style.border = "2px solid #000"; // Add a white border to highlight the selected color
+                btn.style.transform = "scale(1.2)"; // Increase size of the selected button
+                selectColor(color);
+            };
+
+            colorContainer.appendChild(btn);
+        });
+    }
+
+    function selectColor(color) {
+        selectedColor = color;
+        document
+            .querySelectorAll("#popup-colors button")
+            .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+    }
+
+    // Function to increase quantity
+    function increaseQuantity() {
+        const quantityInput = document.getElementById("quantity-input");
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    }
+
+    // Function to decrease quantity
+    function decreaseQuantity() {
+        const quantityInput = document.getElementById("quantity-input");
+        if (quantityInput.value > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+    }
+
+    // Modified addToCart function to include quantity
+    function addToCart() {
+        const quantity =
+            document.getElementById("quantity-input").value;
+        if (!selectedSize || !selectedColor) {
+            // alert("Please select size and color.");
+            Swal.fire({
+                  title: "Info!",
+                  text: "Color or Size Not Selected. Please Select to Continue.",
+                  icon: "warning",
+                  confirmButtonColor: "#fbc20c", // Change button color
+                  confirmButtonText: "OK",
+                  allowOutsideClick: false,
+              });
+            return;
+        }
+        Swal.fire({
+              title: "Success!",
+              text: "Item Added to Cart Successfully.",
+              icon: "Success",
+              confirmButtonColor: "#fbc20c", // Change button color
+              confirmButtonText: "OK",
+              allowOutsideClick: false,
+          }).then((willContinue) => {
+              if (willContinue) {
+                  // Populate hidden form inputs
+                  document.getElementById("productTitle").value = document.getElementById("popup-title").textContent;
+                  document.getElementById("productPrice").value = document.getElementById("popup-price").textContent;
+                  // document.getElementById("productCategory").value = document.getElementById("popup-category").textContent;
+                  document.getElementById("productSize").value = selectedSize;
+                  document.getElementById("productColor").value = selectedColor;
+                  document.getElementById("quantity").value = quantity;
+                  document.getElementById("productId").value = document.getElementById("popup-productId").textContent;
+
+                  // Submit the form
+                  document.getElementById("cart-form").submit();
+              }
+          });
+        
+    }
+
+    function showPopup() {
+        document.getElementById("popup-modal").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("popup-modal").style.display = "none";
+    }
+</script>
 @endpush

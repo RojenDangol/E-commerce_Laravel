@@ -3,45 +3,92 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
+use App\Interfaces\PaymentGatewayInterface;
+use Exception;
 
-class KhaltiService
+class KhaltiService implements PaymentGatewayInterface
 {
-    private $baseUrl;
-    private $secretKey;
+    private $amount;
+    private $base_url;
+    private $purchase_order_id;
+    private $purchase_order_name;
+    private $inquiry_response;
+    private $customer_name;
+    private $customer_phone;
+    private $customer_email;
 
     public function __construct()
     {
-        $this->baseUrl = config('app.khalti_base_url', 'https://dev.khalti.com/api/v2/');
-        $this->secretKey = config('app.khalti_secret_key');
+        $this->base_url = env('APP_DEBUG') ? 'https://a.khalti.com/api/v2/' : 'https://khalti.com/api/v2/';
     }
 
-    /**
-     * Verify the payment with Khalti API
-     */
-    public function verifyPayment($token, $amount)
+    public function byCustomer($name, $email, $phone)
     {
+        $this->customer_name = $name;
+        $this->customer_email = $email;
+        $this->customer_phone = $phone;
+        return $this;
+    }
+
+    public function pay(float $amount, $return_url, $purchase_order_id, $purchase_order_name)
+    {
+        $this->purchase_order_id = $purchase_order_id;
+        $this->purchase_order_name = $purchase_order_name;
+        return $this->initiate($amount, $return_url);
+    }
+
+    public function initiate(float $amount, $return_url, ?array $arguments = null)
+    {
+        $this->amount = env('APP_DEBUG') ? 1000 : ($amount * 100);
+        $process_url = $this->base_url . 'epayment/initiate/';
+
+        $data = [
+            "return_url" => $return_url,
+            "website_url" => url('/'),
+            "amount" =>  $this->amount,
+            "purchase_order_id" => $this->purchase_order_id,
+            "purchase_order_name" => $this->purchase_order_name,
+            "customer_info" => [
+                "name" => $this->customer_name,
+                "email" => $this->customer_email,
+                "phone" => $this->customer_phone
+            ]
+        ];
+
         $response = Http::withHeaders([
-            'Authorization' => 'Key ' . $this->secretKey
-        ])->post($this->baseUrl . 'payment/verify/', [
-            'token' => $token,
-            'amount' => $amount
-        ]);
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Key ' . env('KHALTI_SECRET_KEY'),
+        ])->post($process_url, $data);
 
-        $data = $response->json();
-
-        if ($response->successful() && isset($data['idx'])) {
-            return ['success' => true, 'data' => $data];
+        if ($response->ok()) {
+            $body = json_decode($response->body());
+            return redirect()->to($body->payment_url);
+        } else {
+            throw new Exception('Khalti transaction failed');
         }
-
-        return ['success' => false, 'error' => $data];
     }
 
-    /**
-     * Log payment response for debugging
-     */
-    public function logPaymentResponse($response)
+    public function isSuccess(array $inquiry, ?array $arguments = null): bool
     {
-        Log::info('Khalti Payment Response:', $response);
+        return ($inquiry['status'] ?? null) == 'Completed';
+    }
+
+    public function requestedAmount(array $inquiry, ?array $arguments = null): float
+    {
+        return $inquiry['total_amount'];
+    }
+
+    public function inquiry($transaction_id, ?array $arguments = null): array
+    {
+        $process_url = $this->base_url . 'epayment/lookup/';
+        $payload = ['pidx' => $transaction_id];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Key ' . env('KHALTI_SECRET_KEY'),
+        ])->post($process_url, $payload);
+
+        $this->inquiry_response = json_decode($response->body(), true);
+        return $this->inquiry_response;
     }
 }

@@ -8,8 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\KhaltiController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\WishlistController;
 
 Auth::routes();
 
@@ -145,9 +146,6 @@ Route::get('/clear-cache', function() {
 
 // routes/web.php
 
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::post('/payment/verify', [PaymentController::class, 'verifyPayment'])->name('payment.verify');
-Route::post('/payment/store', [PaymentController::class, 'storePayment'])->name('payment.store');
-Route::get('/test-khalti-key', function () {
-    return dd(config('app.khalti_public_key'));
-});
+Route::get('/payment', [KhaltiController::class, 'index'])->name('payment.index');
+Route::get('khalti-checkout/{product:slug}', [KhaltiController::class, 'checkout'])->name('khalti.checkout');
+Route::get('khalti-verification/{product:slug}', [KhaltiController::class, 'verification'])->name('khalti.verification');

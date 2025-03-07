@@ -11,9 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(KhaltiService::class, function ($app) {
-            return new KhaltiService();
-        });
+        $this->app->singleton(PaymentGatewayInterface::class, KhaltiService::class);
     }
 
     /**

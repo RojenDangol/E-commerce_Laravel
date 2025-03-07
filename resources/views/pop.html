@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Product Catalog</title>
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+            /* Product Grid Styles */
+            .product-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .product-card {
+                background-color: #fff;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                padding: 10px;
+            }
+
+            .product-card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .view-btn {
+                background-color: #2f553c;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin-top: 5px;
+                border-radius: 5px;
+            }
+
+            /* Popup Modal Styles */
+            .popup-modal {
+                display: none;
+                position: fixed;
+                z-index: 999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .popup-content {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+                max-width: 800px;
+                display: flex;
+                gap: 20px;
+                position: relative;
+            }
+
+            .popup-left img {
+                max-width: 300px;
+                border-radius: 10px;
+            }
+
+            .popup-right {
+                flex-grow: 1;
+                text-align: left;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 20px;
+                cursor: pointer;
+                font-size: 24px;
+            }
+
+            .popup-options button {
+                background-color: #f0f0f0;
+                border: none;
+                margin: 2px;
+                padding: 5px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .popup-options button.active {
+                background-color: #2f553c;
+                color: #fff;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="images/jacket.jpg" alt="Gucci Bomber Jacket" />
+                <h4>Gucci Bomber Jacket</h4>
+                <p>Rs.5000.00</p>
+                <button
+                    class="view-btn"
+                    onclick="showProductDetails('Gucci Bomber Jacket', 'Rs.5000.00', 'Jacket & Hoodies', ['S', 'M'], {'S': ['White', 'Black'], 'M': ['Black']}, 'images/jacket.jpg')"
+                >
+                    View
+                </button>
+            </div>
+
+            <div class="product-card">
+                <img src="images/tshirt1.jpg" alt="Cotton T-shirt" />
+                <h4>Cotton T-shirt</h4>
+                <p>Rs.1000.00</p>
+                <button
+                    class="view-btn"
+                    onclick="showProductDetails('Cotton T-shirt', 'Rs.1000.00', 'T-shirts', ['S', 'M'], {'S': ['Gray'], 'M': ['Gray', 'Navy']}, 'images/tshirt1.jpg')"
+                >
+                    View
+                </button>
+            </div>
+        </div>
+
+        <!-- Popup Modal for Product Details -->
+        <div id="popup-modal" class="popup-modal">
+            <div class="popup-content">
+                <span class="close-btn" onclick="closePopup()">&times;</span>
+                <div class="popup-left">
+                    <img id="popup-image" src="" alt="Product Image" />
+                </div>
+                <div class="popup-right">
+                    <h3 id="popup-title"></h3>
+                    <p id="popup-price"></p>
+                    <h4>Category: <span id="popup-category"></span></h4>
+
+                    <h4>SIZES</h4>
+                    <div id="popup-sizes" class="popup-options"></div>
+
+                    <h4>COLORS</h4>
+                    <div id="popup-colors" class="popup-options"></div>
+
+                    <!-- Quantity Selector -->
+                    <h4>QUANTITY</h4>
+                    <div>
+                        <button onclick="decreaseQuantity()">-</button>
+                        <input
+                            type="number"
+                            id="quantity-input"
+                            value="1"
+                            min="1"
+                            style="width: 50px; text-align: center"
+                        />
+                        <button onclick="increaseQuantity()">+</button>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart()">
+                        ADD TO CART
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let selectedSize = null;
+            let selectedColor = null;
+            let colorMap = {};
+
+            function showProductDetails(
+                title,
+                price,
+                category,
+                sizes,
+                colorsBySize,
+                imageSrc
+            ) {
+                document.getElementById("popup-title").textContent = title;
+                document.getElementById("popup-price").textContent = price;
+                document.getElementById("popup-category").textContent =
+                    category;
+                document.getElementById("popup-image").src = imageSrc;
+
+                colorMap = colorsBySize; // Store color map
+                const sizeContainer = document.getElementById("popup-sizes");
+                sizeContainer.innerHTML = "";
+                sizes.forEach((size) => {
+                    const btn = document.createElement("button");
+                    btn.textContent = size;
+                    btn.onclick = () => selectSize(size);
+                    sizeContainer.appendChild(btn);
+                });
+
+                updateColors([]); // Initially clear colors
+
+                selectedSize = null;
+                selectedColor = null;
+                showPopup();
+            }
+
+            function selectSize(size) {
+                selectedSize = size;
+                document
+                    .querySelectorAll("#popup-sizes button")
+                    .forEach((btn) => btn.classList.remove("active"));
+                event.target.classList.add("active");
+
+                const availableColors = colorMap[size] || [];
+                updateColors(availableColors);
+            }
+
+            function updateColors(colors) {
+                const colorContainer = document.getElementById("popup-colors");
+                colorContainer.innerHTML = "";
+                colors.forEach((color) => {
+                    const btn = document.createElement("button");
+                    btn.textContent = color;
+                    btn.onclick = () => selectColor(color);
+                    colorContainer.appendChild(btn);
+                });
+            }
+
+            function selectColor(color) {
+                selectedColor = color;
+                document
+                    .querySelectorAll("#popup-colors button")
+                    .forEach((btn) => btn.classList.remove("active"));
+                event.target.classList.add("active");
+            }
+
+            // Function to increase quantity
+            function increaseQuantity() {
+                const quantityInput = document.getElementById("quantity-input");
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            }
+
+            // Function to decrease quantity
+            function decreaseQuantity() {
+                const quantityInput = document.getElementById("quantity-input");
+                if (quantityInput.value > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                }
+            }
+
+            // Modified addToCart function to include quantity
+            function addToCart() {
+                const quantity =
+                    document.getElementById("quantity-input").value;
+                if (!selectedSize || !selectedColor) {
+                    alert("Please select size and color.");
+                    return;
+                }
+                alert(
+                    `Added to cart:\nProduct: ${
+                        document.getElementById("popup-title").textContent
+                    }\nSize: ${selectedSize}\nColor: ${selectedColor}\nQuantity: ${quantity}`
+                );
+                closePopup();
+            }
+
+            function showPopup() {
+                document.getElementById("popup-modal").style.display = "flex";
+            }
+
+            function closePopup() {
+                document.getElementById("popup-modal").style.display = "none";
+            }
+        </script>
+    </body>
+</html>

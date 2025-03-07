@@ -15,6 +15,10 @@ class KhaltiController extends Controller
         $this->khalti = $khalti;
     }
 
+    public function index(){
+        return view('payment');
+    }
+
     public function checkout(Product $product)
     {
         return $this->khalti->pay(

@@ -22,10 +22,12 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search">
+                    <form class="form-search" method="GET" action="{{route('admin.search.show')}}">
+                        @csrf
                         <fieldset class="name">
                             <input type="text" placeholder="Search here..." class="" name="name"
                                 tabindex="2" value="" aria-required="true" required="">
+                                <input type="hidden" name="url" value="products">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
@@ -62,6 +64,13 @@
                         @php
                             $count = 1;
                         @endphp
+                        @php
+                        if($results){
+                            $products = $results;
+                        }else{
+                            $products = $products;
+                        }
+                        @endphp
                         @foreach ($products as $product)                     
                         <tr>
                             <td>{{$count}}</td>
@@ -80,12 +89,6 @@
                             <td>{{$product->category->name}}</td>
                             <td>{{$product->brand->name}}</td>
                             @php
-                                // $productMeta = App\Models\ProductMeta::where('product_id', $product->id)->where('key', 'sizes')->first();
-                                // if ($productMeta) {
-                                //     $sizes = explode(',', $productMeta->value);  
-                                // } else {
-                                //     $sizes = [];
-                                // }
                                 $sizes = App\Models\ProductMeta::where('product_id', $product->id)->pluck('value', 'key')->toArray();
                                 $filteredSizes = [];
 
@@ -131,10 +134,8 @@
                                 $uniqueColor = [];
                             @endphp
                             @foreach($filteredSizes as $item)
-                            {{-- @dd($item) --}}
                                 @if($item['color'] !== '' && !in_array($item['color'], $uniqueColor))
                                 <button class="p-2 m-2" style="background-color: {{$item['color'] }}" disabled></button>,
-                                    {{-- {{ $item['color'] }}, --}}
                                     @php
                                         $uniqueColor[] = $item['color'];
                                     @endphp

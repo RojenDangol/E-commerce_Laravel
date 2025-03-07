@@ -56,7 +56,6 @@
                             @php
                             if($results){
                                 $brands = $results;
-                                // dd($categories->all());
                             }else{
                                 $brands = $brands;
                             }
