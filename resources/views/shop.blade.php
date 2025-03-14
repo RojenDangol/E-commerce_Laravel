@@ -51,7 +51,7 @@
                       />    
                       {{$category->name}}
                     </span>
-                    <span class="text-right float-end">{{$category->products->count()}}</span>
+                    <span class="text-right float-end">{{($category->products)->count()}}</span>
                   </li> 
                   @endforeach     
                 </ul>
@@ -135,10 +135,10 @@
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1" >
             <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 ml-2" aria-label="Page Size" id="pagesize"
               name="pagesize" style="margin-right:10px">
-              <option value="6" {{$size == 6?'selected':''}}>Show</option>
-              <option value="12" {{$size == 12?'selected':''}}>12</option>
-              <option value="24" {{$size == 24?'selected':''}}>24</option>
-              <option value="48" {{$size == 48?'selected':''}}>48</option>
+              <option value="6" {{$pageshow == 6?'selected':''}}>Show</option>
+              <option value="12" {{$pageshow == 12?'selected':''}}>12</option>
+              <option value="24" {{$pageshow == 24?'selected':''}}>24</option>
+              <option value="48" {{$pageshow == 48?'selected':''}}>48</option>
             </select>
             <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0 m-2" aria-label="Sort Items"
               name="orderby" id="orderby">
@@ -216,7 +216,7 @@
 
                       // Process the sizes and colors
                       foreach ($sizes as $key => $value) {
-                          if (str_contains($key, '_')) { 
+                          if (is_string($key) && str_contains($key, '_')) { 
                               list($size, $color) = explode('_', $key); 
                               
                               // Build unique size list
@@ -233,14 +233,12 @@
                               }
                           }
                       }
-                  @endphp
-
+                    @endphp
                     <button
-                    class="view-btn pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt" data-aside="cartDrawer"
-                    onclick="showProductDetails('{{$product->name}}', '{{$product->sale_price == ''?$product->regular_price: $product->sale_price}}', '{{$product->category->name}}', {{json_encode($sizeList)}}, {{json_encode($sizeColorMap, JSON_PRETTY_PRINT)}}, '{{asset('uploads/products')}}/{{$product->image}}','{{$product->id}}')"
-                >
-                    View Item
-                </button>
+                        class="view-btn pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-mediumt" data-aside="cartDrawer"
+                        onclick="showProductDetails('{{$product->name}}', '{{$product->sale_price == ''?$product->regular_price: $product->sale_price}}', '{{$product->category->name}}', {{json_encode($sizeList)}}, {{json_encode($sizeColorMap)}}, '{{asset('uploads/products')}}/{{$product->image}}','{{$product->id}}')">
+                        View Item
+                    </button>
                     @endif
                 </div>
 
@@ -313,7 +311,6 @@
           <h3 id="popup-title"></h3>
           <h3 id="popup-productId" style="display: none;"></h3>
           <h4>PRICE: <span id="popup-price"></span></h4>
-          {{-- <p id="popup-price"></p> --}}
           <h4>Category: <span id="popup-category"></span></h4>
 
           <h4>SIZES</h4>
@@ -347,7 +344,6 @@
   <input type="hidden" name="id" id="productId">
   <input type="hidden" name="name" id="productTitle">
   <input type="hidden" name="price" id="productPrice">
-  {{-- <input type="hidden" name="productCategory" id="productCategory"> --}}
   <input type="hidden" name="size" id="productSize">
   <input type="hidden" name="color" id="productColor">
   <input type="hidden" name="quantity" id="quantity">
@@ -356,7 +352,7 @@
 <form action="{{route('shop.index')}}" id="frmfilter" method="GET">
   @csrf
   <input type="hidden" name="page" value="{{$products->currentPage()}}">
-  <input type="hidden" name="size" id="size" value="{{$size}}">
+  <input type="hidden" name="pageshow" id="pageshow" value="{{$pageshow}}">
   <input type="hidden" name="order" id="order" value="{{$order}}"> 
   <input type="hidden" name="wardrobe" id="wardrobeid" value="{{$wardrobe}}"> 
   <input type="hidden" name="brands" id="hdnBrands">
@@ -367,215 +363,215 @@
 @endsection
 
 @push('scripts')
-    <script>
-      $(function(){
-        $("#pagesize").on("change", function(){
-          $("#size").val($("#pagesize option:selected").val());
-          $("#frmfilter").submit();
-        });
-
-        $("#orderby").on("change",function(){
-          $("#order").val($("#orderby option:selected").val());
-          $("#frmfilter").submit();
-        });
-
-        $("#wardrobe").on("change",function(){
-          $("#wardrobeid").val($("#wardrobe option:selected").val());
-          $("#frmfilter").submit();
-        });
-
-        $("input[name='brands']").on("change",function(){
-          var brands="";
-          $("input[name='brands']:checked").each(function(){
-            if(brands == ""){
-              brands += $(this).val();
-            }
-            else{
-              brands += "," + $(this).val();
-            }
-          });
-          $("#hdnBrands").val(brands);
-          $("#frmfilter").submit();
-        });
-
-        $("input[name='categories']").on("change",function(){
-          var categories="";
-          $("input[name='categories']:checked").each(function(){
-            if(categories == ""){
-              categories += $(this).val();
-            }
-            else{
-              categories += "," + $(this).val();
-            }
-          });
-          $("#hdnCategories").val(categories);
-          $("#frmfilter").submit();
-        });
-
-        $("[name='price_range']").on("change", function(){
-          var min = $(this).val().split(',')[0];
-          var max = $(this).val().split(',')[1];
-          $('#hdnMinPrice').val(min);
-          $('#hdnMaxPrice').val(max);
-          setTimeout(() => {       
-            $("#frmfilter").submit();
-          }, 1000);
-        });
+  <script>
+    $(function(){
+      $("#pagesize").on("change", function(){
+        $("#pageshow").val($("#pagesize option:selected").val());
+        $("#frmfilter").submit();
       });
-    </script>
 
-<script>
-    let selectedSize = null;
-    let selectedColor = null;
-    let colorMap = {};
+      $("#orderby").on("change",function(){
+        $("#order").val($("#orderby option:selected").val());
+        $("#frmfilter").submit();
+      });
 
-    function showProductDetails(
-        title,
-        price,
-        category,
-        sizes,
-        colorsBySize,
-        imageSrc,
-        productId
-      ) {
-        document.getElementById("popup-title").textContent = title;
-        document.getElementById("popup-productId").textContent = productId;
-        document.getElementById("popup-price").textContent = price;
-        document.getElementById("popup-category").textContent =
-            category;
-        document.getElementById("popup-image").src = imageSrc;
+      $("#wardrobe").on("change",function(){
+        $("#wardrobeid").val($("#wardrobe option:selected").val());
+        $("#frmfilter").submit();
+      });
 
-        colorMap = colorsBySize; // Store color map
-        const sizeContainer = document.getElementById("popup-sizes");
-        sizeContainer.innerHTML = "";
-        sizes.forEach((size) => {
-            const btn = document.createElement("button");
-            btn.textContent = size;
-            btn.onclick = () => selectSize(size);
-            sizeContainer.appendChild(btn);
+      $("input[name='brands']").on("change",function(){
+        var brands="";
+        $("input[name='brands']:checked").each(function(){
+          if(brands == ""){
+            brands += $(this).val();
+          }
+          else{
+            brands += "," + $(this).val();
+          }
         });
+        $("#hdnBrands").val(brands);
+        $("#frmfilter").submit();
+      });
 
-        updateColors([]); // Initially clear colors
-
-        selectedSize = null;
-        selectedColor = null;
-        showPopup();
-    }
-
-    function selectSize(size) {
-        selectedSize = size;
-        document
-            .querySelectorAll("#popup-sizes button")
-            .forEach((btn) => btn.classList.remove("active"));
-        event.target.classList.add("active");
-
-        const availableColors = colorMap[size] || [];
-        updateColors(availableColors);
-    }
-
-      function updateColors(colors) {
-        const colorContainer = document.getElementById("popup-colors");
-        colorContainer.innerHTML = "";
-        colors.forEach((color) => {
-            const btn = document.createElement("button");
-            btn.style.backgroundColor = color;
-            btn.style.width = "30px";
-            btn.style.height = "30px";
-            btn.style.borderRadius = "50%";  // Make it a circle (remove this line if you want squares)
-            btn.style.border = "2px solid #000"; // White border for visibility
-            btn.style.margin = "2px";
-            btn.style.cursor = "pointer";
-
-            // Adding a distinctive style when a color is selected
-            btn.onclick = () => {
-                // Remove "selected" class from all buttons
-                const selectedButton = colorContainer.querySelector(".selected");
-                if (selectedButton) {
-                    selectedButton.classList.remove("selected");
-                    selectedButton.style.border = "2px solid #fff"; // Reset the border
-                    selectedButton.style.transform = "scale(1)"; // Reset the size
-                }
-                
-                // Add "selected" class to the clicked button
-                btn.classList.add("selected");
-                btn.style.border = "2px solid #000"; // Add a white border to highlight the selected color
-                btn.style.transform = "scale(1.2)"; // Increase size of the selected button
-                selectColor(color);
-            };
-
-            colorContainer.appendChild(btn);
+      $("input[name='categories']").on("change",function(){
+        var categories="";
+        $("input[name='categories']:checked").each(function(){
+          if(categories == ""){
+            categories += $(this).val();
+          }
+          else{
+            categories += "," + $(this).val();
+          }
         });
-    }
+        $("#hdnCategories").val(categories);
+        $("#frmfilter").submit();
+      });
 
-    function selectColor(color) {
-        selectedColor = color;
-        document
-            .querySelectorAll("#popup-colors button")
-            .forEach((btn) => btn.classList.remove("active"));
-        event.target.classList.add("active");
-    }
+      $("[name='price_range']").on("change", function(){
+        var min = $(this).val().split(',')[0];
+        var max = $(this).val().split(',')[1];
+        $('#hdnMinPrice').val(min);
+        $('#hdnMaxPrice').val(max);
+        setTimeout(() => {       
+          $("#frmfilter").submit();
+        }, 1000);
+      });
+    });
+  </script>
 
-    // Function to increase quantity
-    function increaseQuantity() {
-        const quantityInput = document.getElementById("quantity-input");
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-    }
+  <script>
+      let selectedSize = null;
+      let selectedColor = null;
+      let colorMap = {};
 
-    // Function to decrease quantity
-    function decreaseQuantity() {
-        const quantityInput = document.getElementById("quantity-input");
-        if (quantityInput.value > 1) {
-            quantityInput.value = parseInt(quantityInput.value) - 1;
-        }
-    }
+      function showProductDetails(
+          title,
+          price,
+          category,
+          sizes,
+          colorsBySize,
+          imageSrc,
+          productId
+        ) {
+          document.getElementById("popup-title").textContent = title;
+          document.getElementById("popup-productId").textContent = productId;
+          document.getElementById("popup-price").textContent = price;
+          document.getElementById("popup-category").textContent =
+              category;
+          document.getElementById("popup-image").src = imageSrc;
 
-    // Modified addToCart function to include quantity
-    function addToCart() {
-        const quantity =
-            document.getElementById("quantity-input").value;
-        if (!selectedSize || !selectedColor) {
-            // alert("Please select size and color.");
-            Swal.fire({
-                  title: "Info!",
-                  text: "Color or Size Not Selected. Please Select to Continue.",
-                  icon: "warning",
-                  confirmButtonColor: "#fbc20c", // Change button color
-                  confirmButtonText: "OK",
-                  allowOutsideClick: false,
-              });
-            return;
-        }
-        Swal.fire({
-              title: "Success!",
-              text: "Item Added to Cart Successfully.",
-              icon: "Success",
-              confirmButtonColor: "#fbc20c", // Change button color
-              confirmButtonText: "OK",
-              allowOutsideClick: false,
-          }).then((willContinue) => {
-              if (willContinue) {
-                  // Populate hidden form inputs
-                  document.getElementById("productTitle").value = document.getElementById("popup-title").textContent;
-                  document.getElementById("productPrice").value = document.getElementById("popup-price").textContent;
-                  // document.getElementById("productCategory").value = document.getElementById("popup-category").textContent;
-                  document.getElementById("productSize").value = selectedSize;
-                  document.getElementById("productColor").value = selectedColor;
-                  document.getElementById("quantity").value = quantity;
-                  document.getElementById("productId").value = document.getElementById("popup-productId").textContent;
-
-                  // Submit the form
-                  document.getElementById("cart-form").submit();
-              }
+          colorMap = colorsBySize; // Store color map
+          const sizeContainer = document.getElementById("popup-sizes");
+          sizeContainer.innerHTML = "";
+          sizes.forEach((size) => {
+              const btn = document.createElement("button");
+              btn.textContent = size;
+              btn.onclick = () => selectSize(size);
+              sizeContainer.appendChild(btn);
           });
-        
-    }
 
-    function showPopup() {
-        document.getElementById("popup-modal").style.display = "flex";
-    }
+          updateColors([]); // Initially clear colors
 
-    function closePopup() {
-        document.getElementById("popup-modal").style.display = "none";
-    }
-</script>
+          selectedSize = null;
+          selectedColor = null;
+          showPopup();
+      }
+
+      function selectSize(size) {
+          selectedSize = size;
+          document
+              .querySelectorAll("#popup-sizes button")
+              .forEach((btn) => btn.classList.remove("active"));
+          event.target.classList.add("active");
+
+          const availableColors = colorMap[size] || [];
+          updateColors(availableColors);
+      }
+
+        function updateColors(colors) {
+          const colorContainer = document.getElementById("popup-colors");
+          colorContainer.innerHTML = "";
+          colors.forEach((color) => {
+              const btn = document.createElement("button");
+              btn.style.backgroundColor = color;
+              btn.style.width = "30px";
+              btn.style.height = "30px";
+              btn.style.borderRadius = "50%";  // Make it a circle (remove this line if you want squares)
+              btn.style.border = "2px solid #000"; // White border for visibility
+              btn.style.margin = "2px";
+              btn.style.cursor = "pointer";
+
+              // Adding a distinctive style when a color is selected
+              btn.onclick = () => {
+                  // Remove "selected" class from all buttons
+                  const selectedButton = colorContainer.querySelector(".selected");
+                  if (selectedButton) {
+                      selectedButton.classList.remove("selected");
+                      selectedButton.style.border = "2px solid #fff"; // Reset the border
+                      selectedButton.style.transform = "scale(1)"; // Reset the size
+                  }
+                  
+                  // Add "selected" class to the clicked button
+                  btn.classList.add("selected");
+                  btn.style.border = "2px solid #000"; // Add a white border to highlight the selected color
+                  btn.style.transform = "scale(1.2)"; // Increase size of the selected button
+                  selectColor(color);
+              };
+
+              colorContainer.appendChild(btn);
+          });
+      }
+
+      function selectColor(color) {
+          selectedColor = color;
+          document
+              .querySelectorAll("#popup-colors button")
+              .forEach((btn) => btn.classList.remove("active"));
+          event.target.classList.add("active");
+      }
+
+      // Function to increase quantity
+      function increaseQuantity() {
+          const quantityInput = document.getElementById("quantity-input");
+          quantityInput.value = parseInt(quantityInput.value) + 1;
+      }
+
+      // Function to decrease quantity
+      function decreaseQuantity() {
+          const quantityInput = document.getElementById("quantity-input");
+          if (quantityInput.value > 1) {
+              quantityInput.value = parseInt(quantityInput.value) - 1;
+          }
+      }
+
+      // Modified addToCart function to include quantity
+      function addToCart() {
+          const quantity =
+              document.getElementById("quantity-input").value;
+          if (!selectedSize || !selectedColor) {
+              // alert("Please select size and color.");
+              Swal.fire({
+                    title: "Info!",
+                    text: "Color or Size Not Selected. Please Select to Continue.",
+                    icon: "warning",
+                    confirmButtonColor: "#fbc20c", // Change button color
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                });
+              return;
+          }
+          Swal.fire({
+                title: "Success!",
+                text: "Item Added to Cart Successfully.",
+                icon: "Success",
+                confirmButtonColor: "#fbc20c", // Change button color
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+            }).then((willContinue) => {
+                if (willContinue) {
+                    // Populate hidden form inputs
+                    document.getElementById("productTitle").value = document.getElementById("popup-title").textContent;
+                    document.getElementById("productPrice").value = document.getElementById("popup-price").textContent;
+                    // document.getElementById("productCategory").value = document.getElementById("popup-category").textContent;
+                    document.getElementById("productSize").value = selectedSize;
+                    document.getElementById("productColor").value = selectedColor;
+                    document.getElementById("quantity").value = quantity;
+                    document.getElementById("productId").value = document.getElementById("popup-productId").textContent;
+
+                    // Submit the form
+                    document.getElementById("cart-form").submit();
+                }
+            });
+          
+      }
+
+      function showPopup() {
+          document.getElementById("popup-modal").style.display = "flex";
+      }
+
+      function closePopup() {
+          document.getElementById("popup-modal").style.display = "none";
+      }
+  </script>
 @endpush

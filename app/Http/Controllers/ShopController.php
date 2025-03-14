@@ -12,7 +12,9 @@ use App\Http\Controllers\Controller;
 class ShopController extends Controller
 {
     public function index(Request $request){
-        $size = $request->query('size')?$request->query('size'):6;
+        // $size = $request->query('size')?$request->query('size'):6;
+        // dd($request->query('size'));
+        $pageshow = is_numeric($request->query('pageshow')) ? (int)$request->query('pageshow') : 6;
         $o_column = "";
         $o_order = "";
         $order = $request->query('order')?$request->query('order'):-1;
@@ -73,8 +75,8 @@ class ShopController extends Controller
             ->orWhereBetween('sale_price',[$min_price,$max_price]);
         })
         ->orderBy($o_column,$o_order)
-        ->where($w_column,$w_order)->paginate($size);
-        return view('shop',compact('products','size','order','wardrobe','brands','f_brands','categories','f_categories','min_price','max_price'));
+        ->where($w_column,$w_order)->paginate($pageshow);
+        return view('shop',compact('products','pageshow','order','wardrobe','brands','f_brands','categories','f_categories','min_price','max_price'));
     }
 
     public function product_details($product_slug){
